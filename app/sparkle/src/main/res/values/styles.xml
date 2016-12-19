@@ -1,0 +1,121 @@
+<resources>
+    <style name="TextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextStyle.Mini">
+        <item name="android:textSize">@dimen/textSizeMini</item>
+    </style>
+
+    <style name="TextStyle.Small">
+        <item name="android:textSize">@dimen/textSizeSmall</item>
+    </style>
+
+    <style name="TextStyle.Middle">
+        <item name="android:textSize">@dimen/textSizeMiddle</item>
+    </style>
+
+    <style name="TextStyle.Normal">
+        <item name="android:textSize">@dimen/textSizeNormal</item>
+    </style>
+
+    <style name="TextStyle.Large">
+        <item name="android:textSize">@dimen/textSizeLarge</item>
+    </style>
+
+    <style name="TextStyle.Mini.White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextStyle.Small.White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextStyle.Middle.White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextStyle.Large.White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextStyle.Normal.White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextStyle.Mini.Black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle.Small.Black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle.Middle.Black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle.Normal.Black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle.Small.Gray">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.Middle.Gray">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.Normal.Gray">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.Large.Gray">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.Mini.Gray">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextStyle.Mini.Green">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="TextStyle.Large.Green">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="TextStyle.Mini.Red">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="TextStyle.Middle.Red">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="TextStyle.Small.Blue">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextStyle.Large.Blue">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextStyle.Middle.Blue">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="TextStyle.Large.Black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle.Middle.Light_Gray">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+</resources>

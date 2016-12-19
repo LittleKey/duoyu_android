@@ -3,7 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/base/base.iml" filepath="$PROJECT_DIR$/framework/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/duoyu_android.iml" filepath="$PROJECT_DIR$/duoyu_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/external/external.iml" filepath="$PROJECT_DIR$/external/external.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/mvp/mvp.iml" filepath="$PROJECT_DIR$/framework/mvp/mvp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/network/network.iml" filepath="$PROJECT_DIR$/framework/network/network.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/sparkle/sparkle.iml" filepath="$PROJECT_DIR$/app/sparkle/sparkle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/external/volley/volley.iml" filepath="$PROJECT_DIR$/external/volley/volley.iml" />
     </modules>
   </component>
 </project>
