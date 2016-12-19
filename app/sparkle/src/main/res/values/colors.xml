@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#cccccc</color>
     <color name="colorAccent">#FF4081</color>
 
-
     <!-- palette -->
+    <color name="primary_blue">#03A9F4</color>
+    <color name="primary_pink">#FF9999</color>
     <color name="gray">#999999</color>
     <color name="black">#4A4A4A</color>
     <color name="blue">#67ADFF</color>
@@ -38,4 +39,7 @@
     <color name="gray_style_bg">#EBEBEB</color>
 
     <color name="translucency_red">#CCF32C74</color>
+
+    <!-- home -->
+    <color name="month_in_content_shadow">#9000</color>
 </resources>
