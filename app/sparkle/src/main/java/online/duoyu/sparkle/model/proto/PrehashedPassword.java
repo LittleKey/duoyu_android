@@ -9,9 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class PrehashedPassword extends Message<PrehashedPassword, PrehashedPassword.Builder> {
@@ -25,12 +28,14 @@ public final class PrehashedPassword extends Message<PrehashedPassword, Prehashe
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#BYTES")
+      adapter = "com.squareup.wire.ProtoAdapter#BYTES"
+  )
   public final ByteString prehashed_password;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#UINT32")
+      adapter = "com.squareup.wire.ProtoAdapter#UINT32"
+  )
   public final Integer prehash_cycle;
 
   public PrehashedPassword(ByteString prehashed_password, Integer prehash_cycle) {
@@ -57,7 +62,9 @@ public final class PrehashedPassword extends Message<PrehashedPassword, Prehashe
     if (other == this) return true;
     if (!(other instanceof PrehashedPassword)) return false;
     PrehashedPassword o = (PrehashedPassword) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(prehashed_password, o.prehashed_password) && Internal.equals(prehash_cycle, o.prehash_cycle);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(prehashed_password, o.prehashed_password)
+        && Internal.equals(prehash_cycle, o.prehash_cycle);
   }
 
   @Override
@@ -75,8 +82,7 @@ public final class PrehashedPassword extends Message<PrehashedPassword, Prehashe
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    if (prehashed_password != null)
-      builder.append(", prehashed_password=").append(prehashed_password);
+    if (prehashed_password != null) builder.append(", prehashed_password=").append(prehashed_password);
     if (prehash_cycle != null) builder.append(", prehash_cycle=").append(prehash_cycle);
     return builder.replace(0, 2, "PrehashedPassword{").append('}').toString();
   }
@@ -112,15 +118,15 @@ public final class PrehashedPassword extends Message<PrehashedPassword, Prehashe
 
     @Override
     public int encodedSize(PrehashedPassword value) {
-      return (value.prehashed_password != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.prehashed_password) : 0) + (value.prehash_cycle != null ? ProtoAdapter.UINT32.encodedSizeWithTag(2, value.prehash_cycle) : 0) + value.unknownFields().size();
+      return (value.prehashed_password != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.prehashed_password) : 0)
+          + (value.prehash_cycle != null ? ProtoAdapter.UINT32.encodedSizeWithTag(2, value.prehash_cycle) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
     public void encode(ProtoWriter writer, PrehashedPassword value) throws IOException {
-      if (value.prehashed_password != null)
-        ProtoAdapter.BYTES.encodeWithTag(writer, 1, value.prehashed_password);
-      if (value.prehash_cycle != null)
-        ProtoAdapter.UINT32.encodeWithTag(writer, 2, value.prehash_cycle);
+      if (value.prehashed_password != null) ProtoAdapter.BYTES.encodeWithTag(writer, 1, value.prehashed_password);
+      if (value.prehash_cycle != null) ProtoAdapter.UINT32.encodeWithTag(writer, 2, value.prehash_cycle);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -128,14 +134,10 @@ public final class PrehashedPassword extends Message<PrehashedPassword, Prehashe
     public PrehashedPassword decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.prehashed_password(ProtoAdapter.BYTES.decode(reader));
-            break;
-          case 2:
-            builder.prehash_cycle(ProtoAdapter.UINT32.decode(reader));
-            break;
+          case 1: builder.prehashed_password(ProtoAdapter.BYTES.decode(reader)); break;
+          case 2: builder.prehash_cycle(ProtoAdapter.UINT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

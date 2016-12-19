@@ -4,6 +4,7 @@ package online.duoyu.sparkle.model.proto;
 
 import com.squareup.wire.ProtoAdapter;
 import com.squareup.wire.WireEnum;
+import java.lang.Override;
 
 public enum Language implements WireEnum {
   CHINESE(0),
@@ -25,14 +26,10 @@ public enum Language implements WireEnum {
    */
   public static Language fromValue(int value) {
     switch (value) {
-      case 0:
-        return CHINESE;
-      case 1:
-        return ENGLISH;
-      case 2:
-        return JAPANESE;
-      default:
-        return null;
+      case 0: return CHINESE;
+      case 1: return ENGLISH;
+      case 2: return JAPANESE;
+      default: return null;
     }
   }
 

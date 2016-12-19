@@ -9,10 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import java.util.List;
-
 import okio.ByteString;
 
 public final class Profile extends Message<Profile, Profile.Builder> {
@@ -30,34 +32,40 @@ public final class Profile extends Message<Profile, Profile.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String nickname;
 
   @WireField(
       tag = 2,
       adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER",
-      label = WireField.Label.REPEATED)
+      label = WireField.Label.REPEATED
+  )
   public final List<Language> native_languages;
 
   @WireField(
       tag = 3,
       adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER",
-      label = WireField.Label.REPEATED)
+      label = WireField.Label.REPEATED
+  )
   public final List<Language> target_languages;
 
   @WireField(
       tag = 4,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String region;
 
   @WireField(
       tag = 5,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String introduce;
 
   @WireField(
       tag = 6,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String avatar;
 
   public Profile(String nickname, List<Language> native_languages, List<Language> target_languages, String region, String introduce, String avatar) {
@@ -92,7 +100,13 @@ public final class Profile extends Message<Profile, Profile.Builder> {
     if (other == this) return true;
     if (!(other instanceof Profile)) return false;
     Profile o = (Profile) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(nickname, o.nickname) && native_languages.equals(o.native_languages) && target_languages.equals(o.target_languages) && Internal.equals(region, o.region) && Internal.equals(introduce, o.introduce) && Internal.equals(avatar, o.avatar);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(nickname, o.nickname)
+        && native_languages.equals(o.native_languages)
+        && target_languages.equals(o.target_languages)
+        && Internal.equals(region, o.region)
+        && Internal.equals(introduce, o.introduce)
+        && Internal.equals(avatar, o.avatar);
   }
 
   @Override
@@ -186,7 +200,13 @@ public final class Profile extends Message<Profile, Profile.Builder> {
 
     @Override
     public int encodedSize(Profile value) {
-      return (value.nickname != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.nickname) : 0) + Language.ADAPTER.asRepeated().encodedSizeWithTag(2, value.native_languages) + Language.ADAPTER.asRepeated().encodedSizeWithTag(3, value.target_languages) + (value.region != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.region) : 0) + (value.introduce != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.introduce) : 0) + (value.avatar != null ? ProtoAdapter.STRING.encodedSizeWithTag(6, value.avatar) : 0) + value.unknownFields().size();
+      return (value.nickname != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.nickname) : 0)
+          + Language.ADAPTER.asRepeated().encodedSizeWithTag(2, value.native_languages)
+          + Language.ADAPTER.asRepeated().encodedSizeWithTag(3, value.target_languages)
+          + (value.region != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.region) : 0)
+          + (value.introduce != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.introduce) : 0)
+          + (value.avatar != null ? ProtoAdapter.STRING.encodedSizeWithTag(6, value.avatar) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -204,11 +224,9 @@ public final class Profile extends Message<Profile, Profile.Builder> {
     public Profile decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.nickname(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 1: builder.nickname(ProtoAdapter.STRING.decode(reader)); break;
           case 2: {
             try {
               builder.native_languages.add(Language.ADAPTER.decode(reader));
@@ -225,15 +243,9 @@ public final class Profile extends Message<Profile, Profile.Builder> {
             }
             break;
           }
-          case 4:
-            builder.region(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 5:
-            builder.introduce(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 6:
-            builder.avatar(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 4: builder.region(ProtoAdapter.STRING.decode(reader)); break;
+          case 5: builder.introduce(ProtoAdapter.STRING.decode(reader)); break;
+          case 6: builder.avatar(ProtoAdapter.STRING.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

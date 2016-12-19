@@ -10,9 +10,12 @@ import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireEnum;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Happening extends Message<Happening, Happening.Builder> {
@@ -30,22 +33,26 @@ public final class Happening extends Message<Happening, Happening.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String article_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer date;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String title;
 
   @WireField(
       tag = 4,
-      adapter = "online.duoyu.sparkle.model.proto.Happening$Event#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.Happening$Event#ADAPTER"
+  )
   public final Event event;
 
   public Happening(String article_id, Integer date, String title, Event event) {
@@ -76,7 +83,11 @@ public final class Happening extends Message<Happening, Happening.Builder> {
     if (other == this) return true;
     if (!(other instanceof Happening)) return false;
     Happening o = (Happening) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(article_id, o.article_id) && Internal.equals(date, o.date) && Internal.equals(title, o.title) && Internal.equals(event, o.event);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(article_id, o.article_id)
+        && Internal.equals(date, o.date)
+        && Internal.equals(title, o.title)
+        && Internal.equals(event, o.event);
   }
 
   @Override
@@ -165,18 +176,12 @@ public final class Happening extends Message<Happening, Happening.Builder> {
      */
     public static Event fromValue(int value) {
       switch (value) {
-        case 0:
-          return LIKE_DIARY;
-        case 1:
-          return LIKE_CORRECT;
-        case 2:
-          return PUBLISH_DIARY;
-        case 3:
-          return PUBLISH_CORRECT;
-        case 4:
-          return ATTENTION_DIARY;
-        default:
-          return null;
+        case 0: return LIKE_DIARY;
+        case 1: return LIKE_CORRECT;
+        case 2: return PUBLISH_DIARY;
+        case 3: return PUBLISH_CORRECT;
+        case 4: return ATTENTION_DIARY;
+        default: return null;
       }
     }
 
@@ -193,7 +198,11 @@ public final class Happening extends Message<Happening, Happening.Builder> {
 
     @Override
     public int encodedSize(Happening value) {
-      return (value.article_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.article_id) : 0) + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0) + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.title) : 0) + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(4, value.event) : 0) + value.unknownFields().size();
+      return (value.article_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.article_id) : 0)
+          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0)
+          + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.title) : 0)
+          + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(4, value.event) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -209,17 +218,11 @@ public final class Happening extends Message<Happening, Happening.Builder> {
     public Happening decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.article_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 2:
-            builder.date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 3:
-            builder.title(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 1: builder.article_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 2: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 3: builder.title(ProtoAdapter.STRING.decode(reader)); break;
           case 4: {
             try {
               builder.event(Event.ADAPTER.decode(reader));

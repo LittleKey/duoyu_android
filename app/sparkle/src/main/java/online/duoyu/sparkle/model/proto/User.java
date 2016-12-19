@@ -10,10 +10,13 @@ import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireEnum;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import java.util.List;
-
 import okio.ByteString;
 
 public final class User extends Message<User, User.Builder> {
@@ -49,85 +52,101 @@ public final class User extends Message<User, User.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String user_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String nickname;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String email;
 
   @WireField(
       tag = 4,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String avatar;
 
   @WireField(
       tag = 5,
       adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER",
-      label = WireField.Label.REPEATED)
+      label = WireField.Label.REPEATED
+  )
   public final List<Language> native_languages;
 
   @WireField(
       tag = 6,
       adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER",
-      label = WireField.Label.REPEATED)
+      label = WireField.Label.REPEATED
+  )
   public final List<Language> target_languages;
 
   @WireField(
       tag = 7,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String region;
 
   @WireField(
       tag = 8,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String introduce;
 
   @WireField(
       tag = 9,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer following_num;
 
   @WireField(
       tag = 10,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer follower_num;
 
   @WireField(
       tag = 11,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer liked_num;
 
   @WireField(
       tag = 12,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer published_num;
 
   @WireField(
       tag = 13,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer corrected_num;
 
   @WireField(
       tag = 14,
-      adapter = "online.duoyu.sparkle.model.proto.User$Relationship#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User$Relationship#ADAPTER"
+  )
   public final Relationship relationship;
 
   @WireField(
       tag = 15,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer number;
 
   @WireField(
       tag = 16,
       adapter = "online.duoyu.sparkle.model.proto.Happening#ADAPTER",
-      label = WireField.Label.REPEATED)
+      label = WireField.Label.REPEATED
+  )
   public final List<Happening> happenings;
 
   public User(String user_id, String nickname, String email, String avatar, List<Language> native_languages, List<Language> target_languages, String region, String introduce, Integer following_num, Integer follower_num, Integer liked_num, Integer published_num, Integer corrected_num, Relationship relationship, Integer number, List<Happening> happenings) {
@@ -182,7 +201,23 @@ public final class User extends Message<User, User.Builder> {
     if (other == this) return true;
     if (!(other instanceof User)) return false;
     User o = (User) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(user_id, o.user_id) && Internal.equals(nickname, o.nickname) && Internal.equals(email, o.email) && Internal.equals(avatar, o.avatar) && native_languages.equals(o.native_languages) && target_languages.equals(o.target_languages) && Internal.equals(region, o.region) && Internal.equals(introduce, o.introduce) && Internal.equals(following_num, o.following_num) && Internal.equals(follower_num, o.follower_num) && Internal.equals(liked_num, o.liked_num) && Internal.equals(published_num, o.published_num) && Internal.equals(corrected_num, o.corrected_num) && Internal.equals(relationship, o.relationship) && Internal.equals(number, o.number) && happenings.equals(o.happenings);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(user_id, o.user_id)
+        && Internal.equals(nickname, o.nickname)
+        && Internal.equals(email, o.email)
+        && Internal.equals(avatar, o.avatar)
+        && native_languages.equals(o.native_languages)
+        && target_languages.equals(o.target_languages)
+        && Internal.equals(region, o.region)
+        && Internal.equals(introduce, o.introduce)
+        && Internal.equals(following_num, o.following_num)
+        && Internal.equals(follower_num, o.follower_num)
+        && Internal.equals(liked_num, o.liked_num)
+        && Internal.equals(published_num, o.published_num)
+        && Internal.equals(corrected_num, o.corrected_num)
+        && Internal.equals(relationship, o.relationship)
+        && Internal.equals(number, o.number)
+        && happenings.equals(o.happenings);
   }
 
   @Override
@@ -385,18 +420,12 @@ public final class User extends Message<User, User.Builder> {
      */
     public static Relationship fromValue(int value) {
       switch (value) {
-        case 0:
-          return NOT_FOLLOW;
-        case 1:
-          return FOLLOWING;
-        case 2:
-          return FOLLOWER;
-        case 3:
-          return EACH_FOLLOW;
-        case 4:
-          return SELF;
-        default:
-          return null;
+        case 0: return NOT_FOLLOW;
+        case 1: return FOLLOWING;
+        case 2: return FOLLOWER;
+        case 3: return EACH_FOLLOW;
+        case 4: return SELF;
+        default: return null;
       }
     }
 
@@ -413,7 +442,23 @@ public final class User extends Message<User, User.Builder> {
 
     @Override
     public int encodedSize(User value) {
-      return (value.user_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.user_id) : 0) + (value.nickname != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.nickname) : 0) + (value.email != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.email) : 0) + (value.avatar != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.avatar) : 0) + Language.ADAPTER.asRepeated().encodedSizeWithTag(5, value.native_languages) + Language.ADAPTER.asRepeated().encodedSizeWithTag(6, value.target_languages) + (value.region != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.region) : 0) + (value.introduce != null ? ProtoAdapter.STRING.encodedSizeWithTag(8, value.introduce) : 0) + (value.following_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.following_num) : 0) + (value.follower_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.follower_num) : 0) + (value.liked_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(11, value.liked_num) : 0) + (value.published_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(12, value.published_num) : 0) + (value.corrected_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(13, value.corrected_num) : 0) + (value.relationship != null ? Relationship.ADAPTER.encodedSizeWithTag(14, value.relationship) : 0) + (value.number != null ? ProtoAdapter.INT32.encodedSizeWithTag(15, value.number) : 0) + Happening.ADAPTER.asRepeated().encodedSizeWithTag(16, value.happenings) + value.unknownFields().size();
+      return (value.user_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.user_id) : 0)
+          + (value.nickname != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.nickname) : 0)
+          + (value.email != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.email) : 0)
+          + (value.avatar != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.avatar) : 0)
+          + Language.ADAPTER.asRepeated().encodedSizeWithTag(5, value.native_languages)
+          + Language.ADAPTER.asRepeated().encodedSizeWithTag(6, value.target_languages)
+          + (value.region != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.region) : 0)
+          + (value.introduce != null ? ProtoAdapter.STRING.encodedSizeWithTag(8, value.introduce) : 0)
+          + (value.following_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.following_num) : 0)
+          + (value.follower_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.follower_num) : 0)
+          + (value.liked_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(11, value.liked_num) : 0)
+          + (value.published_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(12, value.published_num) : 0)
+          + (value.corrected_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(13, value.corrected_num) : 0)
+          + (value.relationship != null ? Relationship.ADAPTER.encodedSizeWithTag(14, value.relationship) : 0)
+          + (value.number != null ? ProtoAdapter.INT32.encodedSizeWithTag(15, value.number) : 0)
+          + Happening.ADAPTER.asRepeated().encodedSizeWithTag(16, value.happenings)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -426,17 +471,12 @@ public final class User extends Message<User, User.Builder> {
       Language.ADAPTER.asRepeated().encodeWithTag(writer, 6, value.target_languages);
       if (value.region != null) ProtoAdapter.STRING.encodeWithTag(writer, 7, value.region);
       if (value.introduce != null) ProtoAdapter.STRING.encodeWithTag(writer, 8, value.introduce);
-      if (value.following_num != null)
-        ProtoAdapter.INT32.encodeWithTag(writer, 9, value.following_num);
-      if (value.follower_num != null)
-        ProtoAdapter.INT32.encodeWithTag(writer, 10, value.follower_num);
+      if (value.following_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 9, value.following_num);
+      if (value.follower_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 10, value.follower_num);
       if (value.liked_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 11, value.liked_num);
-      if (value.published_num != null)
-        ProtoAdapter.INT32.encodeWithTag(writer, 12, value.published_num);
-      if (value.corrected_num != null)
-        ProtoAdapter.INT32.encodeWithTag(writer, 13, value.corrected_num);
-      if (value.relationship != null)
-        Relationship.ADAPTER.encodeWithTag(writer, 14, value.relationship);
+      if (value.published_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 12, value.published_num);
+      if (value.corrected_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 13, value.corrected_num);
+      if (value.relationship != null) Relationship.ADAPTER.encodeWithTag(writer, 14, value.relationship);
       if (value.number != null) ProtoAdapter.INT32.encodeWithTag(writer, 15, value.number);
       Happening.ADAPTER.asRepeated().encodeWithTag(writer, 16, value.happenings);
       writer.writeBytes(value.unknownFields());
@@ -446,20 +486,12 @@ public final class User extends Message<User, User.Builder> {
     public User decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.user_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 2:
-            builder.nickname(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 3:
-            builder.email(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 4:
-            builder.avatar(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 1: builder.user_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 2: builder.nickname(ProtoAdapter.STRING.decode(reader)); break;
+          case 3: builder.email(ProtoAdapter.STRING.decode(reader)); break;
+          case 4: builder.avatar(ProtoAdapter.STRING.decode(reader)); break;
           case 5: {
             try {
               builder.native_languages.add(Language.ADAPTER.decode(reader));
@@ -476,27 +508,13 @@ public final class User extends Message<User, User.Builder> {
             }
             break;
           }
-          case 7:
-            builder.region(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 8:
-            builder.introduce(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 9:
-            builder.following_num(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 10:
-            builder.follower_num(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 11:
-            builder.liked_num(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 12:
-            builder.published_num(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 13:
-            builder.corrected_num(ProtoAdapter.INT32.decode(reader));
-            break;
+          case 7: builder.region(ProtoAdapter.STRING.decode(reader)); break;
+          case 8: builder.introduce(ProtoAdapter.STRING.decode(reader)); break;
+          case 9: builder.following_num(ProtoAdapter.INT32.decode(reader)); break;
+          case 10: builder.follower_num(ProtoAdapter.INT32.decode(reader)); break;
+          case 11: builder.liked_num(ProtoAdapter.INT32.decode(reader)); break;
+          case 12: builder.published_num(ProtoAdapter.INT32.decode(reader)); break;
+          case 13: builder.corrected_num(ProtoAdapter.INT32.decode(reader)); break;
           case 14: {
             try {
               builder.relationship(Relationship.ADAPTER.decode(reader));
@@ -505,12 +523,8 @@ public final class User extends Message<User, User.Builder> {
             }
             break;
           }
-          case 15:
-            builder.number(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 16:
-            builder.happenings.add(Happening.ADAPTER.decode(reader));
-            break;
+          case 15: builder.number(ProtoAdapter.INT32.decode(reader)); break;
+          case 16: builder.happenings.add(Happening.ADAPTER.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

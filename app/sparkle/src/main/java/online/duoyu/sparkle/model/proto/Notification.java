@@ -10,9 +10,13 @@ import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireEnum;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Boolean;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Notification extends Message<Notification, Notification.Builder> {
@@ -34,37 +38,44 @@ public final class Notification extends Message<Notification, Notification.Build
 
   @WireField(
       tag = 1,
-      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER"
+  )
   public final User user;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer date;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String which;
 
   @WireField(
       tag = 4,
-      adapter = "online.duoyu.sparkle.model.proto.Notification$Type#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.Notification$Type#ADAPTER"
+  )
   public final Type which_type;
 
   @WireField(
       tag = 5,
-      adapter = "online.duoyu.sparkle.model.proto.Notification$Event#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.Notification$Event#ADAPTER"
+  )
   public final Event event;
 
   @WireField(
       tag = 6,
-      adapter = "com.squareup.wire.ProtoAdapter#BOOL")
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
   public final Boolean unread;
 
   @WireField(
       tag = 7,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String title;
 
   public Notification(User user, Integer date, String which, Type which_type, Event event, Boolean unread, String title) {
@@ -101,7 +112,14 @@ public final class Notification extends Message<Notification, Notification.Build
     if (other == this) return true;
     if (!(other instanceof Notification)) return false;
     Notification o = (Notification) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(user, o.user) && Internal.equals(date, o.date) && Internal.equals(which, o.which) && Internal.equals(which_type, o.which_type) && Internal.equals(event, o.event) && Internal.equals(unread, o.unread) && Internal.equals(title, o.title);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(user, o.user)
+        && Internal.equals(date, o.date)
+        && Internal.equals(which, o.which)
+        && Internal.equals(which_type, o.which_type)
+        && Internal.equals(event, o.event)
+        && Internal.equals(unread, o.unread)
+        && Internal.equals(title, o.title);
   }
 
   @Override
@@ -217,18 +235,12 @@ public final class Notification extends Message<Notification, Notification.Build
      */
     public static Event fromValue(int value) {
       switch (value) {
-        case 0:
-          return LIKE_MY_ARTICLE;
-        case 1:
-          return COMMENT_MY_ARTICLE;
-        case 2:
-          return CORRECT_ATTENTION_DIARY;
-        case 3:
-          return FOLLOW_ME;
-        case 4:
-          return PUBLISH_DIARY;
-        default:
-          return null;
+        case 0: return LIKE_MY_ARTICLE;
+        case 1: return COMMENT_MY_ARTICLE;
+        case 2: return CORRECT_ATTENTION_DIARY;
+        case 3: return FOLLOW_ME;
+        case 4: return PUBLISH_DIARY;
+        default: return null;
       }
     }
 
@@ -258,14 +270,10 @@ public final class Notification extends Message<Notification, Notification.Build
      */
     public static Type fromValue(int value) {
       switch (value) {
-        case 0:
-          return DIARY;
-        case 1:
-          return CORRECT;
-        case 2:
-          return COMMENT;
-        default:
-          return null;
+        case 0: return DIARY;
+        case 1: return CORRECT;
+        case 2: return COMMENT;
+        default: return null;
       }
     }
 
@@ -282,7 +290,14 @@ public final class Notification extends Message<Notification, Notification.Build
 
     @Override
     public int encodedSize(Notification value) {
-      return (value.user != null ? User.ADAPTER.encodedSizeWithTag(1, value.user) : 0) + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0) + (value.which != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.which) : 0) + (value.which_type != null ? Type.ADAPTER.encodedSizeWithTag(4, value.which_type) : 0) + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(5, value.event) : 0) + (value.unread != null ? ProtoAdapter.BOOL.encodedSizeWithTag(6, value.unread) : 0) + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.title) : 0) + value.unknownFields().size();
+      return (value.user != null ? User.ADAPTER.encodedSizeWithTag(1, value.user) : 0)
+          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0)
+          + (value.which != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.which) : 0)
+          + (value.which_type != null ? Type.ADAPTER.encodedSizeWithTag(4, value.which_type) : 0)
+          + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(5, value.event) : 0)
+          + (value.unread != null ? ProtoAdapter.BOOL.encodedSizeWithTag(6, value.unread) : 0)
+          + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.title) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -301,17 +316,11 @@ public final class Notification extends Message<Notification, Notification.Build
     public Notification decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.user(User.ADAPTER.decode(reader));
-            break;
-          case 2:
-            builder.date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 3:
-            builder.which(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 1: builder.user(User.ADAPTER.decode(reader)); break;
+          case 2: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 3: builder.which(ProtoAdapter.STRING.decode(reader)); break;
           case 4: {
             try {
               builder.which_type(Type.ADAPTER.decode(reader));
@@ -328,12 +337,8 @@ public final class Notification extends Message<Notification, Notification.Build
             }
             break;
           }
-          case 6:
-            builder.unread(ProtoAdapter.BOOL.decode(reader));
-            break;
-          case 7:
-            builder.title(ProtoAdapter.STRING.decode(reader));
-            break;
+          case 6: builder.unread(ProtoAdapter.BOOL.decode(reader)); break;
+          case 7: builder.title(ProtoAdapter.STRING.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

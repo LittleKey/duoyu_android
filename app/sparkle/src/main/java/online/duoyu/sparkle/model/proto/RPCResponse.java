@@ -10,9 +10,12 @@ import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireEnum;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Boolean;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder> {
@@ -30,22 +33,26 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#BYTES")
+      adapter = "com.squareup.wire.ProtoAdapter#BYTES"
+  )
   public final ByteString session_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#BOOL")
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
   public final Boolean success;
 
   @WireField(
       tag = 3,
-      adapter = "online.duoyu.sparkle.model.proto.RPCResponse$Reason#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.RPCResponse$Reason#ADAPTER"
+  )
   public final Reason reason;
 
   @WireField(
       tag = 4,
-      adapter = "com.squareup.wire.ProtoAdapter#BYTES")
+      adapter = "com.squareup.wire.ProtoAdapter#BYTES"
+  )
   public final ByteString content;
 
   public RPCResponse(ByteString session_id, Boolean success, Reason reason, ByteString content) {
@@ -76,7 +83,11 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
     if (other == this) return true;
     if (!(other instanceof RPCResponse)) return false;
     RPCResponse o = (RPCResponse) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(session_id, o.session_id) && Internal.equals(success, o.success) && Internal.equals(reason, o.reason) && Internal.equals(content, o.content);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(session_id, o.session_id)
+        && Internal.equals(success, o.success)
+        && Internal.equals(reason, o.reason)
+        && Internal.equals(content, o.content);
   }
 
   @Override
@@ -159,12 +170,9 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
      */
     public static Reason fromValue(int value) {
       switch (value) {
-        case 0:
-          return OK;
-        case 10:
-          return BAD_REQUEST;
-        default:
-          return null;
+        case 0: return OK;
+        case 10: return BAD_REQUEST;
+        default: return null;
       }
     }
 
@@ -181,7 +189,11 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
 
     @Override
     public int encodedSize(RPCResponse value) {
-      return (value.session_id != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.session_id) : 0) + (value.success != null ? ProtoAdapter.BOOL.encodedSizeWithTag(2, value.success) : 0) + (value.reason != null ? Reason.ADAPTER.encodedSizeWithTag(3, value.reason) : 0) + (value.content != null ? ProtoAdapter.BYTES.encodedSizeWithTag(4, value.content) : 0) + value.unknownFields().size();
+      return (value.session_id != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.session_id) : 0)
+          + (value.success != null ? ProtoAdapter.BOOL.encodedSizeWithTag(2, value.success) : 0)
+          + (value.reason != null ? Reason.ADAPTER.encodedSizeWithTag(3, value.reason) : 0)
+          + (value.content != null ? ProtoAdapter.BYTES.encodedSizeWithTag(4, value.content) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -197,14 +209,10 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
     public RPCResponse decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.session_id(ProtoAdapter.BYTES.decode(reader));
-            break;
-          case 2:
-            builder.success(ProtoAdapter.BOOL.decode(reader));
-            break;
+          case 1: builder.session_id(ProtoAdapter.BYTES.decode(reader)); break;
+          case 2: builder.success(ProtoAdapter.BOOL.decode(reader)); break;
           case 3: {
             try {
               builder.reason(Reason.ADAPTER.decode(reader));
@@ -213,9 +221,7 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
             }
             break;
           }
-          case 4:
-            builder.content(ProtoAdapter.BYTES.decode(reader));
-            break;
+          case 4: builder.content(ProtoAdapter.BYTES.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

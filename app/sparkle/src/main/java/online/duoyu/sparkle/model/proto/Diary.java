@@ -9,9 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Diary extends Message<Diary, Diary.Builder> {
@@ -39,52 +42,62 @@ public final class Diary extends Message<Diary, Diary.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String diary_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String title;
 
   @WireField(
       tag = 3,
-      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER"
+  )
   public final User author;
 
   @WireField(
       tag = 4,
-      adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.Language#ADAPTER"
+  )
   public final Language language;
 
   @WireField(
       tag = 5,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String content;
 
   @WireField(
       tag = 6,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer date;
 
   @WireField(
       tag = 7,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer likes;
 
   @WireField(
       tag = 8,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer followers;
 
   @WireField(
       tag = 9,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer attentions;
 
   @WireField(
       tag = 10,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer corrects;
 
   public Diary(String diary_id, String title, User author, Language language, String content, Integer date, Integer likes, Integer followers, Integer attentions, Integer corrects) {
@@ -127,7 +140,17 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     if (other == this) return true;
     if (!(other instanceof Diary)) return false;
     Diary o = (Diary) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(diary_id, o.diary_id) && Internal.equals(title, o.title) && Internal.equals(author, o.author) && Internal.equals(language, o.language) && Internal.equals(content, o.content) && Internal.equals(date, o.date) && Internal.equals(likes, o.likes) && Internal.equals(followers, o.followers) && Internal.equals(attentions, o.attentions) && Internal.equals(corrects, o.corrects);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(diary_id, o.diary_id)
+        && Internal.equals(title, o.title)
+        && Internal.equals(author, o.author)
+        && Internal.equals(language, o.language)
+        && Internal.equals(content, o.content)
+        && Internal.equals(date, o.date)
+        && Internal.equals(likes, o.likes)
+        && Internal.equals(followers, o.followers)
+        && Internal.equals(attentions, o.attentions)
+        && Internal.equals(corrects, o.corrects);
   }
 
   @Override
@@ -253,7 +276,17 @@ public final class Diary extends Message<Diary, Diary.Builder> {
 
     @Override
     public int encodedSize(Diary value) {
-      return (value.diary_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.diary_id) : 0) + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.title) : 0) + (value.author != null ? User.ADAPTER.encodedSizeWithTag(3, value.author) : 0) + (value.language != null ? Language.ADAPTER.encodedSizeWithTag(4, value.language) : 0) + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0) + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(6, value.date) : 0) + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(7, value.likes) : 0) + (value.followers != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.followers) : 0) + (value.attentions != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.attentions) : 0) + (value.corrects != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.corrects) : 0) + value.unknownFields().size();
+      return (value.diary_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.diary_id) : 0)
+          + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.title) : 0)
+          + (value.author != null ? User.ADAPTER.encodedSizeWithTag(3, value.author) : 0)
+          + (value.language != null ? Language.ADAPTER.encodedSizeWithTag(4, value.language) : 0)
+          + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0)
+          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(6, value.date) : 0)
+          + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(7, value.likes) : 0)
+          + (value.followers != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.followers) : 0)
+          + (value.attentions != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.attentions) : 0)
+          + (value.corrects != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.corrects) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -275,17 +308,11 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     public Diary decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.diary_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 2:
-            builder.title(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 3:
-            builder.author(User.ADAPTER.decode(reader));
-            break;
+          case 1: builder.diary_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 2: builder.title(ProtoAdapter.STRING.decode(reader)); break;
+          case 3: builder.author(User.ADAPTER.decode(reader)); break;
           case 4: {
             try {
               builder.language(Language.ADAPTER.decode(reader));
@@ -294,24 +321,12 @@ public final class Diary extends Message<Diary, Diary.Builder> {
             }
             break;
           }
-          case 5:
-            builder.content(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 6:
-            builder.date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 7:
-            builder.likes(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 8:
-            builder.followers(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 9:
-            builder.attentions(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 10:
-            builder.corrects(ProtoAdapter.INT32.decode(reader));
-            break;
+          case 5: builder.content(ProtoAdapter.STRING.decode(reader)); break;
+          case 6: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 7: builder.likes(ProtoAdapter.INT32.decode(reader)); break;
+          case 8: builder.followers(ProtoAdapter.INT32.decode(reader)); break;
+          case 9: builder.attentions(ProtoAdapter.INT32.decode(reader)); break;
+          case 10: builder.corrects(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

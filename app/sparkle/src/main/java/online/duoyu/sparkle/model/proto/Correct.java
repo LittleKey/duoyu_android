@@ -9,9 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Correct extends Message<Correct, Correct.Builder> {
@@ -31,37 +34,44 @@ public final class Correct extends Message<Correct, Correct.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String correct_id;
 
   @WireField(
       tag = 2,
-      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER"
+  )
   public final User author;
 
   @WireField(
       tag = 3,
-      adapter = "online.duoyu.sparkle.model.proto.Diary#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.Diary#ADAPTER"
+  )
   public final Diary diary;
 
   @WireField(
       tag = 4,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String content;
 
   @WireField(
       tag = 5,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer date;
 
   @WireField(
       tag = 6,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer last_edit_date;
 
   @WireField(
       tag = 7,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer likes;
 
   public Correct(String correct_id, User author, Diary diary, String content, Integer date, Integer last_edit_date, Integer likes) {
@@ -98,7 +108,14 @@ public final class Correct extends Message<Correct, Correct.Builder> {
     if (other == this) return true;
     if (!(other instanceof Correct)) return false;
     Correct o = (Correct) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(correct_id, o.correct_id) && Internal.equals(author, o.author) && Internal.equals(diary, o.diary) && Internal.equals(content, o.content) && Internal.equals(date, o.date) && Internal.equals(last_edit_date, o.last_edit_date) && Internal.equals(likes, o.likes);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(correct_id, o.correct_id)
+        && Internal.equals(author, o.author)
+        && Internal.equals(diary, o.diary)
+        && Internal.equals(content, o.content)
+        && Internal.equals(date, o.date)
+        && Internal.equals(last_edit_date, o.last_edit_date)
+        && Internal.equals(likes, o.likes);
   }
 
   @Override
@@ -197,7 +214,14 @@ public final class Correct extends Message<Correct, Correct.Builder> {
 
     @Override
     public int encodedSize(Correct value) {
-      return (value.correct_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.correct_id) : 0) + (value.author != null ? User.ADAPTER.encodedSizeWithTag(2, value.author) : 0) + (value.diary != null ? Diary.ADAPTER.encodedSizeWithTag(3, value.diary) : 0) + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.content) : 0) + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(5, value.date) : 0) + (value.last_edit_date != null ? ProtoAdapter.INT32.encodedSizeWithTag(6, value.last_edit_date) : 0) + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(7, value.likes) : 0) + value.unknownFields().size();
+      return (value.correct_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.correct_id) : 0)
+          + (value.author != null ? User.ADAPTER.encodedSizeWithTag(2, value.author) : 0)
+          + (value.diary != null ? Diary.ADAPTER.encodedSizeWithTag(3, value.diary) : 0)
+          + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.content) : 0)
+          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(5, value.date) : 0)
+          + (value.last_edit_date != null ? ProtoAdapter.INT32.encodedSizeWithTag(6, value.last_edit_date) : 0)
+          + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(7, value.likes) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -207,8 +231,7 @@ public final class Correct extends Message<Correct, Correct.Builder> {
       if (value.diary != null) Diary.ADAPTER.encodeWithTag(writer, 3, value.diary);
       if (value.content != null) ProtoAdapter.STRING.encodeWithTag(writer, 4, value.content);
       if (value.date != null) ProtoAdapter.INT32.encodeWithTag(writer, 5, value.date);
-      if (value.last_edit_date != null)
-        ProtoAdapter.INT32.encodeWithTag(writer, 6, value.last_edit_date);
+      if (value.last_edit_date != null) ProtoAdapter.INT32.encodeWithTag(writer, 6, value.last_edit_date);
       if (value.likes != null) ProtoAdapter.INT32.encodeWithTag(writer, 7, value.likes);
       writer.writeBytes(value.unknownFields());
     }
@@ -217,29 +240,15 @@ public final class Correct extends Message<Correct, Correct.Builder> {
     public Correct decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.correct_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 2:
-            builder.author(User.ADAPTER.decode(reader));
-            break;
-          case 3:
-            builder.diary(Diary.ADAPTER.decode(reader));
-            break;
-          case 4:
-            builder.content(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 5:
-            builder.date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 6:
-            builder.last_edit_date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 7:
-            builder.likes(ProtoAdapter.INT32.decode(reader));
-            break;
+          case 1: builder.correct_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 2: builder.author(User.ADAPTER.decode(reader)); break;
+          case 3: builder.diary(Diary.ADAPTER.decode(reader)); break;
+          case 4: builder.content(ProtoAdapter.STRING.decode(reader)); break;
+          case 5: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 6: builder.last_edit_date(ProtoAdapter.INT32.decode(reader)); break;
+          case 7: builder.likes(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

@@ -9,9 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Comment extends Message<Comment, Comment.Builder> {
@@ -37,52 +40,62 @@ public final class Comment extends Message<Comment, Comment.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String comment_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String entire_id;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String quote_id;
 
   @WireField(
       tag = 4,
-      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER"
+  )
   public final User author;
 
   @WireField(
       tag = 5,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String content;
 
   @WireField(
       tag = 6,
-      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER")
+      adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER"
+  )
   public final User quote_author;
 
   @WireField(
       tag = 7,
-      adapter = "com.squareup.wire.ProtoAdapter#STRING")
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
   public final String quote;
 
   @WireField(
       tag = 8,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer date;
 
   @WireField(
       tag = 9,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer floor;
 
   @WireField(
       tag = 10,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer likes;
 
   public Comment(String comment_id, String entire_id, String quote_id, User author, String content, User quote_author, String quote, Integer date, Integer floor, Integer likes) {
@@ -125,7 +138,17 @@ public final class Comment extends Message<Comment, Comment.Builder> {
     if (other == this) return true;
     if (!(other instanceof Comment)) return false;
     Comment o = (Comment) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(comment_id, o.comment_id) && Internal.equals(entire_id, o.entire_id) && Internal.equals(quote_id, o.quote_id) && Internal.equals(author, o.author) && Internal.equals(content, o.content) && Internal.equals(quote_author, o.quote_author) && Internal.equals(quote, o.quote) && Internal.equals(date, o.date) && Internal.equals(floor, o.floor) && Internal.equals(likes, o.likes);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(comment_id, o.comment_id)
+        && Internal.equals(entire_id, o.entire_id)
+        && Internal.equals(quote_id, o.quote_id)
+        && Internal.equals(author, o.author)
+        && Internal.equals(content, o.content)
+        && Internal.equals(quote_author, o.quote_author)
+        && Internal.equals(quote, o.quote)
+        && Internal.equals(date, o.date)
+        && Internal.equals(floor, o.floor)
+        && Internal.equals(likes, o.likes);
   }
 
   @Override
@@ -251,7 +274,17 @@ public final class Comment extends Message<Comment, Comment.Builder> {
 
     @Override
     public int encodedSize(Comment value) {
-      return (value.comment_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.comment_id) : 0) + (value.entire_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.entire_id) : 0) + (value.quote_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.quote_id) : 0) + (value.author != null ? User.ADAPTER.encodedSizeWithTag(4, value.author) : 0) + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0) + (value.quote_author != null ? User.ADAPTER.encodedSizeWithTag(6, value.quote_author) : 0) + (value.quote != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.quote) : 0) + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.date) : 0) + (value.floor != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.floor) : 0) + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.likes) : 0) + value.unknownFields().size();
+      return (value.comment_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.comment_id) : 0)
+          + (value.entire_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(2, value.entire_id) : 0)
+          + (value.quote_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.quote_id) : 0)
+          + (value.author != null ? User.ADAPTER.encodedSizeWithTag(4, value.author) : 0)
+          + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0)
+          + (value.quote_author != null ? User.ADAPTER.encodedSizeWithTag(6, value.quote_author) : 0)
+          + (value.quote != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.quote) : 0)
+          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.date) : 0)
+          + (value.floor != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.floor) : 0)
+          + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.likes) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -273,38 +306,18 @@ public final class Comment extends Message<Comment, Comment.Builder> {
     public Comment decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.comment_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 2:
-            builder.entire_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 3:
-            builder.quote_id(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 4:
-            builder.author(User.ADAPTER.decode(reader));
-            break;
-          case 5:
-            builder.content(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 6:
-            builder.quote_author(User.ADAPTER.decode(reader));
-            break;
-          case 7:
-            builder.quote(ProtoAdapter.STRING.decode(reader));
-            break;
-          case 8:
-            builder.date(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 9:
-            builder.floor(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 10:
-            builder.likes(ProtoAdapter.INT32.decode(reader));
-            break;
+          case 1: builder.comment_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 2: builder.entire_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 3: builder.quote_id(ProtoAdapter.STRING.decode(reader)); break;
+          case 4: builder.author(User.ADAPTER.decode(reader)); break;
+          case 5: builder.content(ProtoAdapter.STRING.decode(reader)); break;
+          case 6: builder.quote_author(User.ADAPTER.decode(reader)); break;
+          case 7: builder.quote(ProtoAdapter.STRING.decode(reader)); break;
+          case 8: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 9: builder.floor(ProtoAdapter.INT32.decode(reader)); break;
+          case 10: builder.likes(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);
@@ -320,8 +333,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
     public Comment redact(Comment value) {
       Builder builder = value.newBuilder();
       if (builder.author != null) builder.author = User.ADAPTER.redact(builder.author);
-      if (builder.quote_author != null)
-        builder.quote_author = User.ADAPTER.redact(builder.quote_author);
+      if (builder.quote_author != null) builder.quote_author = User.ADAPTER.redact(builder.quote_author);
       builder.clearUnknownFields();
       return builder.build();
     }

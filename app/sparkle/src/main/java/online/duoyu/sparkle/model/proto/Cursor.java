@@ -9,9 +9,13 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Boolean;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class Cursor extends Message<Cursor, Cursor.Builder> {
@@ -31,27 +35,32 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer timestamp;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer offset;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer page;
 
   @WireField(
       tag = 4,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32")
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
   public final Integer limit;
 
   @WireField(
       tag = 5,
-      adapter = "com.squareup.wire.ProtoAdapter#BOOL")
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
   public final Boolean has_more;
 
   public Cursor(Integer timestamp, Integer offset, Integer page, Integer limit, Boolean has_more) {
@@ -84,7 +93,12 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     if (other == this) return true;
     if (!(other instanceof Cursor)) return false;
     Cursor o = (Cursor) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(timestamp, o.timestamp) && Internal.equals(offset, o.offset) && Internal.equals(page, o.page) && Internal.equals(limit, o.limit) && Internal.equals(has_more, o.has_more);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(timestamp, o.timestamp)
+        && Internal.equals(offset, o.offset)
+        && Internal.equals(page, o.page)
+        && Internal.equals(limit, o.limit)
+        && Internal.equals(has_more, o.has_more);
   }
 
   @Override
@@ -165,7 +179,12 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
     @Override
     public int encodedSize(Cursor value) {
-      return (value.timestamp != null ? ProtoAdapter.INT32.encodedSizeWithTag(1, value.timestamp) : 0) + (value.offset != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.offset) : 0) + (value.page != null ? ProtoAdapter.INT32.encodedSizeWithTag(3, value.page) : 0) + (value.limit != null ? ProtoAdapter.INT32.encodedSizeWithTag(4, value.limit) : 0) + (value.has_more != null ? ProtoAdapter.BOOL.encodedSizeWithTag(5, value.has_more) : 0) + value.unknownFields().size();
+      return (value.timestamp != null ? ProtoAdapter.INT32.encodedSizeWithTag(1, value.timestamp) : 0)
+          + (value.offset != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.offset) : 0)
+          + (value.page != null ? ProtoAdapter.INT32.encodedSizeWithTag(3, value.page) : 0)
+          + (value.limit != null ? ProtoAdapter.INT32.encodedSizeWithTag(4, value.limit) : 0)
+          + (value.has_more != null ? ProtoAdapter.BOOL.encodedSizeWithTag(5, value.has_more) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -182,23 +201,13 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     public Cursor decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.timestamp(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 2:
-            builder.offset(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 3:
-            builder.page(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 4:
-            builder.limit(ProtoAdapter.INT32.decode(reader));
-            break;
-          case 5:
-            builder.has_more(ProtoAdapter.BOOL.decode(reader));
-            break;
+          case 1: builder.timestamp(ProtoAdapter.INT32.decode(reader)); break;
+          case 2: builder.offset(ProtoAdapter.INT32.decode(reader)); break;
+          case 3: builder.page(ProtoAdapter.INT32.decode(reader)); break;
+          case 4: builder.limit(ProtoAdapter.INT32.decode(reader)); break;
+          case 5: builder.has_more(ProtoAdapter.BOOL.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

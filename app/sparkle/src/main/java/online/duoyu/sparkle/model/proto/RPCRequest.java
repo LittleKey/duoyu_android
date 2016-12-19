@@ -9,9 +9,12 @@ import com.squareup.wire.ProtoReader;
 import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
-
 import java.io.IOException;
-
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import okio.ByteString;
 
 public final class RPCRequest extends Message<RPCRequest, RPCRequest.Builder> {
@@ -27,17 +30,20 @@ public final class RPCRequest extends Message<RPCRequest, RPCRequest.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#BYTES")
+      adapter = "com.squareup.wire.ProtoAdapter#BYTES"
+  )
   public final ByteString session_id;
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#BYTES")
+      adapter = "com.squareup.wire.ProtoAdapter#BYTES"
+  )
   public final ByteString content;
 
   @WireField(
       tag = 3,
-      adapter = "com.squareup.wire.ProtoAdapter#UINT32")
+      adapter = "com.squareup.wire.ProtoAdapter#UINT32"
+  )
   public final Integer version;
 
   public RPCRequest(ByteString session_id, ByteString content, Integer version) {
@@ -66,7 +72,10 @@ public final class RPCRequest extends Message<RPCRequest, RPCRequest.Builder> {
     if (other == this) return true;
     if (!(other instanceof RPCRequest)) return false;
     RPCRequest o = (RPCRequest) other;
-    return unknownFields().equals(o.unknownFields()) && Internal.equals(session_id, o.session_id) && Internal.equals(content, o.content) && Internal.equals(version, o.version);
+    return unknownFields().equals(o.unknownFields())
+        && Internal.equals(session_id, o.session_id)
+        && Internal.equals(content, o.content)
+        && Internal.equals(version, o.version);
   }
 
   @Override
@@ -129,7 +138,10 @@ public final class RPCRequest extends Message<RPCRequest, RPCRequest.Builder> {
 
     @Override
     public int encodedSize(RPCRequest value) {
-      return (value.session_id != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.session_id) : 0) + (value.content != null ? ProtoAdapter.BYTES.encodedSizeWithTag(2, value.content) : 0) + (value.version != null ? ProtoAdapter.UINT32.encodedSizeWithTag(3, value.version) : 0) + value.unknownFields().size();
+      return (value.session_id != null ? ProtoAdapter.BYTES.encodedSizeWithTag(1, value.session_id) : 0)
+          + (value.content != null ? ProtoAdapter.BYTES.encodedSizeWithTag(2, value.content) : 0)
+          + (value.version != null ? ProtoAdapter.UINT32.encodedSizeWithTag(3, value.version) : 0)
+          + value.unknownFields().size();
     }
 
     @Override
@@ -144,17 +156,11 @@ public final class RPCRequest extends Message<RPCRequest, RPCRequest.Builder> {
     public RPCRequest decode(ProtoReader reader) throws IOException {
       Builder builder = new Builder();
       long token = reader.beginMessage();
-      for (int tag; (tag = reader.nextTag()) != -1; ) {
+      for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1:
-            builder.session_id(ProtoAdapter.BYTES.decode(reader));
-            break;
-          case 2:
-            builder.content(ProtoAdapter.BYTES.decode(reader));
-            break;
-          case 3:
-            builder.version(ProtoAdapter.UINT32.decode(reader));
-            break;
+          case 1: builder.session_id(ProtoAdapter.BYTES.decode(reader)); break;
+          case 2: builder.content(ProtoAdapter.BYTES.decode(reader)); break;
+          case 3: builder.version(ProtoAdapter.UINT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);
