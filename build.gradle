@@ -126,6 +126,10 @@ ext {
     imagepipelineOkhttp3Version = "0.14.1"
     wireRuntimeVersion = "2.2.0"
 
+    rxbindingVersion = "1.0.0"
+    rxjavaVersion = "1.1.6"
+    rxandroidVersion = "1.2.1"
+
 //    ext.storeFile = new File(rootDir, (String) properties.get("store.dir"))
 //    ext.storePassword = properties.get("store.password")
 //    ext.aliasName = properties.get("alias.name")

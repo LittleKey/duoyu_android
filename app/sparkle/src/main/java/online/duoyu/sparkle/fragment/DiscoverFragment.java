@@ -46,31 +46,36 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    Timber.d("onCreateView");
     return inflater.inflate(R.layout.fragment_discover, container, false);
   }
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Timber.d("onViewCreated");
     mCompositeSubscription = new CompositeSubscription();
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
     mBtnTitleRecent = (TextView) view.findViewById(R.id.btn_title_recent);
     mBtnTitleWrite = (TextView) view.findViewById(R.id.btn_title_write);
 
-    Subscription title_bar_subscription = Observable
+    Subscription title_bar_sub = Observable
         .from(new View[] {mBtnTitleFollow, mBtnTitleRecent, mBtnTitleWrite}).cache()
         .subscribe(new Action1<View>() {
           @Override
           public void call(final View view) {
-            Subscription title_bar_btn_subscription = RxView.clicks(view).share()
-                .debounce(300, TimeUnit.MICROSECONDS)
+            Observable<Void> title_bar_tab_click_observer = RxView.clicks(view).share();
+            mCompositeSubscription.add(title_bar_tab_click_observer
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Void>() {
                   @Override
                   public void call(Void aVoid) {
                     switchTitleBarTab(view);
+                  }
+                }));
+            mCompositeSubscription.add(title_bar_tab_click_observer
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                  @Override
+                  public void call(Void aVoid) {
                     if (mViewPager != null) {
                       switch (view.getId()) {
                         case R.id.btn_title_follow:
@@ -85,11 +90,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                       }
                     }
                   }
-                });
-            mCompositeSubscription.add(title_bar_btn_subscription);
+                }));
           }
         });
-    mCompositeSubscription.add(title_bar_subscription);
+    mCompositeSubscription.add(title_bar_sub);
     mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
     FragmentStatePagerAdapter pagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
       @Override
