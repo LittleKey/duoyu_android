@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:shadowColor="@color/month_in_content_shadow"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="10"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:text="12 Dec."/>
+
+</FrameLayout>
