@@ -1,8 +1,6 @@
 package online.duoyu.sparkle.fragment;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,23 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
-
-import java.util.concurrent.TimeUnit;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.utils.ResourcesUtils;
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/20/16.
  */
 
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
+public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPageChangeListener {
 
   private ViewPager mViewPager;
 
@@ -36,46 +30,39 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
   private TextView mBtnTitleRecent;
   private TextView mBtnTitleWrite;
 
-  private CompositeSubscription mCompositeSubscription;
   private int mCurrentPage;
 
   public static DiscoverFragment newInstance() {
     return new DiscoverFragment();
   }
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_discover, container, false);
-  }
-
-  @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    mCompositeSubscription = new CompositeSubscription();
+  protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
+    View view = inflater.inflate(R.layout.fragment_discover, container, false);
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
     mBtnTitleRecent = (TextView) view.findViewById(R.id.btn_title_recent);
     mBtnTitleWrite = (TextView) view.findViewById(R.id.btn_title_write);
 
-    Subscription title_bar_sub = Observable
-        .from(new View[] {mBtnTitleFollow, mBtnTitleRecent, mBtnTitleWrite}).cache()
+    Observable.from(new View[] {mBtnTitleFollow, mBtnTitleRecent, mBtnTitleWrite}).cache()
         .subscribe(new Action1<View>() {
           @Override
           public void call(final View view) {
-            Observable<Void> title_bar_tab_click_observer = RxView.clicks(view).share();
-            mCompositeSubscription.add(title_bar_tab_click_observer
+            Observable<Object> title_bar_tab_click_observer = RxView.clicks(view).share()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleAndroid.bindView(view));
+            title_bar_tab_click_observer
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Void>() {
+                .subscribe(new Action1<Object>() {
                   @Override
-                  public void call(Void aVoid) {
+                  public void call(Object o) {
                     switchTitleBarTab(view);
                   }
-                }));
-            mCompositeSubscription.add(title_bar_tab_click_observer
+                });
+            title_bar_tab_click_observer
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Void>() {
+                .subscribe(new Action1<Object>() {
                   @Override
-                  public void call(Void aVoid) {
+                  public void call(Object o) {
                     if (mViewPager != null) {
                       switch (view.getId()) {
                         case R.id.btn_title_follow:
@@ -90,10 +77,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                       }
                     }
                   }
-                }));
+                });
           }
         });
-    mCompositeSubscription.add(title_bar_sub);
     mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
     FragmentStatePagerAdapter pagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
       @Override
@@ -119,26 +105,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
     mViewPager.setCurrentItem(mCurrentPage = 0);
+    return view;
   }
-
-  @Override
-  public void setMenuVisibility(boolean menuVisible) {
-    super.setMenuVisibility(menuVisible);
-    Timber.d("setMenuVisibility: %b", menuVisible);
-  }
-
-  @Override
-  public void setUserVisibleHint(boolean isVisibleToUser) {
-    super.setUserVisibleHint(isVisibleToUser);
-    Timber.d("setUserVisibleHint: %b", isVisibleToUser);
-  }
-
-  @Override
-  public void onDestroyView() {
-    mCompositeSubscription.unsubscribe();
-    super.onDestroyView();
-  }
-
 
   @Override
   public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
