@@ -1,5 +1,7 @@
 package online.duoyu.sparkle.network;
 
+import android.text.TextUtils;
+
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -15,6 +17,7 @@ import me.littlekey.network.ApiRequest;
 import me.littlekey.network.RequestManager;
 import okio.ByteString;
 import online.duoyu.sparkle.model.proto.RPCResponse;
+import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/19/16.
@@ -35,6 +38,9 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
   protected T parseResponse(NetworkResponse response) throws Exception {
     RPCResponse pbRPCResponse = RPCResponse.ADAPTER.decode(response.data);
     if (pbRPCResponse.success == null || !pbRPCResponse.success) {
+      if (!TextUtils.isEmpty(pbRPCResponse.content.toString())) {
+        Timber.d(pbRPCResponse.content.toString());
+      }
       throw new VolleyError();
     }
     return ProtoAdapter.get(mClass).decode(Wire.get(pbRPCResponse.content, ByteString.EMPTY));

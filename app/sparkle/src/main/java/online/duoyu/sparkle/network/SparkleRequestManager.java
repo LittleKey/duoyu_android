@@ -75,6 +75,13 @@ public class SparkleRequestManager extends RequestManager {
   }
 
   public <T extends Message> SparkleRequest<T>
+  newSparkleRequest(ApiType apiType, ByteString body, Class<T> clazz,
+                    Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    return newSparkleRequest(getUrl(apiType), Request.Method.POST,
+        body, clazz, listener, errorListener);
+  }
+
+  public <T extends Message> SparkleRequest<T>
   newSparkleRequest(String url, int method, ByteString result, Class<T> clazz,
                     Response.Listener<T> listener, Response.ErrorListener errorListener) {
     return newSparkleRequest(url, method, buildBody(result), clazz, listener, errorListener);
@@ -89,7 +96,7 @@ public class SparkleRequestManager extends RequestManager {
       @Override
       public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Const.KEY_COOKIE, convertCookies(buildCookie()));
+//        headers.put(Const.KEY_COOKIE, convertCookies(buildCookie()));
         headers.put(Const.USER_AGENT, Const.USER_AGENT_VALUE);
         if (SparkleApplication.getInstance().getAccountManager().isSignIn()) {
           headers.put(Const.KEY_AUTHORIZATION,

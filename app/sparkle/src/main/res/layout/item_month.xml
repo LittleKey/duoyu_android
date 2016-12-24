@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/month"
+        style="@style/TextStyle.Large.White"
+        android:layout_gravity="center"
+        android:shadowColor="@color/month_in_content_shadow"
+        android:shadowDy="1"
+        android:shadowDx="0"
+        android:shadowRadius="10"
+        android:includeFontPadding="false"
+        android:textSize="40sp"/>
+
+</FrameLayout>

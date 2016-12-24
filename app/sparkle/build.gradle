@@ -37,4 +37,5 @@ dependencies {
     compile "com.trello:rxlifecycle:$rootProject.rxlifecycleVersion"
     compile "com.trello:rxlifecycle-android:$rootProject.rxlifecycleVersion"
     compile "com.trello:rxlifecycle-components:$rootProject.rxlifecycleVersion"
+    compile "joda-time:joda-time:$rootProject.jodaTimeVersion"
 }

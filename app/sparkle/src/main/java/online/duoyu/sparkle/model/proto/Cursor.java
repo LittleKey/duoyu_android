@@ -12,6 +12,7 @@ import com.squareup.wire.internal.Internal;
 import java.io.IOException;
 import java.lang.Boolean;
 import java.lang.Integer;
+import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -23,7 +24,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
   private static final long serialVersionUID = 0L;
 
-  public static final Integer DEFAULT_TIMESTAMP = 0;
+  public static final Long DEFAULT_TIMESTAMP = 0L;
 
   public static final Integer DEFAULT_OFFSET = 0;
 
@@ -35,9 +36,9 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
   @WireField(
       tag = 1,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+      adapter = "com.squareup.wire.ProtoAdapter#INT64"
   )
-  public final Integer timestamp;
+  public final Long timestamp;
 
   @WireField(
       tag = 2,
@@ -63,11 +64,11 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
   )
   public final Boolean has_more;
 
-  public Cursor(Integer timestamp, Integer offset, Integer page, Integer limit, Boolean has_more) {
+  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Boolean has_more) {
     this(timestamp, offset, page, limit, has_more, ByteString.EMPTY);
   }
 
-  public Cursor(Integer timestamp, Integer offset, Integer page, Integer limit, Boolean has_more, ByteString unknownFields) {
+  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Boolean has_more, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.timestamp = timestamp;
     this.offset = offset;
@@ -128,7 +129,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
   }
 
   public static final class Builder extends Message.Builder<Cursor, Builder> {
-    public Integer timestamp;
+    public Long timestamp;
 
     public Integer offset;
 
@@ -141,7 +142,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     public Builder() {
     }
 
-    public Builder timestamp(Integer timestamp) {
+    public Builder timestamp(Long timestamp) {
       this.timestamp = timestamp;
       return this;
     }
@@ -179,7 +180,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
     @Override
     public int encodedSize(Cursor value) {
-      return (value.timestamp != null ? ProtoAdapter.INT32.encodedSizeWithTag(1, value.timestamp) : 0)
+      return (value.timestamp != null ? ProtoAdapter.INT64.encodedSizeWithTag(1, value.timestamp) : 0)
           + (value.offset != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.offset) : 0)
           + (value.page != null ? ProtoAdapter.INT32.encodedSizeWithTag(3, value.page) : 0)
           + (value.limit != null ? ProtoAdapter.INT32.encodedSizeWithTag(4, value.limit) : 0)
@@ -189,7 +190,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
     @Override
     public void encode(ProtoWriter writer, Cursor value) throws IOException {
-      if (value.timestamp != null) ProtoAdapter.INT32.encodeWithTag(writer, 1, value.timestamp);
+      if (value.timestamp != null) ProtoAdapter.INT64.encodeWithTag(writer, 1, value.timestamp);
       if (value.offset != null) ProtoAdapter.INT32.encodeWithTag(writer, 2, value.offset);
       if (value.page != null) ProtoAdapter.INT32.encodeWithTag(writer, 3, value.page);
       if (value.limit != null) ProtoAdapter.INT32.encodeWithTag(writer, 4, value.limit);
@@ -203,7 +204,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
       long token = reader.beginMessage();
       for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
-          case 1: builder.timestamp(ProtoAdapter.INT32.decode(reader)); break;
+          case 1: builder.timestamp(ProtoAdapter.INT64.decode(reader)); break;
           case 2: builder.offset(ProtoAdapter.INT32.decode(reader)); break;
           case 3: builder.page(ProtoAdapter.INT32.decode(reader)); break;
           case 4: builder.limit(ProtoAdapter.INT32.decode(reader)); break;

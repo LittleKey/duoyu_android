@@ -3,10 +3,13 @@ package online.duoyu.sparkle.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
@@ -76,6 +79,18 @@ public class LoginFragment extends BaseFragment {
         .flatMap(new Func1<EditText, Observable<Boolean>>() {
           @Override
           public Observable<Boolean> call(final EditText editText) {
+            if (editText.getId() == R.id.edit_password) {
+              editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                  if ((actionId & EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_DONE) {
+                    login(mEmail.toString(), mPassword.toString());
+                    return true;
+                  }
+                  return false;
+                }
+              });
+            }
             return RxTextView.textChanges(editText)
                 .compose(LoginFragment.this.<CharSequence>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())

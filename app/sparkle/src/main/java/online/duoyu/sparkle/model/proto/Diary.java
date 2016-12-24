@@ -41,6 +41,8 @@ public final class Diary extends Message<Diary, Diary.Builder> {
 
   public static final Integer DEFAULT_CORRECTS = 0;
 
+  public static final Long DEFAULT_DIARY_DATE = 0L;
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#STRING"
@@ -101,11 +103,17 @@ public final class Diary extends Message<Diary, Diary.Builder> {
   )
   public final Integer corrects;
 
-  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects) {
-    this(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, ByteString.EMPTY);
+  @WireField(
+      tag = 11,
+      adapter = "com.squareup.wire.ProtoAdapter#INT64"
+  )
+  public final Long diary_date;
+
+  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects, Long diary_date) {
+    this(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, diary_date, ByteString.EMPTY);
   }
 
-  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects, ByteString unknownFields) {
+  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects, Long diary_date, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.diary_id = diary_id;
     this.title = title;
@@ -117,6 +125,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     this.followers = followers;
     this.attentions = attentions;
     this.corrects = corrects;
+    this.diary_date = diary_date;
   }
 
   @Override
@@ -132,6 +141,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     builder.followers = followers;
     builder.attentions = attentions;
     builder.corrects = corrects;
+    builder.diary_date = diary_date;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -151,7 +161,8 @@ public final class Diary extends Message<Diary, Diary.Builder> {
         && Internal.equals(likes, o.likes)
         && Internal.equals(followers, o.followers)
         && Internal.equals(attentions, o.attentions)
-        && Internal.equals(corrects, o.corrects);
+        && Internal.equals(corrects, o.corrects)
+        && Internal.equals(diary_date, o.diary_date);
   }
 
   @Override
@@ -169,6 +180,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       result = result * 37 + (followers != null ? followers.hashCode() : 0);
       result = result * 37 + (attentions != null ? attentions.hashCode() : 0);
       result = result * 37 + (corrects != null ? corrects.hashCode() : 0);
+      result = result * 37 + (diary_date != null ? diary_date.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -187,6 +199,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     if (followers != null) builder.append(", followers=").append(followers);
     if (attentions != null) builder.append(", attentions=").append(attentions);
     if (corrects != null) builder.append(", corrects=").append(corrects);
+    if (diary_date != null) builder.append(", diary_date=").append(diary_date);
     return builder.replace(0, 2, "Diary{").append('}').toString();
   }
 
@@ -210,6 +223,8 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     public Integer attentions;
 
     public Integer corrects;
+
+    public Long diary_date;
 
     public Builder() {
     }
@@ -264,9 +279,14 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       return this;
     }
 
+    public Builder diary_date(Long diary_date) {
+      this.diary_date = diary_date;
+      return this;
+    }
+
     @Override
     public Diary build() {
-      return new Diary(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, super.buildUnknownFields());
+      return new Diary(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, diary_date, super.buildUnknownFields());
     }
   }
 
@@ -287,6 +307,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
           + (value.followers != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.followers) : 0)
           + (value.attentions != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.attentions) : 0)
           + (value.corrects != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.corrects) : 0)
+          + (value.diary_date != null ? ProtoAdapter.INT64.encodedSizeWithTag(11, value.diary_date) : 0)
           + value.unknownFields().size();
     }
 
@@ -302,6 +323,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       if (value.followers != null) ProtoAdapter.INT32.encodeWithTag(writer, 8, value.followers);
       if (value.attentions != null) ProtoAdapter.INT32.encodeWithTag(writer, 9, value.attentions);
       if (value.corrects != null) ProtoAdapter.INT32.encodeWithTag(writer, 10, value.corrects);
+      if (value.diary_date != null) ProtoAdapter.INT64.encodeWithTag(writer, 11, value.diary_date);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -328,6 +350,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
           case 8: builder.followers(ProtoAdapter.INT32.decode(reader)); break;
           case 9: builder.attentions(ProtoAdapter.INT32.decode(reader)); break;
           case 10: builder.corrects(ProtoAdapter.INT32.decode(reader)); break;
+          case 11: builder.diary_date(ProtoAdapter.INT64.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

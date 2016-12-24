@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    tools:ignore="RtlHardCoded">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <RelativeLayout
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/day"
+                style="@style/TextStyle.Large.Primary_Blue"
+                android:layout_marginTop="-5dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="top"
+                android:includeFontPadding="false"
+                android:textSize="40sp"
+                android:text="15"/>
+
+            <TextView
+                android:id="@+id/week"
+                style="@style/TextStyle.Small.Primary_Blue"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/day"
+                android:includeFontPadding="false"
+                android:text="Thur"/>
+        </RelativeLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/avatar"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_toRightOf="@id/date"
+            android:layout_marginLeft="10dp"
+            app:placeholderImage="@color/primary_blue"
+            app:placeholderImageScaleType="fitCenter"
+            app:roundAsCircle="true"/>
+
+        <TextView
+            android:id="@+id/nickname"
+            style="@style/TextStyle.Middle.Black"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_marginLeft="2.5dp"
+            android:includeFontPadding="false"
+            android:text="author"/>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextStyle.Middle.Primary_Blue"
+            android:layout_toRightOf="@id/nickname"
+            android:layout_alignBaseline="@id/nickname"
+            android:layout_marginLeft="4dp"
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/content"
+            style="@style/TextStyle.Middle.Gray"
+            android:layout_alignLeft="@id/avatar"
+            android:layout_alignBottom="@id/date"
+            android:maxLines="2"
+            android:includeFontPadding="false"
+            android:text="content"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

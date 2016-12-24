@@ -125,6 +125,7 @@ ext {
     okhttpVersion = "3.4.1"
     imagepipelineOkhttp3Version = "0.14.1"
     wireRuntimeVersion = "2.2.0"
+    jodaTimeVersion = "2.9.7"
 
     rxbindingVersion = "1.0.0"
     rxjavaVersion = "1.1.6"

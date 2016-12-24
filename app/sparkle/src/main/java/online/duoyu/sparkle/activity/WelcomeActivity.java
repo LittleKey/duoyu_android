@@ -10,6 +10,7 @@ import com.android.volley.toolbox.RequestFuture;
 import java.util.HashMap;
 import java.util.Map;
 
+import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentResponse;
@@ -22,6 +23,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Actions;
 import rx.internal.util.ActionSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -35,15 +37,15 @@ public class WelcomeActivity extends BaseActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_welcome);
-    if (!SparkleApplication.getInstance().getAccountManager().isSignIn()) {
+    final String token = PreferenceUtils.getString(Const.LAST_ACTION, Const.LAST_TOKEN, null);
+    if (TextUtils.isEmpty(token)) {
       NavigationManager.navigationTo(WelcomeActivity.this, LoginActivity.class);
       finish();
       return;
     }
-    final String token = PreferenceUtils.getString(Const.LAST_ACTION, Const.LAST_TOKEN, null);
     RequestFuture<CurrentResponse> future = RequestFuture.newFuture();
     SparkleRequest<CurrentResponse> request = SparkleApplication.getInstance().getRequestManager()
-        .newSparkleRequest(ApiType.CURRENT_USER, null, CurrentResponse.class, future, future);
+        .newSparkleRequest(ApiType.CURRENT_USER, new HashMap<String, String>(), CurrentResponse.class, future, future);
     Map<String, String> headers;
     try {
       headers = request.getHeaders();
@@ -62,18 +64,15 @@ public class WelcomeActivity extends BaseActivity {
           public void call(CurrentResponse currentResponse) {
             SparkleApplication.getInstance().getAccountManager().login(currentResponse.user, token);
             NavigationManager.navigationTo(WelcomeActivity.this, HomeActivity.class);
+            WelcomeActivity.this.finish();
           }
         }, new Action1<Throwable>() {
           @Override
           public void call(Throwable throwable) {
             SparkleApplication.getInstance().getAccountManager().logout();
             NavigationManager.navigationTo(WelcomeActivity.this, LoginActivity.class);
-          }
-        }, new Action0() {
-          @Override
-          public void call() {
             WelcomeActivity.this.finish();
           }
-        }));
+        }, Actions.empty()));
   }
 }

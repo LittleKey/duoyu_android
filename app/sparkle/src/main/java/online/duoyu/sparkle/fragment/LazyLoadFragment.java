@@ -27,6 +27,10 @@ public abstract class LazyLoadFragment extends BaseFragment {
     }
   }
 
+  protected boolean isLoaded() {
+    return mLoaded;
+  }
+
   @Override
   public void setMenuVisibility(boolean menuVisible) {
     super.setMenuVisibility(menuVisible);

@@ -20,6 +20,7 @@ public class Const {
   public static final Integer ACTION_MAIN = 0;
   public static final Integer ACTION_SHOW_HIDE = 1;
   public static final Integer ACTION_LIKED = 2;
+  public static final Integer ACTION_UPDATE_MONTH = 3;
   /************************************
    * Key
    ***********************************/
@@ -119,7 +120,7 @@ public class Const {
   // user
   public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
   // diary
-  public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/follow_user_published";
+  public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/following_user_published";
   /********************************
    * Network Related
    ********************************/

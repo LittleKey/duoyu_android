@@ -155,6 +155,19 @@ public class ListFragment extends BaseFragment {
     mList.refresh();
     final RecyclerView.LayoutManager layoutManager;
     switch (apiType) {
+      case FOLLOW_USER_DIARY:
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+          @Override
+          public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.top = FormatUtils.dipsToPix(10);
+            outRect.left = FormatUtils.dipsToPix(4);
+            outRect.right = FormatUtils.dipsToPix(4);
+            if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
+              outRect.bottom = FormatUtils.dipsToPix(10);
+            }
+          }
+        });
       default:
         layoutManager = new LinearLayoutManager(getActivity());
     }

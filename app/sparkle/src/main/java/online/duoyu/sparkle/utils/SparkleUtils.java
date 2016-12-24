@@ -1,5 +1,6 @@
 package online.duoyu.sparkle.utils;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
 
 import java.security.MessageDigest;
@@ -25,6 +26,16 @@ public class SparkleUtils {
 
   public static String formatString(String format, Object... args) {
     return String.format(Locale.US, format, args);
+  }
+
+  public static Drawable setDrawableBounds(Drawable drawable) {
+    if (drawable == null) {
+      return null;
+    }
+    int h = drawable.getIntrinsicHeight();
+    int w = drawable.getIntrinsicWidth();
+    drawable.setBounds(0, 0, w, h);
+    return drawable;
   }
 
    public static PrehashedPassword getPrehashedPassword(String password) {

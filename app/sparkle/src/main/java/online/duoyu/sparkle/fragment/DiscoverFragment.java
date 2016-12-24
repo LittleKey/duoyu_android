@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
-import java.util.ArrayList;
-
+import de.greenrobot.event.EventBus;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.event.UpdateMonthEvent;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.ResourcesUtils;
+import online.duoyu.sparkle.utils.SparkleUtils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -34,16 +36,50 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   private TextView mBtnTitleFollow;
   private TextView mBtnTitleRecent;
   private TextView mBtnTitleWrite;
+  private TextView mMonthView;
 
   private int mCurrentPage;
+  private String mMonth;
 
   public static DiscoverFragment newInstance() {
     return new DiscoverFragment();
   }
 
   @Override
+  public void onResume() {
+    super.onResume();
+    EventBus.getDefault().register(this);
+  }
+
+  public void onEventMainThread(UpdateMonthEvent event) {
+    if (!TextUtils.equals(mMonth, event.month)) {
+      mMonth = event.month;
+      updateMonth();
+    }
+  }
+
+  private void updateMonth() {
+    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(mMonth)) {
+      mMonthView.setText(mMonth);
+    }
+  }
+
+  private void updateTitle(String content) {
+    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(content)) {
+      mMonthView.setText(content);
+    }
+  }
+
+  @Override
+  public void onPause() {
+    EventBus.getDefault().unregister(this);
+    super.onPause();
+  }
+
+  @Override
   protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
     View view = inflater.inflate(R.layout.fragment_discover, container, false);
+    mMonthView = (TextView) view.findViewById(R.id.month);
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
     mBtnTitleRecent = (TextView) view.findViewById(R.id.btn_title_recent);
     mBtnTitleWrite = (TextView) view.findViewById(R.id.btn_title_write);
@@ -139,12 +175,15 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   private void switchTitleBarTab(int position) {
     switch (position) {
       case 0:
+        updateMonth();
         switchTitleBarTab(mBtnTitleFollow);
         break;
       case 1:
+        updateTitle(SparkleUtils.formatString("Diary"));
         switchTitleBarTab(mBtnTitleRecent);
         break;
       case 2:
+        updateTitle(SparkleUtils.formatString("Diary"));
         switchTitleBarTab(mBtnTitleWrite);
         break;
     }
