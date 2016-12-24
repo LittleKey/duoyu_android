@@ -11,7 +11,7 @@ import com.squareup.wire.WireEnum;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
 import java.io.IOException;
-import java.lang.Integer;
+import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -25,7 +25,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
 
   public static final String DEFAULT_ARTICLE_ID = "";
 
-  public static final Integer DEFAULT_DATE = 0;
+  public static final Long DEFAULT_DATE = 0L;
 
   public static final String DEFAULT_TITLE = "";
 
@@ -39,9 +39,9 @@ public final class Happening extends Message<Happening, Happening.Builder> {
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+      adapter = "com.squareup.wire.ProtoAdapter#INT64"
   )
-  public final Integer date;
+  public final Long date;
 
   @WireField(
       tag = 3,
@@ -55,11 +55,11 @@ public final class Happening extends Message<Happening, Happening.Builder> {
   )
   public final Event event;
 
-  public Happening(String article_id, Integer date, String title, Event event) {
+  public Happening(String article_id, Long date, String title, Event event) {
     this(article_id, date, title, event, ByteString.EMPTY);
   }
 
-  public Happening(String article_id, Integer date, String title, Event event, ByteString unknownFields) {
+  public Happening(String article_id, Long date, String title, Event event, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.article_id = article_id;
     this.date = date;
@@ -117,7 +117,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
   public static final class Builder extends Message.Builder<Happening, Builder> {
     public String article_id;
 
-    public Integer date;
+    public Long date;
 
     public String title;
 
@@ -131,7 +131,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
       return this;
     }
 
-    public Builder date(Integer date) {
+    public Builder date(Long date) {
       this.date = date;
       return this;
     }
@@ -199,7 +199,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
     @Override
     public int encodedSize(Happening value) {
       return (value.article_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(1, value.article_id) : 0)
-          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0)
+          + (value.date != null ? ProtoAdapter.INT64.encodedSizeWithTag(2, value.date) : 0)
           + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.title) : 0)
           + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(4, value.event) : 0)
           + value.unknownFields().size();
@@ -208,7 +208,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
     @Override
     public void encode(ProtoWriter writer, Happening value) throws IOException {
       if (value.article_id != null) ProtoAdapter.STRING.encodeWithTag(writer, 1, value.article_id);
-      if (value.date != null) ProtoAdapter.INT32.encodeWithTag(writer, 2, value.date);
+      if (value.date != null) ProtoAdapter.INT64.encodeWithTag(writer, 2, value.date);
       if (value.title != null) ProtoAdapter.STRING.encodeWithTag(writer, 3, value.title);
       if (value.event != null) Event.ADAPTER.encodeWithTag(writer, 4, value.event);
       writer.writeBytes(value.unknownFields());
@@ -221,7 +221,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
       for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
           case 1: builder.article_id(ProtoAdapter.STRING.decode(reader)); break;
-          case 2: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 2: builder.date(ProtoAdapter.INT64.decode(reader)); break;
           case 3: builder.title(ProtoAdapter.STRING.decode(reader)); break;
           case 4: {
             try {

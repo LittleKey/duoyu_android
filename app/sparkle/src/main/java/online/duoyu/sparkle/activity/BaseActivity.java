@@ -5,21 +5,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import java.lang.ref.WeakReference;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.utils.ToastUtils;
 
 /**
  * Created by littlekey on 12/19/16.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends RxAppCompatActivity {
 
   private ExitHandler mExitHandler;
 
@@ -50,6 +52,7 @@ public class BaseActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
+    SparkleApplication.getInstance().getRequestManager().cancel(this);
     super.onDestroy();
     //    HuPuMountInterface.onDestroy(this);
   }

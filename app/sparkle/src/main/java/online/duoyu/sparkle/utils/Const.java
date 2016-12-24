@@ -8,8 +8,8 @@ public class Const {
   public static final String LAST_ACTION = "last_action";
   public static final String LAST_COOKIE = "last_cookie";
   public static final String LAST_SESSION_ID = "last_session_id";
-  public static final String LAST_USER_ID = "last_user_id";
-  public static final String LAST_PASS_HASH = "last_pass_hash";
+  public static final String LAST_USER = "last_user_id";
+  public static final String LAST_TOKEN = "last_pass_hash";
   public static final String EMPTY_STRING = "";
   public static final String USER_AGENT = "User-Agent";
   public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36";
@@ -35,6 +35,7 @@ public class Const {
   public static final String KEY_VERIFICATION_CODE = "verification_code";
   public static final String KEY_USER_NAME = "UserName";
   public static final String KEY_PASSWORD = "PassWord";
+  public static final String KEY_EMAIL = "email";
   public static final String KEY_PASSWORD_CHECK = "PassWord_Check";
   public static final String KEY_QUERY = "query";
   public static final String KEY_IDENTITY = "identity";
@@ -88,6 +89,7 @@ public class Const {
   public static final String KEY__ = "_";
   public static final String KEY_HAS_MORE = "has_more";
   public static final String KEY_ADV_SEARCH = "advsearch";
+  public static final String KEY_AUTHORIZATION = "Authorization";
   /***********************************
    * EXTRA
    **********************************/
@@ -111,10 +113,13 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-  private static final String API_EX_HOST_URL = "http://exhentai.org";
-  // earth
-  public static final String API_ROOT = API_EX_HOST_URL + "/";
-  public static final String API_HOME_LIST = API_EX_HOST_URL + "/";
+  private static final String API_HOST_URL = "http://192.168.1.6";
+  // account
+  public static final String API_LOGIN = API_HOST_URL + "/account/login";
+  // user
+  public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
+  // diary
+  public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/follow_user_published";
   /********************************
    * Network Related
    ********************************/

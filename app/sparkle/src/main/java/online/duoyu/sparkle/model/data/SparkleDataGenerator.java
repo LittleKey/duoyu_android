@@ -11,7 +11,7 @@ import java.util.Map;
 import me.littlekey.mvp.DataGenerator;
 import me.littlekey.network.ApiRequest;
 import me.littlekey.network.NameValuePair;
-import online.duoyu.sparkle.model.proto.Model;
+import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.network.ApiType;
 
 /**

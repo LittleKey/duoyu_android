@@ -12,7 +12,7 @@ import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
 import java.io.IOException;
 import java.lang.Boolean;
-import java.lang.Integer;
+import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -24,7 +24,7 @@ public final class Notification extends Message<Notification, Notification.Build
 
   private static final long serialVersionUID = 0L;
 
-  public static final Integer DEFAULT_DATE = 0;
+  public static final Long DEFAULT_DATE = 0L;
 
   public static final String DEFAULT_WHICH = "";
 
@@ -44,9 +44,9 @@ public final class Notification extends Message<Notification, Notification.Build
 
   @WireField(
       tag = 2,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+      adapter = "com.squareup.wire.ProtoAdapter#INT64"
   )
-  public final Integer date;
+  public final Long date;
 
   @WireField(
       tag = 3,
@@ -78,11 +78,11 @@ public final class Notification extends Message<Notification, Notification.Build
   )
   public final String title;
 
-  public Notification(User user, Integer date, String which, Type which_type, Event event, Boolean unread, String title) {
+  public Notification(User user, Long date, String which, Type which_type, Event event, Boolean unread, String title) {
     this(user, date, which, which_type, event, unread, title, ByteString.EMPTY);
   }
 
-  public Notification(User user, Integer date, String which, Type which_type, Event event, Boolean unread, String title, ByteString unknownFields) {
+  public Notification(User user, Long date, String which, Type which_type, Event event, Boolean unread, String title, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.user = user;
     this.date = date;
@@ -155,7 +155,7 @@ public final class Notification extends Message<Notification, Notification.Build
   public static final class Builder extends Message.Builder<Notification, Builder> {
     public User user;
 
-    public Integer date;
+    public Long date;
 
     public String which;
 
@@ -175,7 +175,7 @@ public final class Notification extends Message<Notification, Notification.Build
       return this;
     }
 
-    public Builder date(Integer date) {
+    public Builder date(Long date) {
       this.date = date;
       return this;
     }
@@ -291,7 +291,7 @@ public final class Notification extends Message<Notification, Notification.Build
     @Override
     public int encodedSize(Notification value) {
       return (value.user != null ? User.ADAPTER.encodedSizeWithTag(1, value.user) : 0)
-          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.date) : 0)
+          + (value.date != null ? ProtoAdapter.INT64.encodedSizeWithTag(2, value.date) : 0)
           + (value.which != null ? ProtoAdapter.STRING.encodedSizeWithTag(3, value.which) : 0)
           + (value.which_type != null ? Type.ADAPTER.encodedSizeWithTag(4, value.which_type) : 0)
           + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(5, value.event) : 0)
@@ -303,7 +303,7 @@ public final class Notification extends Message<Notification, Notification.Build
     @Override
     public void encode(ProtoWriter writer, Notification value) throws IOException {
       if (value.user != null) User.ADAPTER.encodeWithTag(writer, 1, value.user);
-      if (value.date != null) ProtoAdapter.INT32.encodeWithTag(writer, 2, value.date);
+      if (value.date != null) ProtoAdapter.INT64.encodeWithTag(writer, 2, value.date);
       if (value.which != null) ProtoAdapter.STRING.encodeWithTag(writer, 3, value.which);
       if (value.which_type != null) Type.ADAPTER.encodeWithTag(writer, 4, value.which_type);
       if (value.event != null) Event.ADAPTER.encodeWithTag(writer, 5, value.event);
@@ -319,7 +319,7 @@ public final class Notification extends Message<Notification, Notification.Build
       for (int tag; (tag = reader.nextTag()) != -1;) {
         switch (tag) {
           case 1: builder.user(User.ADAPTER.decode(reader)); break;
-          case 2: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 2: builder.date(ProtoAdapter.INT64.decode(reader)); break;
           case 3: builder.which(ProtoAdapter.STRING.decode(reader)); break;
           case 4: {
             try {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="State">
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="State.Login">
+        <item name="android:text">@string/btn_login</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
+    </style>
+    <style name="State.Login.Done">
+        <item name="android:alpha">1</item>
+    </style>
+    <style name="State.Login.Canceled">
+        <item name="android:alpha">0.5</item>
+    </style>
+</resources>

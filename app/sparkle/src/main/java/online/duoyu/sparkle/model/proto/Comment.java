@@ -11,6 +11,7 @@ import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
 import java.io.IOException;
 import java.lang.Integer;
+import java.lang.Long;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -32,7 +33,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
 
   public static final String DEFAULT_QUOTE = "";
 
-  public static final Integer DEFAULT_DATE = 0;
+  public static final Long DEFAULT_DATE = 0L;
 
   public static final Integer DEFAULT_FLOOR = 0;
 
@@ -82,9 +83,9 @@ public final class Comment extends Message<Comment, Comment.Builder> {
 
   @WireField(
       tag = 8,
-      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+      adapter = "com.squareup.wire.ProtoAdapter#INT64"
   )
-  public final Integer date;
+  public final Long date;
 
   @WireField(
       tag = 9,
@@ -98,11 +99,11 @@ public final class Comment extends Message<Comment, Comment.Builder> {
   )
   public final Integer likes;
 
-  public Comment(String comment_id, String entire_id, String quote_id, User author, String content, User quote_author, String quote, Integer date, Integer floor, Integer likes) {
+  public Comment(String comment_id, String entire_id, String quote_id, User author, String content, User quote_author, String quote, Long date, Integer floor, Integer likes) {
     this(comment_id, entire_id, quote_id, author, content, quote_author, quote, date, floor, likes, ByteString.EMPTY);
   }
 
-  public Comment(String comment_id, String entire_id, String quote_id, User author, String content, User quote_author, String quote, Integer date, Integer floor, Integer likes, ByteString unknownFields) {
+  public Comment(String comment_id, String entire_id, String quote_id, User author, String content, User quote_author, String quote, Long date, Integer floor, Integer likes, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.comment_id = comment_id;
     this.entire_id = entire_id;
@@ -202,7 +203,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
 
     public String quote;
 
-    public Integer date;
+    public Long date;
 
     public Integer floor;
 
@@ -246,7 +247,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
       return this;
     }
 
-    public Builder date(Integer date) {
+    public Builder date(Long date) {
       this.date = date;
       return this;
     }
@@ -281,7 +282,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
           + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0)
           + (value.quote_author != null ? User.ADAPTER.encodedSizeWithTag(6, value.quote_author) : 0)
           + (value.quote != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.quote) : 0)
-          + (value.date != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.date) : 0)
+          + (value.date != null ? ProtoAdapter.INT64.encodedSizeWithTag(8, value.date) : 0)
           + (value.floor != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.floor) : 0)
           + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.likes) : 0)
           + value.unknownFields().size();
@@ -296,7 +297,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
       if (value.content != null) ProtoAdapter.STRING.encodeWithTag(writer, 5, value.content);
       if (value.quote_author != null) User.ADAPTER.encodeWithTag(writer, 6, value.quote_author);
       if (value.quote != null) ProtoAdapter.STRING.encodeWithTag(writer, 7, value.quote);
-      if (value.date != null) ProtoAdapter.INT32.encodeWithTag(writer, 8, value.date);
+      if (value.date != null) ProtoAdapter.INT64.encodeWithTag(writer, 8, value.date);
       if (value.floor != null) ProtoAdapter.INT32.encodeWithTag(writer, 9, value.floor);
       if (value.likes != null) ProtoAdapter.INT32.encodeWithTag(writer, 10, value.likes);
       writer.writeBytes(value.unknownFields());
@@ -315,7 +316,7 @@ public final class Comment extends Message<Comment, Comment.Builder> {
           case 5: builder.content(ProtoAdapter.STRING.decode(reader)); break;
           case 6: builder.quote_author(User.ADAPTER.decode(reader)); break;
           case 7: builder.quote(ProtoAdapter.STRING.decode(reader)); break;
-          case 8: builder.date(ProtoAdapter.INT32.decode(reader)); break;
+          case 8: builder.date(ProtoAdapter.INT64.decode(reader)); break;
           case 9: builder.floor(ProtoAdapter.INT32.decode(reader)); break;
           case 10: builder.likes(ProtoAdapter.INT32.decode(reader)); break;
           default: {

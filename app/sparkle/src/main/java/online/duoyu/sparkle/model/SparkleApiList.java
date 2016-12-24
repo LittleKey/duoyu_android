@@ -6,7 +6,6 @@ import me.littlekey.mvp.PageList;
 import me.littlekey.network.ApiRequest;
 import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.model.data.SparkleDataGenerator;
-import online.duoyu.sparkle.model.proto.Model;
 
 /**
  * Created by littlekey on 12/20/16.

@@ -28,6 +28,8 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
 
   public static final Errno DEFAULT_ERRNO = Errno.UNKNOWN;
 
+  public static final String DEFAULT_TOKEN = "";
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#BOOL"
@@ -46,15 +48,22 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
   )
   public final User user;
 
-  public LoginResponse(Boolean success, Errno errno, User user) {
-    this(success, errno, user, ByteString.EMPTY);
+  @WireField(
+      tag = 4,
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
+  public final String token;
+
+  public LoginResponse(Boolean success, Errno errno, User user, String token) {
+    this(success, errno, user, token, ByteString.EMPTY);
   }
 
-  public LoginResponse(Boolean success, Errno errno, User user, ByteString unknownFields) {
+  public LoginResponse(Boolean success, Errno errno, User user, String token, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.success = success;
     this.errno = errno;
     this.user = user;
+    this.token = token;
   }
 
   @Override
@@ -63,6 +72,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
     builder.success = success;
     builder.errno = errno;
     builder.user = user;
+    builder.token = token;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -75,7 +85,8 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
     return unknownFields().equals(o.unknownFields())
         && Internal.equals(success, o.success)
         && Internal.equals(errno, o.errno)
-        && Internal.equals(user, o.user);
+        && Internal.equals(user, o.user)
+        && Internal.equals(token, o.token);
   }
 
   @Override
@@ -86,6 +97,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
       result = result * 37 + (success != null ? success.hashCode() : 0);
       result = result * 37 + (errno != null ? errno.hashCode() : 0);
       result = result * 37 + (user != null ? user.hashCode() : 0);
+      result = result * 37 + (token != null ? token.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -97,6 +109,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
     if (success != null) builder.append(", success=").append(success);
     if (errno != null) builder.append(", errno=").append(errno);
     if (user != null) builder.append(", user=").append(user);
+    if (token != null) builder.append(", token=").append(token);
     return builder.replace(0, 2, "LoginResponse{").append('}').toString();
   }
 
@@ -106,6 +119,8 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
     public Errno errno;
 
     public User user;
+
+    public String token;
 
     public Builder() {
     }
@@ -125,9 +140,14 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
       return this;
     }
 
+    public Builder token(String token) {
+      this.token = token;
+      return this;
+    }
+
     @Override
     public LoginResponse build() {
-      return new LoginResponse(success, errno, user, super.buildUnknownFields());
+      return new LoginResponse(success, errno, user, token, super.buildUnknownFields());
     }
   }
 
@@ -171,6 +191,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
       return (value.success != null ? ProtoAdapter.BOOL.encodedSizeWithTag(1, value.success) : 0)
           + (value.errno != null ? Errno.ADAPTER.encodedSizeWithTag(2, value.errno) : 0)
           + (value.user != null ? User.ADAPTER.encodedSizeWithTag(3, value.user) : 0)
+          + (value.token != null ? ProtoAdapter.STRING.encodedSizeWithTag(4, value.token) : 0)
           + value.unknownFields().size();
     }
 
@@ -179,6 +200,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
       if (value.success != null) ProtoAdapter.BOOL.encodeWithTag(writer, 1, value.success);
       if (value.errno != null) Errno.ADAPTER.encodeWithTag(writer, 2, value.errno);
       if (value.user != null) User.ADAPTER.encodeWithTag(writer, 3, value.user);
+      if (value.token != null) ProtoAdapter.STRING.encodeWithTag(writer, 4, value.token);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -198,6 +220,7 @@ public final class LoginResponse extends Message<LoginResponse, LoginResponse.Bu
             break;
           }
           case 3: builder.user(User.ADAPTER.decode(reader)); break;
+          case 4: builder.token(ProtoAdapter.STRING.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

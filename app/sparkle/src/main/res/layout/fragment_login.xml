@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="RtlHardCoded">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="21dp"
+        android:paddingBottom="21dp">
+
+        <TextView
+            android:id="@+id/register"
+            style="@style/TextStyle.Normal"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp"
+            android:textColor="@color/primary_blue"
+            android:text="Register"/>
+
+        <TextView
+            android:id="@+id/login_text"
+            style="@style/TextStyle.Large.Black"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="100dp"
+            android:text="Login"/>
+
+        <TextView
+            style="@style/TextStyle.Normal.Gray"
+            android:layout_toRightOf="@id/login_text"
+            android:layout_alignBaseline="@id/login_text"
+            android:layout_marginLeft="5dp"
+            android:text="DuoYu Diary."/>
+
+        <TextView
+            android:id="@+id/email_text"
+            style="@style/TextStyle.Normal.Gray"
+            android:layout_below="@id/login_text"
+            android:layout_alignLeft="@id/login_text"
+            android:layout_marginTop="15dp"
+            android:textColor="#666"
+            android:text="Email"/>
+
+        <EditText
+            android:id="@+id/edit_email"
+            style="@style/EditStyle"
+            android:layout_below="@id/email_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_password"
+            android:textSelectHandle="@color/primary_blue"
+            android:hint="Input your email"/>
+
+        <TextView
+            android:id="@+id/password_text"
+            style="@style/TextStyle.Normal.Gray"
+            android:layout_below="@id/edit_email"
+            android:layout_alignLeft="@id/login_text"
+            android:layout_marginTop="46dp"
+            android:textColor="#666"
+            android:text="Password"/>
+
+        <EditText
+            android:id="@+id/edit_password"
+            style="@style/EditStyle"
+            android:layout_below="@id/password_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:fontFamily="sans-serif"
+            android:textSelectHandle="@color/primary_blue"
+            android:hint="Input your password"/>
+
+        <TextView
+            android:id="@+id/forgot_password"
+            style="@style/TextStyle.Middle.Gray"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/edit_password"
+            android:text="Forgot password?"/>
+
+        <online.duoyu.sparkle.widget.StatefulButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/btn_login"
+            style="@style/State.Login"
+            android:layout_below="@id/edit_password"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="38dp"
+            android:layout_marginRight="17dp"
+            android:layout_width="97dp"
+            android:layout_height="35dp"
+            app:stateCanceled="@style/State.Login.Canceled"
+            app:stateDone="@style/State.Login.Done"/>
+    </RelativeLayout>
+</ScrollView>

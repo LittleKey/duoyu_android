@@ -1,10 +1,18 @@
 package online.duoyu.sparkle.fragment;
 
-import android.support.v4.app.Fragment;
+import com.trello.rxlifecycle.components.support.RxFragment;
+
+import online.duoyu.sparkle.SparkleApplication;
 
 /**
  * Created by littlekey on 12/19/16.
  */
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends RxFragment {
+
+  @Override
+  public void onDestroyView() {
+    SparkleApplication.getInstance().getRequestManager().cancel(this);
+    super.onDestroyView();
+  }
 }

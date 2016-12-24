@@ -1,6 +1,5 @@
 package online.duoyu.sparkle.model;
 
-import online.duoyu.sparkle.model.proto.Model;
 import online.duoyu.sparkle.model.proto.User;
 
 /**

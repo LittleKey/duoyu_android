@@ -75,11 +75,11 @@ public abstract class SingleFragmentActivity extends BaseActivity {
   }
 
   protected boolean hasToolbar() {
-    return true;
+    return false;
   }
 
   protected boolean hasBackBtn() {
-    return true;
+    return hasToolbar();
   }
 
   protected String activityTitle() {

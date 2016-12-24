@@ -6,4 +6,8 @@
     <dimen name="textSizeNormal">16sp</dimen>
     <dimen name="textSizeLarge">18sp</dimen>
     <dimen name="icon_font_size">20sp</dimen>
+
+    <dimen name="edit_height">45dp</dimen>
+
+    <dimen name="little_space">3dp</dimen>
 </resources>

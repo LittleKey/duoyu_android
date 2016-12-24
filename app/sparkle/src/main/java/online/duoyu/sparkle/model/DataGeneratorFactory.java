@@ -3,6 +3,7 @@ package online.duoyu.sparkle.model;
 import java.util.List;
 
 import me.littlekey.network.NameValuePair;
+import online.duoyu.sparkle.model.data.FollowUserDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.SparkleDataGenerator;
 import online.duoyu.sparkle.network.ApiType;
 
@@ -16,6 +17,8 @@ public class DataGeneratorFactory {
   public static SparkleDataGenerator<?>
   createDataGenerator(ApiType apiType, List<String> paths, NameValuePair... pairs) {
     switch (apiType) {
+      case FOLLOW_USER_DIARY:
+        return new FollowUserDiaryDataGenerator(apiType);
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }

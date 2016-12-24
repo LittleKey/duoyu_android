@@ -1,6 +1,7 @@
 package online.duoyu.sparkle.fragment;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,7 +13,11 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
+import java.util.ArrayList;
+
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.network.ApiType;
+import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.ResourcesUtils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -86,7 +91,9 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
       public Fragment getItem(int position) {
         switch (position) {
           case 0:
-            return FollowUserDiaryFragment.newInstance("12 Dec.");
+            Bundle bundle = new Bundle();
+            bundle.putInt(Const.KEY_API_TYPE, ApiType.FOLLOW_USER_DIARY.ordinal());
+            return ListFragment.newInstance(bundle);
           case 1:
             return FollowUserDiaryFragment.newInstance("10 Oct.");
           case 2:

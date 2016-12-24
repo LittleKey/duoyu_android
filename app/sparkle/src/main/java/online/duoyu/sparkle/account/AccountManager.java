@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import de.greenrobot.event.EventBus;
 import online.duoyu.sparkle.event.AccountChangeEvent;
+import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.model.ModelFactory;
+import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.PreferenceUtils;
 
@@ -14,22 +17,23 @@ import online.duoyu.sparkle.utils.PreferenceUtils;
 public class AccountManager {
 
   private boolean isSignIn;
-  private String mUserId;
-  private String mPassHash;
+  private Model mUser;
+  private String mToken;
 
-  public void login(String userId, String passHash) {
+  public void login(User user, String token) {
     setIsSignIn(true);
-    setUser(userId, passHash);
+    mUser = ModelFactory.createModelFromUser(user, Model.Template.DATA);
+    mToken = token;
+    PreferenceUtils.setString(Const.LAST_ACTION, Const.LAST_TOKEN, mToken);
     EventBus.getDefault().post(new AccountChangeEvent(true));
   }
 
   public void logout() {
     setIsSignIn(false);
-    mUserId = null;
-    mPassHash = null;
+    mUser = null;
+    mToken = null;
     EventBus.getDefault().post(new AccountChangeEvent(false));
-    PreferenceUtils.removeString(Const.LAST_ACTION, Const.LAST_USER_ID);
-    PreferenceUtils.removeString(Const.LAST_ACTION, Const.LAST_PASS_HASH);
+    PreferenceUtils.removeString(Const.LAST_ACTION, Const.LAST_TOKEN);
   }
 
   public boolean isSignIn() {
@@ -40,37 +44,11 @@ public class AccountManager {
     this.isSignIn = isSignIn;
   }
 
-  public String getUserId() {
-    return mUserId;
-  }
-
-  public String getPassHash() {
-    return mPassHash;
-  }
-
-  private boolean setUser(String userId, String passHash) {
-    return setUserId(userId) | setPassHash(passHash);
-  }
-
-  private boolean setUserId(String userId) {
-    if (!TextUtils.isEmpty(userId) && !userId.equals(mUserId)) {
-      mUserId = userId;
-      PreferenceUtils.setString(Const.LAST_ACTION, Const.LAST_USER_ID, userId);
-      return true;
-    }
-    return false;
-  }
-
-  private boolean setPassHash(String passHash) {
-    if (!TextUtils.isEmpty(passHash) && !passHash.equals(mPassHash)) {
-      mPassHash = passHash;
-      PreferenceUtils.setString(Const.LAST_ACTION, Const.LAST_PASS_HASH, passHash);
-      return true;
-    }
-    return false;
+  public String getToken() {
+    return mToken;
   }
 
   public boolean isSelf(String id) {
-    return isSignIn() && mUserId != null && TextUtils.equals(mUserId, id);
+    return isSignIn() && mUser != null && TextUtils.equals(mUser.identity, id);
   }
 }
