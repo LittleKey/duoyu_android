@@ -31,6 +31,12 @@ public class SparklePresenterFactory {
         .add(0, new ActionPresenter());
   }
 
+  public static ViewGroupPresenter createDiaryWithMonthItemPresenter(ViewGroup parent, int layout) {
+    return createDiaryItemPresenter(parent, layout).remove(0)
+        .add(R.id.month, new TextPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createMonthItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
         .add(R.id.month, new TextPresenter())

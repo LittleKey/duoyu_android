@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:text="Follow"/>
+                android:text="@string/title_tab_follow"/>
 
             <TextView
                 android:id="@+id/btn_title_recent"
@@ -39,7 +39,7 @@
                 android:gravity="center"
                 android:textColor="@color/primary_blue"
                 android:textSize="14sp"
-                android:text="Last"/>
+                android:text="@string/title_tab_recent"/>
 
             <TextView
                 android:id="@+id/btn_title_write"
@@ -49,19 +49,17 @@
                 android:gravity="center"
                 android:textColor="@color/primary_blue"
                 android:textSize="14sp"
-                android:text="Write"/>
+                android:text="@string/title_tab_write"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/month"
-            android:layout_width="wrap_content"
+            style="@style/TextStyle.Normal.Primary_Blue"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/primary_blue"
-            android:text="Diary"/>
+            android:text="@string/diary"/>
     </LinearLayout>
 
     <!-- title bar end -->

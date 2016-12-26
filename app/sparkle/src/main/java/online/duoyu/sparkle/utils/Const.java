@@ -114,13 +114,15 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-  private static final String API_HOST_URL = "http://192.168.1.6";
+//  private static final String API_HOST_URL = "http://192.168.1.6";
+  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   // user
   public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
   // diary
   public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/following_user_published";
+  public static final String API_DIARY_RECENT = API_HOST_URL + "/diary/recent";
   /********************************
    * Network Related
    ********************************/

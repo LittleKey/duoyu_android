@@ -5,5 +5,5 @@ package online.duoyu.sparkle.network;
  */
 
 public enum ApiType {
-  FOLLOW_USER_DIARY, CURRENT_USER, LOGIN
+  FOLLOW_USER_DIARY, CURRENT_USER, LOGIN, RECENT_DIARY
 }

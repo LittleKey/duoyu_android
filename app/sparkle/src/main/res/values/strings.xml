@@ -3,7 +3,21 @@
     <string name="more_press_exit">press back again</string>
     <string name="space">&#160;</string>
 
-    <!-- Login -->
+    <!-- Login & Register -->
     <string name="btn_login">Login</string>
     <string name="login_error">login_error</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="duoyu_diary">DuoYu Diary.</string>
+    <string name="email">Email</string>
+    <string name="input_your_email">Input your email</string>
+    <string name="password">Password</string>
+    <string name="input_your_password">Input your password</string>
+    <string name="forgot_password">Forgot password?</string>
+
+    <!-- discover -->
+    <string name="title_tab_follow">Follow</string>
+    <string name="title_tab_recent">Recent</string>
+    <string name="title_tab_write">Write</string>
+    <string name="diary">Diary</string>
 </resources>

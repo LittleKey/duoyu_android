@@ -8,6 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.squareup.wire.Message;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
 import online.duoyu.sparkle.model.business.LoginRequest;
+import online.duoyu.sparkle.model.business.RecentRequest;
 import online.duoyu.sparkle.model.proto.Cursor;
 import online.duoyu.sparkle.model.proto.RPCRequest;
 import online.duoyu.sparkle.utils.Const;
@@ -36,12 +39,12 @@ public class SparkleRequestManager extends RequestManager {
   private static final long DEFAULT_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
   private static final long DEFAULT_SOFT_TTL = 5 * 60 * 1000; // 5 minutes
   private final RequestManager.CacheConfig mCacheConfig;
-  private Map<String, String> mAdditionHeaders;
+  private Map<String, String> mAdditionCookies;
 
   public SparkleRequestManager(Context context) {
     super(context);
     mCacheConfig = new RequestManager.CacheConfig(true, DEFAULT_TTL, DEFAULT_SOFT_TTL);
-    mAdditionHeaders = new HashMap<>();
+    mAdditionCookies = new HashMap<>();
     SparkleApplication.getInstance().getImageManager().setHeaderCallback(
         new ImageManager.HeaderCallback() {
 
@@ -63,7 +66,7 @@ public class SparkleRequestManager extends RequestManager {
           PreferenceUtils.setString(Const.LAST_COOKIE, key, value);
           break;
       }
-      mAdditionHeaders.put(key, value);
+      mAdditionCookies.put(key, value);
     }
   }
 
@@ -102,6 +105,7 @@ public class SparkleRequestManager extends RequestManager {
           headers.put(Const.KEY_AUTHORIZATION,
               SparkleApplication.getInstance().getAccountManager().getToken());
         }
+        headers.putAll(super.getHeaders());
         return headers;
       }
 
@@ -121,6 +125,8 @@ public class SparkleRequestManager extends RequestManager {
 
   private String getUrl(ApiType apiType) {
     switch (apiType) {
+      case RECENT_DIARY:
+        return Const.API_DIARY_RECENT;
       case FOLLOW_USER_DIARY:
         return Const.API_DIARY_FOLLOW_USER_PUBLISHED;
       case CURRENT_USER:
@@ -135,6 +141,14 @@ public class SparkleRequestManager extends RequestManager {
   private byte[] buildBody(ApiType apiType, Map<String, String> params) {
     ByteString content = null;
     switch (apiType) {
+      case RECENT_DIARY:
+        RecentRequest recentRequest = new RecentRequest.Builder()
+            .cursor(new Cursor.Builder()
+                .timestamp(DateTime.now().getMillis() / 1000)
+                .limit(20).build())
+            .build();
+        content = ByteString.of(RecentRequest.ADAPTER.encode(recentRequest));
+        break;
       case FOLLOW_USER_DIARY:
         FollowingUserPublishedDiariesRequest followingUserPublishedDiariesRequest =
             new FollowingUserPublishedDiariesRequest.Builder()
@@ -177,7 +191,7 @@ public class SparkleRequestManager extends RequestManager {
   }
 
   public Map<String, String> buildCookie() {
-    Map<String, String> cookies = new HashMap<>(mAdditionHeaders);
+    Map<String, String> cookies = new HashMap<>(mAdditionCookies);
     return cookies;
   }
 }

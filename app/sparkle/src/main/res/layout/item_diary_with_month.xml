@@ -61,6 +61,13 @@
             android:layout_marginLeft="4dp"/>
 
         <TextView
+            android:id="@+id/month"
+            style="@style/TextStyle.Middle.Gray"
+            android:layout_toRightOf="@id/title"
+            android:layout_alignBaseline="@id/nickname"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
             android:id="@+id/content"
             style="@style/TextStyle.Middle.Gray"
             android:layout_alignLeft="@id/avatar"

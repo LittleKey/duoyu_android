@@ -125,13 +125,14 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     FragmentStatePagerAdapter pagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
       @Override
       public Fragment getItem(int position) {
+        Bundle bundle = new Bundle();
         switch (position) {
           case 0:
-            Bundle bundle = new Bundle();
             bundle.putInt(Const.KEY_API_TYPE, ApiType.FOLLOW_USER_DIARY.ordinal());
             return ListFragment.newInstance(bundle);
           case 1:
-            return FollowUserDiaryFragment.newInstance("10 Oct.");
+            bundle.putInt(Const.KEY_API_TYPE, ApiType.RECENT_DIARY.ordinal());
+            return ListFragment.newInstance(bundle);
           case 2:
             return FollowUserDiaryFragment.newInstance("01 Jan");
           default:

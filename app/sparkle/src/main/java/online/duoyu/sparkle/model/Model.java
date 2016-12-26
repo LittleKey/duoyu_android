@@ -700,7 +700,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_DIARY(3),
 
-    ITEM_MONTH(4);
+    ITEM_MONTH(4),
+
+    ITEM_DIARY_WITH_MONTH(5);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -720,6 +722,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 2: return HEADER;
         case 3: return ITEM_DIARY;
         case 4: return ITEM_MONTH;
+        case 5: return ITEM_DIARY_WITH_MONTH;
         default: return null;
       }
     }

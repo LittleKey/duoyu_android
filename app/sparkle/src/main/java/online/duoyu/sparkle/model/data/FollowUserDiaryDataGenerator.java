@@ -25,7 +25,6 @@ import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.CollectionUtils;
 import online.duoyu.sparkle.utils.Const;
-import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
  * Created by littlekey on 12/21/16.
@@ -91,16 +90,17 @@ public class FollowUserDiaryDataGenerator extends SparkleDataGenerator<DiariesRe
               .type(Model.Type.DATE)
               .template(Model.Template.ITEM_MONTH)
               .date(cur_dt.getMillis())
-              .month(SparkleUtils.formatString("%d %s",
-                  cur_dt.getMonthOfYear(), cur_dt.monthOfYear().getAsShortText()))
+              .month(cur_dt.monthOfYear().getAsShortText())
               .actions(actions)
               .build();
           CollectionUtils.add(models, month_model);
         }
       }
+      Map<Integer, Action> new_actions = new HashMap<>(model.actions);
+      new_actions.putAll(actions);
       CollectionUtils.add(models,
           model.newBuilder()
-              .actions(actions)
+              .actions(new_actions)
               .build());
     }
     if (roProcessedItems.size() == 0 && models.size() > 0) {

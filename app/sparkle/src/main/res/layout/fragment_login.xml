@@ -17,7 +17,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="17dp"
             android:textColor="@color/primary_blue"
-            android:text="Register"/>
+            android:text="@string/register"/>
 
         <TextView
             android:id="@+id/login_text"
@@ -25,14 +25,14 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="17dp"
             android:layout_marginTop="100dp"
-            android:text="Login"/>
+            android:text="@string/login"/>
 
         <TextView
             style="@style/TextStyle.Normal.Gray"
             android:layout_toRightOf="@id/login_text"
             android:layout_alignBaseline="@id/login_text"
             android:layout_marginLeft="5dp"
-            android:text="DuoYu Diary."/>
+            android:text="@string/duoyu_diary"/>
 
         <TextView
             android:id="@+id/email_text"
@@ -41,7 +41,7 @@
             android:layout_alignLeft="@id/login_text"
             android:layout_marginTop="15dp"
             android:textColor="#666"
-            android:text="Email"/>
+            android:text="@string/email"/>
 
         <EditText
             android:id="@+id/edit_email"
@@ -54,7 +54,7 @@
             android:imeOptions="actionNext"
             android:nextFocusDown="@+id/edit_password"
             android:textSelectHandle="@color/primary_blue"
-            android:hint="Input your email"/>
+            android:hint="@string/input_your_email"/>
 
         <TextView
             android:id="@+id/password_text"
@@ -63,7 +63,7 @@
             android:layout_alignLeft="@id/login_text"
             android:layout_marginTop="46dp"
             android:textColor="#666"
-            android:text="Password"/>
+            android:text="@string/password"/>
 
         <EditText
             android:id="@+id/edit_password"
@@ -76,14 +76,14 @@
             android:inputType="textPassword"
             android:fontFamily="sans-serif"
             android:textSelectHandle="@color/primary_blue"
-            android:hint="Input your password"/>
+            android:hint="@string/input_your_password"/>
 
         <TextView
             android:id="@+id/forgot_password"
             style="@style/TextStyle.Middle.Gray"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/edit_password"
-            android:text="Forgot password?"/>
+            android:text="@string/forgot_password"/>
 
         <online.duoyu.sparkle.widget.StatefulButton
             xmlns:app="http://schemas.android.com/apk/res-auto"

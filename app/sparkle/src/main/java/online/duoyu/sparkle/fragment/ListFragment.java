@@ -31,7 +31,7 @@ import online.duoyu.sparkle.widget.SparkleSwipeRefreshLayout;
  * Created by littlekey on 12/20/16.
  */
 
-public class ListFragment extends BaseFragment {
+public class ListFragment extends LazyLoadFragment {
 
   private SparkleSwipeRefreshLayout mSwipeRefreshLayout;
   private MvpRecyclerView mRecyclerView;
@@ -44,17 +44,10 @@ public class ListFragment extends BaseFragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
     View rootView = inflater.inflate(getLayout(), container, false);
     mSwipeRefreshLayout = (SparkleSwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
     mRecyclerView = (MvpRecyclerView) rootView.findViewById(R.id.recycler);
-    return rootView;
-  }
-
-  @Override
-  public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
     ApiType apiType;
     int apiTypeNum = getArguments().getInt(Const.KEY_API_TYPE, -1);
     if (apiTypeNum >= 0 && apiTypeNum < ApiType.values().length) {
@@ -72,11 +65,14 @@ public class ListFragment extends BaseFragment {
     }
     resetApi(apiType, getArguments().getStringArrayList(Const.KEY_API_PATH), pairs);
     mSwipeRefreshLayout.setEnabled(getArguments().getBoolean(Const.KEY_ENABLE_SWIPE_REFRESH, true));
+    return rootView;
   }
 
   @Override
   public void onDestroyView() {
-    mList.unregisterDataLoadObservers();
+    if (mList != null) {
+      mList.unregisterDataLoadObservers();
+    }
     super.onDestroyView();
   }
 
@@ -155,6 +151,7 @@ public class ListFragment extends BaseFragment {
     mList.refresh();
     final RecyclerView.LayoutManager layoutManager;
     switch (apiType) {
+      case RECENT_DIARY:
       case FOLLOW_USER_DIARY:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override

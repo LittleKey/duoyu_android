@@ -45,8 +45,7 @@ public class ModelFactory {
     Calendar cal = Calendar.getInstance();
     cal.setTimeInMillis(diary.diary_date * 1000);
     DateTime date_time = new DateTime(cal);
-    String month = SparkleUtils.formatString("%d %s",
-        date_time.getMonthOfYear(), date_time.monthOfYear().getAsShortText());
+    String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     return new Model.Builder()
         .diary(diary)
