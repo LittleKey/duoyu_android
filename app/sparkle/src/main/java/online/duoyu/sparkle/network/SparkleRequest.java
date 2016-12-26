@@ -1,5 +1,7 @@
 package online.duoyu.sparkle.network;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.android.volley.Cache;
@@ -16,6 +18,8 @@ import me.littlekey.network.ApiContext;
 import me.littlekey.network.ApiRequest;
 import me.littlekey.network.RequestManager;
 import okio.ByteString;
+import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.activity.LoginActivity;
 import online.duoyu.sparkle.model.proto.RPCResponse;
 import timber.log.Timber;
 
@@ -40,6 +44,16 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
     if (pbRPCResponse.success == null || !pbRPCResponse.success) {
       if (!TextUtils.isEmpty(pbRPCResponse.content.toString())) {
         Timber.d(pbRPCResponse.content.toString());
+      }
+      switch (pbRPCResponse.reason) {
+        case UNAUTHORIZED:
+          SparkleApplication.getInstance().getAccountManager().logout();
+          Intent intent = new Intent(SparkleApplication.getInstance(), LoginActivity.class);
+          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          PendingIntent pendingIntent = PendingIntent.getActivity(
+              SparkleApplication.getInstance(), 0, intent, 0);
+          pendingIntent.send();
+          break;
       }
       throw new VolleyError();
     }

@@ -6,10 +6,20 @@ import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import online.duoyu.sparkle.activity.AttentionsActivity;
+import online.duoyu.sparkle.activity.CommentsActivity;
+import online.duoyu.sparkle.activity.CorrectsActivity;
+import online.duoyu.sparkle.activity.DiaryActivity;
+import online.duoyu.sparkle.activity.EditCorrectActivity;
+import online.duoyu.sparkle.activity.UserActivity;
+import online.duoyu.sparkle.model.proto.Action;
 import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.model.proto.User;
+import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
@@ -47,6 +57,34 @@ public class ModelFactory {
     DateTime date_time = new DateTime(cal);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
+    Map<Integer, Action> actions = new HashMap<>();
+    actions.put(Const.ACTION_MAIN, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(DiaryActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_LIKED, new Action.Builder()
+        .type(Action.Type.LIKED)
+        .build());
+    actions.put(Const.ACTION_ATTENTIONS, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(AttentionsActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_COMMENTS, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(CommentsActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_CORRECTS, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(CorrectsActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_EDIT_CORRECT, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(EditCorrectActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_USER, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(UserActivity.class.getName())
+        .build());
     return new Model.Builder()
         .diary(diary)
         .user(diary.author)
@@ -61,6 +99,7 @@ public class ModelFactory {
         .title(diary.title)
         .description(diary.content)
         .cover(diary.author.avatar)
+        .actions(actions)
         .build();
   }
 }

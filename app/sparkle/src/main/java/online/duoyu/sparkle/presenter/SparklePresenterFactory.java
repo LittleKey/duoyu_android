@@ -1,5 +1,6 @@
 package online.duoyu.sparkle.presenter;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
@@ -41,5 +42,22 @@ public class SparklePresenterFactory {
     return new ViewGroupPresenter(parent, layout)
         .add(R.id.month, new TextPresenter())
         .add(new ListenActionPresenter());
+  }
+
+  public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
+    return new ViewGroupPresenter(view)
+        .add(R.id.title, new TextPresenter())
+        .add(R.id.month, new TextPresenter())
+        .add(R.id.day, new TextPresenter())
+        .add(R.id.week, new TextPresenter())
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.content, new TextPresenter())
+        .add(R.id.attentions, new ActionPresenter())
+        .add(R.id.like, new ActionPresenter())
+        .add(R.id.comments, new ActionPresenter())
+        .add(R.id.corrects, new ActionPresenter())
+        .add(R.id.edit_correct, new ActionPresenter())
+        .add(R.id.user, new ActionPresenter());
   }
 }

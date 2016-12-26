@@ -37,6 +37,12 @@ public class NavigationManager {
     context.startActivity(intent);
   }
 
+  public static void navigationTo(Context context, Class clazz, int flag) {
+    Intent intent = new Intent(context, clazz);
+    intent.setFlags(flag);
+    context.startActivity(intent);
+  }
+
   public static void navigationTo(Context context, Uri uri) {
     navigationTo(context, uri, null);
   }

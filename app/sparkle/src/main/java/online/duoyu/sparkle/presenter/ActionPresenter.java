@@ -1,17 +1,22 @@
 package online.duoyu.sparkle.presenter;
 
+import android.os.Bundle;
 import android.view.View;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.wire.Wire;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
 import me.littlekey.base.utils.CollectionUtils;
 import me.littlekey.mvp.widget.MvpRecyclerView;
+import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.activity.LoginActivity;
 import online.duoyu.sparkle.event.OnSelectEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.proto.Action;
@@ -19,6 +24,7 @@ import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Flag;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.NavigationManager;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
@@ -33,49 +39,58 @@ public class ActionPresenter extends SparklePresenter {
     if (action == null) {
       return;
     }
-    view().setOnClickListener(new View.OnClickListener() {
-      @Override
-      @SuppressWarnings("unchecked")
-      public void onClick(View v) {
-        switch (action.type) {
-          case JUMP:
-            if (null != action.clazz) {
-              try {
-                Class<?> clazz = Class.forName(action.clazz);
-                NavigationManager.navigationTo(view().getContext(), clazz);
-              } catch (ClassNotFoundException e) {
-                Timber.e(e, "ClassNotFoundException in ActionPresenter");
-              }
+    RxView.clicks(view())
+        .throttleFirst(1, TimeUnit.SECONDS)
+        .subscribe(new Action1<Void>() {
+          @Override
+          public void call(Void aVoid) {
+
+            switch (action.type) {
+              case JUMP_WITH_LOGIN:
+                if (!SparkleApplication.getInstance().getAccountManager().isSignIn()) {
+                  NavigationManager.navigationTo(view().getContext(), LoginActivity.class);
+                  break;
+                }
+              case JUMP:
+                if (null != action.clazz) {
+                  try {
+                    Class<?> clazz = Class.forName(action.clazz);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Const.KEY_MODEL, model);
+                    NavigationManager.navigationTo(view().getContext(), clazz, bundle);
+                  } catch (ClassNotFoundException e) {
+                    Timber.e(e, "ClassNotFoundException in ActionPresenter");
+                  }
+                }
+                break;
+              case LOGOUT:
+                logout();
+                break;
+              case EVENT:
+                if (action.clazz != null) {
+                  try {
+                    Class<?> clazz = Class.forName(action.clazz);
+                    EventBus.getDefault().post(
+                        clazz.getDeclaredConstructor(Model.class).newInstance(model));
+                  } catch (ClassNotFoundException e) {
+                    Timber.e(e, "ClassNotFoundException in ActionPresenter");
+                  } catch (IllegalAccessException e) {
+                    Timber.e(e, "IllegalAccessException in ActionPresenter");
+                  } catch (NoSuchMethodException e) {
+                    Timber.e(e, "NoSuchMethodException in ActionPresenter");
+                  } catch (InstantiationException e) {
+                    Timber.e(e, "InstantiationException in ActionPresenter");
+                  } catch (InvocationTargetException e) {
+                    Timber.e(e, "InvocationTargetException in ActionPresenter");
+                  }
+                }
+                break;
+              case LIKED:
+                liked(model);
+                break;
             }
-            break;
-          case LOGOUT:
-            logout();
-            break;
-          case EVENT:
-            if (action.clazz != null) {
-              try {
-                Class<?> clazz = Class.forName(action.clazz);
-                EventBus.getDefault().post(
-                    clazz.getDeclaredConstructor(Model.class).newInstance(model));
-              } catch (ClassNotFoundException e) {
-                Timber.e(e, "ClassNotFoundException in ActionPresenter");
-              } catch (IllegalAccessException e) {
-                Timber.e(e, "IllegalAccessException in ActionPresenter");
-              } catch (NoSuchMethodException e) {
-                Timber.e(e, "NoSuchMethodException in ActionPresenter");
-              } catch (InstantiationException e) {
-                Timber.e(e, "InstantiationException in ActionPresenter");
-              } catch (InvocationTargetException e) {
-                Timber.e(e, "InvocationTargetException in ActionPresenter");
-              }
-            }
-            break;
-          case LIKED:
-            liked(model);
-            break;
-        }
-      }
-    });
+          }
+        });
   }
 
   private void logout() {
@@ -218,8 +233,18 @@ public class ActionPresenter extends SparklePresenter {
       case 0:
         //      case R.id.mask:
         return model.actions.get(Const.ACTION_MAIN);
-//      case R.id.likes:
-//        return model.actions.get(Const.ACTION_LIKED);
+      case R.id.attentions:
+        return model.actions.get(Const.ACTION_ATTENTIONS);
+      case R.id.like:
+        return model.actions.get(Const.ACTION_LIKED);
+      case R.id.comments:
+        return model.actions.get(Const.ACTION_COMMENTS);
+      case R.id.corrects:
+        return model.actions.get(Const.ACTION_CORRECTS);
+      case R.id.edit_correct:
+        return model.actions.get(Const.ACTION_EDIT_CORRECT);
+      case R.id.user:
+        return model.actions.get(Const.ACTION_USER);
     }
     return null;
   }

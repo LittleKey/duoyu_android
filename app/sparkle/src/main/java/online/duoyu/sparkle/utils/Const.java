@@ -21,6 +21,11 @@ public class Const {
   public static final Integer ACTION_SHOW_HIDE = 1;
   public static final Integer ACTION_LIKED = 2;
   public static final Integer ACTION_UPDATE_MONTH = 3;
+  public static final Integer ACTION_ATTENTIONS = 4;
+  public static final Integer ACTION_CORRECTS = 5;
+  public static final Integer ACTION_COMMENTS = 6;
+  public static final Integer ACTION_EDIT_CORRECT = 7;
+  public static final Integer ACTION_USER = 8;
   /************************************
    * Key
    ***********************************/
@@ -114,8 +119,8 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-//  private static final String API_HOST_URL = "http://192.168.1.6";
-  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
+  private static final String API_HOST_URL = "http://192.168.1.6";
+//  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   // user

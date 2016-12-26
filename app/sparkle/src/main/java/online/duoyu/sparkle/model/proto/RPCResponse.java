@@ -155,7 +155,9 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
   public enum Reason implements WireEnum {
     OK(0),
 
-    BAD_REQUEST(10);
+    BAD_REQUEST(10),
+
+    UNAUTHORIZED(20);
 
     public static final ProtoAdapter<Reason> ADAPTER = ProtoAdapter.newEnumAdapter(Reason.class);
 
@@ -172,6 +174,7 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
       switch (value) {
         case 0: return OK;
         case 10: return BAD_REQUEST;
+        case 20: return UNAUTHORIZED;
         default: return null;
       }
     }

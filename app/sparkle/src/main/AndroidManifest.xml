@@ -32,6 +32,30 @@
             android:name=".activity.RegisterActivity"
             android:theme="@style/BaseAppTheme.RegisterActivity"/>
 
+        <activity
+            android:name=".activity.DiaryActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.DiaryActivity"/>
+
+        <activity
+            android:name=".activity.AttentionsActivity"
+            android:theme="@style/BaseAppTheme.AttentionsActivity"/>
+
+        <activity
+            android:name=".activity.CommentsActivity"
+            android:theme="@style/BaseAppTheme.CommentsActivity"/>
+
+        <activity
+            android:name=".activity.CorrectsActivity"
+            android:theme="@style/BaseAppTheme.CorrectsActivity"/>
+
+        <activity
+            android:name=".activity.EditCorrectActivity"
+            android:theme="@style/BaseAppTheme.EditCorrectActivity"/>
+
+        <activity
+            android:name=".activity.UserActivity"
+            android:theme="@style/BaseAppTheme.UserActivity"/>
+
     </application>
 
 </manifest>

@@ -24,6 +24,42 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <style name="BaseAppTheme.AttentionsActivity">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="BaseAppTheme.CommentsActivity">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="BaseAppTheme.CorrectsActivity">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="BaseAppTheme.EditCorrectActivity">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="BaseAppTheme.UserActivity">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="Theme.AppCompat.Dialog.DiaryActivity" parent="Theme.AppCompat.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.25</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

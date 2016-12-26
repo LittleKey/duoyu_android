@@ -1,5 +1,6 @@
 package online.duoyu.sparkle.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.activity.BaseActivity;
 import online.duoyu.sparkle.activity.HomeActivity;
 import online.duoyu.sparkle.activity.RegisterActivity;
 import online.duoyu.sparkle.model.business.LoginResponse;
@@ -164,6 +166,7 @@ public class LoginFragment extends BaseFragment {
   }
 
   private void login(String email, String password) {
+    ((BaseActivity) getActivity()).closeKeyboard();
     Map<String, String> body = new HashMap<>();
     body.put(Const.KEY_EMAIL, email);
     body.put(Const.KEY_PASSWORD, password);
@@ -182,7 +185,8 @@ public class LoginFragment extends BaseFragment {
                 && !TextUtils.isEmpty(loginResponse.token)) {
               SparkleApplication.getInstance().getAccountManager()
                   .login(loginResponse.user, loginResponse.token);
-              NavigationManager.navigationTo(getActivity(), HomeActivity.class);
+              NavigationManager.navigationTo(getActivity(), HomeActivity.class,
+                  Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
               getActivity().finish();
             } else {
               ToastUtils.toast(R.string.login_error);
