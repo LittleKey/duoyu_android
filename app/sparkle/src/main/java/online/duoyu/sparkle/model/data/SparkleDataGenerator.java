@@ -46,8 +46,9 @@ public abstract class SparkleDataGenerator<R> implements DataGenerator<R, Model>
     init(mApiType, pairs);
   }
 
-  public void setEnableCache(boolean enableCache) {
+  public SparkleDataGenerator<R> setEnableCache(boolean enableCache) {
     this.mEnableCache = enableCache;
+    return this;
   }
 
   protected abstract ApiRequest<R> onCreateRequest(ApiType apiType, Map<String, String> pairs);

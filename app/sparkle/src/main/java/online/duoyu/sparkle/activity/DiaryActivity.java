@@ -19,4 +19,9 @@ public class DiaryActivity extends SingleFragmentActivity {
     Model model = NavigationManager.parseIntent(intent).getParcelable(Const.KEY_MODEL);
     return DiaryFragment.newInstance(model);
   }
+
+  @Override
+  protected boolean isDialog() {
+    return true;
+  }
 }

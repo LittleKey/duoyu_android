@@ -1,6 +1,8 @@
 package online.duoyu.sparkle.activity;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,7 @@ import java.lang.ref.WeakReference;
 
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.ToastUtils;
 
 /**
@@ -24,15 +27,38 @@ import online.duoyu.sparkle.utils.ToastUtils;
 public class BaseActivity extends RxAppCompatActivity {
 
   private ExitHandler mExitHandler;
+  private String mCurrentThemeString;
+
+  protected boolean isDialog() {
+    return false;
+  }
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
+    if (isDialog() != Colorful.getThemeDelegate().isDialog()) {
+      Colorful.config(this)
+          .dialog(isDialog())
+          .apply();
+    }
+    mCurrentThemeString = Colorful.getThemeString();
+    setTheme(Colorful.getThemeDelegate().getStyle());
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      if (Colorful.getThemeDelegate().isTranslucent()) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      }
+      ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(null, null,
+          Colorful.getThemeDelegate().getThemeColor().getPrimaryColor());
+      setTaskDescription(tDesc);
+    }
     super.onCreate(savedInstanceState);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
+//    if (!TextUtils.equals(Colorful.getThemeString(), mCurrentThemeString)) {
+//      recreate();
+//    }
     //    ZhugeSDK.getInstance().init(getApplicationContext());
     //    MobclickAgent.onResume(this);
   }

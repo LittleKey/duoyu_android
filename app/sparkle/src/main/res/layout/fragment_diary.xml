@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary_blue"
+            android:background="?attr/primaryColor"
             android:orientation="vertical">
 
             <TextView
@@ -82,8 +82,8 @@
                             app:roundAsCircle="true"/>
 
                         <TextView
-                            android:id="@+id/nickname"
-                            style="@style/TextStyle.Large.Primary_Blue"
+                            android:id="@+id/theme_nickname"
+                            style="@style/TextStyle.Large.Primary"
                             android:layout_toRightOf="@id/avatar"
                             android:layout_marginLeft="10dp"
                             android:text="nickname"/>
@@ -91,7 +91,7 @@
                         <TextView
                             android:id="@+id/description"
                             style="@style/TextStyle.Middle.Gray"
-                            android:layout_alignLeft="@id/nickname"
+                            android:layout_alignLeft="@id/theme_nickname"
                             android:layout_alignParentBottom="true"
                             android:text="description description description description"/>
                     </RelativeLayout>
@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/primary_blue"
+            android:background="?attr/primaryColor"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="7dp"

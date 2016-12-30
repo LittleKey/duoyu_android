@@ -50,7 +50,8 @@
 
         <activity
             android:name=".activity.EditCorrectActivity"
-            android:theme="@style/BaseAppTheme.EditCorrectActivity"/>
+            android:theme="@style/BaseAppTheme.EditCorrectActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
             android:name=".activity.UserActivity"

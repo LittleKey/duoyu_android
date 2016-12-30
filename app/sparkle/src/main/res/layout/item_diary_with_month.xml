@@ -20,8 +20,8 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/day"
-                style="@style/TextStyle.Large.Primary_Blue"
+                android:id="@+id/theme_day"
+                style="@style/TextStyle.Large.Primary"
                 android:layout_marginTop="-5dp"
                 android:layout_centerHorizontal="true"
                 android:gravity="top"
@@ -29,10 +29,10 @@
                 android:textSize="40sp"/>
 
             <TextView
-                android:id="@+id/week"
-                style="@style/TextStyle.Small.Primary_Blue"
+                android:id="@+id/theme_week"
+                style="@style/TextStyle.Small.Primary"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/day"
+                android:layout_below="@id/theme_day"
                 android:includeFontPadding="false"/>
         </RelativeLayout>
 
@@ -42,7 +42,7 @@
             android:layout_height="18dp"
             android:layout_toRightOf="@id/date"
             android:layout_marginLeft="10dp"
-            app:placeholderImage="@color/primary_blue"
+            app:placeholderImage="?attr/primaryColor"
             app:placeholderImageScaleType="fitCenter"
             app:roundAsCircle="true"/>
 
@@ -54,8 +54,8 @@
             android:includeFontPadding="false"/>
 
         <TextView
-            android:id="@+id/title"
-            style="@style/TextStyle.Middle.Primary_Blue"
+            android:id="@+id/theme_title"
+            style="@style/TextStyle.Middle.Primary"
             android:layout_toRightOf="@id/nickname"
             android:layout_alignBaseline="@id/nickname"
             android:layout_marginLeft="4dp"/>
@@ -63,7 +63,7 @@
         <TextView
             android:id="@+id/month"
             style="@style/TextStyle.Middle.Gray"
-            android:layout_toRightOf="@id/title"
+            android:layout_toRightOf="@id/theme_title"
             android:layout_alignBaseline="@id/nickname"
             android:layout_marginLeft="4dp"/>
 

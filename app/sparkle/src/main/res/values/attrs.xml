@@ -14,4 +14,9 @@
         <attr name="stateDone" format="reference"/>
         <attr name="stateCanceled" format="reference"/>
     </declare-styleable>
+    <attr name="textColor"/>
+    <attr name="primaryColor"/>
+    <attr name="defaultLeftTitleTabBackground"/>
+    <attr name="defaultMidTitleTabBackground"/>
+    <attr name="defaultRightTitleTabBackground"/>
 </resources>

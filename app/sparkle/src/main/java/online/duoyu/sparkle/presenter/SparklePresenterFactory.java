@@ -1,6 +1,5 @@
 package online.duoyu.sparkle.presenter;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
@@ -21,10 +20,13 @@ public class SparklePresenterFactory {
 
   public static ViewGroupPresenter createDiaryItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
-        .add(R.id.title, new TextPresenter())
-        .add(R.id.day, new TextPresenter())
-        .add(R.id.week, new TextPresenter())
-        .add(R.id.time, new TextPresenter())
+        .add(R.id.theme_title, new TextPresenter())
+        .add(R.id.theme_title, new ThemePresenter())
+        .add(R.id.theme_day, new TextPresenter())
+        .add(R.id.theme_day, new ThemePresenter())
+        .add(R.id.theme_week, new TextPresenter())
+        .add(R.id.theme_week, new ThemePresenter())
+//        .add(R.id.time, new TextPresenter())
         .add(R.id.nickname, new TextPresenter())
         .add(R.id.content, new TextPresenter())
         .add(R.id.avatar, new ImagePresenter())
@@ -50,7 +52,8 @@ public class SparklePresenterFactory {
         .add(R.id.month, new TextPresenter())
         .add(R.id.day, new TextPresenter())
         .add(R.id.week, new TextPresenter())
-        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.theme_nickname, new TextPresenter())
+        .add(R.id.theme_nickname, new ThemePresenter())
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.content, new TextPresenter())
         .add(R.id.attentions, new ActionPresenter())

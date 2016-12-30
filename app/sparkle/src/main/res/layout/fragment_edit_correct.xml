@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="RtlHardCoded">
+
+    <FrameLayout
+        android:id="@+id/theme_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="?attr/primaryColor">
+
+        <TextView
+            android:id="@+id/sentence"
+            style="@style/TextStyle.Normal.White"
+            android:layout_gravity="center"
+            android:text="the first sentence"/>
+
+        <TextView
+            android:id="@+id/send"
+            style="@style/TextStyle.Large.White"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="20dp"
+            android:text="send"/>
+
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/theme_title_bar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignTop="@id/view_pager"
+        android:background="@drawable/shadow_for_title_bar"/>
+
+</RelativeLayout>

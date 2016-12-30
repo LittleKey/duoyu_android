@@ -56,7 +56,6 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     mViewPager.setAdapter(pagerAdapter);
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
-
   }
 
   @Override

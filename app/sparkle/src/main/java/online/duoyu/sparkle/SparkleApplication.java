@@ -8,6 +8,7 @@ import me.littlekey.mvp.BaseApplication;
 import me.littlekey.network.ApiContext;
 import online.duoyu.sparkle.account.AccountManager;
 import online.duoyu.sparkle.network.SparkleRequestManager;
+import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.PreferenceUtils;
 
@@ -33,12 +34,16 @@ public class SparkleApplication extends BaseApplication implements ApiContext {
   @Override
   public void onCreate() {
     super.onCreate();
-
     LogUtils.init(BuildConfig.DEBUG);
     initializeVolley();
     //    initializeUpdate();
     initializeAccount();
     initializeIconTypeface();
+    Colorful.defaults()
+        .primaryColor(Colorful.ThemeColor.PRIMARY_BLUE)
+        .translucent(false)
+        .dark(false);
+    Colorful.init(this);
   }
 
 

@@ -1,21 +1,16 @@
 package online.duoyu.sparkle.presenter;
 
-import android.text.Html;
 import android.text.Spannable;
-import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import online.duoyu.sparkle.R;
-import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.Model;
-import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
  * Created by littlekey on 12/25/16.
@@ -47,7 +42,6 @@ public class TextPresenter extends SparklePresenter {
     Linkify.addLinks(view, Linkify.ALL);
   }
 
-
   private Object getValueByViewId(int id, Model model) {
     switch (id) {
       /** Common **/
@@ -55,12 +49,15 @@ public class TextPresenter extends SparklePresenter {
 //        return Html.fromHtml(model.description);
 //      case R.id.description:
         return model.description;
+      case R.id.theme_title:
       case R.id.title:
         return model.title;
       case R.id.month:
         return model.month;
+      case R.id.theme_day:
       case R.id.day:
         return model.day;
+      case R.id.theme_week:
       case R.id.week:
         return model.week;
       case R.id.time:

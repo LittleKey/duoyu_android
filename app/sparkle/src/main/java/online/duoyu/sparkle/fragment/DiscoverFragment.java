@@ -18,9 +18,11 @@ import de.greenrobot.event.EventBus;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.event.UpdateMonthEvent;
 import online.duoyu.sparkle.network.ApiType;
+import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.ResourcesUtils;
 import online.duoyu.sparkle.utils.SparkleUtils;
+import online.duoyu.sparkle.utils.ThemeEventBus;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -38,7 +40,6 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   private TextView mBtnTitleWrite;
   private TextView mMonthView;
 
-  private int mCurrentPage;
   private String mMonth;
 
   public static DiscoverFragment newInstance() {
@@ -49,6 +50,11 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   public void onResume() {
     super.onResume();
     EventBus.getDefault().register(this);
+  }
+  @Override
+  public void onPause() {
+    EventBus.getDefault().unregister(this);
+    super.onPause();
   }
 
   public void onEventMainThread(UpdateMonthEvent event) {
@@ -71,15 +77,9 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   }
 
   @Override
-  public void onPause() {
-    EventBus.getDefault().unregister(this);
-    super.onPause();
-  }
-
-  @Override
   protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
     View view = inflater.inflate(R.layout.fragment_discover, container, false);
-    mMonthView = (TextView) view.findViewById(R.id.month);
+    mMonthView = (TextView) view.findViewById(R.id.theme_month);
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
     mBtnTitleRecent = (TextView) view.findViewById(R.id.btn_title_recent);
     mBtnTitleWrite = (TextView) view.findViewById(R.id.btn_title_write);
@@ -107,9 +107,15 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
                     if (mViewPager != null) {
                       switch (view.getId()) {
                         case R.id.btn_title_follow:
+                          Colorful.config(getActivity())
+                              .primaryColor(Colorful.ThemeColor.PRIMARY_BLUE)
+                              .apply(getActivity().getWindow().getDecorView());
                           mViewPager.setCurrentItem(0);
                           break;
                         case R.id.btn_title_recent:
+                          Colorful.config(getActivity())
+                              .primaryColor(Colorful.ThemeColor.PRIMARY_PINK)
+                              .apply(getActivity().getWindow().getDecorView());
                           mViewPager.setCurrentItem(1);
                           break;
                         case R.id.btn_title_write:
@@ -148,29 +154,35 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     mViewPager.setAdapter(pagerAdapter);
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
-    mViewPager.setCurrentItem(mCurrentPage = 0);
+    mViewPager.setCurrentItem(0);
+    ThemeEventBus.getDefault().register(this);
     return view;
   }
 
   @Override
+  public void onDestroyView() {
+    ThemeEventBus.getDefault().unregister(this);
+    super.onDestroyView();
+  }
+
+  @Override
   public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    if (positionOffset == 0) {
-      mCurrentPage = position;
-    }
   }
 
   @Override
   public void onPageSelected(int position) {
-    if (position != mCurrentPage) {
-      switchTitleBarTab(mCurrentPage = position);
-    }
+    switchTitleBarTab(position);
   }
 
   @Override
   public void onPageScrollStateChanged(int state) {
     if (state == ViewPager.SCROLL_STATE_IDLE) {
-      switchTitleBarTab(mCurrentPage);
+      switchTitleBarTab(mViewPager.getCurrentItem());
     }
+  }
+
+  public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
+    switchTitleBarTab(mViewPager.getCurrentItem());
   }
 
   private void switchTitleBarTab(int position) {
@@ -192,33 +204,34 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
 
   private void switchTitleBarTab(View tab) {
     int white = ResourcesUtils.getColor(R.color.white);
-    int primary_blue = ResourcesUtils.getColor(R.color.primary_blue);
-    Drawable white_round_left = ResourcesUtils.getDrawable(R.drawable.bg_white_round_title_bar_left);
-    Drawable white_round_right = ResourcesUtils.getDrawable(R.drawable.bg_white_round_title_bar_right);
-    Drawable white_mid = ResourcesUtils.getDrawable(R.drawable.bg_white_round_title_bar_mid);
-    Drawable primary_blue_left = ResourcesUtils.getDrawable(R.drawable.bg_primary_blue_round_title_bar_left);
-    Drawable primary_blue_right = ResourcesUtils.getDrawable(R.drawable.bg_primary_blue_round_title_bar_right);
+    int primary_color = Colorful.getThemeDelegate().getThemeColor().getPrimaryColor();
+    Drawable[] title_drawables = Colorful.getThemeDelegate().getThemeColor().getTitleTabDrawables();
+    Drawable white_round_left = title_drawables[0];
+    Drawable primary_color_left = title_drawables[1];
+    Drawable white_mid = title_drawables[2];
+    Drawable white_round_right = title_drawables[3];
+    Drawable primary_color_right = title_drawables[4];
     if (tab != mBtnTitleFollow) {
       ResourcesUtils.setBackground(mBtnTitleFollow, white_round_left);
-      mBtnTitleFollow.setTextColor(primary_blue);
+      mBtnTitleFollow.setTextColor(primary_color);
     }
     if (tab != mBtnTitleRecent) {
       ResourcesUtils.setBackground(mBtnTitleRecent, white_mid);
-      mBtnTitleRecent.setTextColor(primary_blue);
+      mBtnTitleRecent.setTextColor(primary_color);
     }
     if (tab != mBtnTitleWrite) {
       ResourcesUtils.setBackground(mBtnTitleWrite, white_round_right);
-      mBtnTitleWrite.setTextColor(primary_blue);
+      mBtnTitleWrite.setTextColor(primary_color);
     }
     switch (tab.getId()) {
       case R.id.btn_title_follow:
-        ResourcesUtils.setBackground(tab, primary_blue_left);
+        ResourcesUtils.setBackground(tab, primary_color_left);
         break;
       case R.id.btn_title_recent:
-        tab.setBackgroundColor(primary_blue);
+        tab.setBackgroundColor(primary_color);
         break;
       case R.id.btn_title_write:
-        ResourcesUtils.setBackground(tab, primary_blue_right);
+        ResourcesUtils.setBackground(tab, primary_color_right);
         break;
     }
     if (tab instanceof TextView) {

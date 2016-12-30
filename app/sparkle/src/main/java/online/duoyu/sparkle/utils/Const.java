@@ -10,6 +10,7 @@ public class Const {
   public static final String LAST_SESSION_ID = "last_session_id";
   public static final String LAST_USER = "last_user_id";
   public static final String LAST_TOKEN = "last_pass_hash";
+  public static final String LAST_THEME = "last_theme";
   public static final String EMPTY_STRING = "";
   public static final String USER_AGENT = "User-Agent";
   public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36";

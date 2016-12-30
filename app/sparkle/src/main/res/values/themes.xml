@@ -7,10 +7,63 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/gray_bg</item>
         <item name="android:actionMenuTextColor">@color/white</item>
-        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme" />
+
+    <style name="AppTheme.PrimaryBlue">
+        <item name="textColor">@color/primary_blue</item>
+        <item name="primaryColor">@color/primary_blue</item>
+        <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_blue_round_title_bar_left</item>
+        <item name="defaultMidTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_mid</item>
+        <item name="defaultRightTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_right</item>
+        <item name="android:editTextBackground">@drawable/bg_primary_blue_edit_text</item>
+    </style>
+
+    <style name="AppTheme.PrimaryPink">
+        <item name="textColor">@color/primary_pink</item>
+        <item name="primaryColor">@color/primary_pink</item>
+        <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_pink_round_title_bar_left</item>
+        <item name="defaultMidTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_mid</item>
+        <item name="defaultRightTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_right</item>
+        <item name="android:editTextBackground">@drawable/bg_primary_pink_edit_text</item>
+    </style>
+
+    <style name="DialogTheme.PrimaryBlue" parent="Theme.AppCompat.Dialog">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:editTextBackground">@drawable/bg_primary_blue_edit_text</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.25</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="textColor">@color/primary_blue</item>
+        <item name="primaryColor">@color/primary_blue</item>
+        <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_blue_round_title_bar_left</item>
+        <item name="defaultMidTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_mid</item>
+        <item name="defaultRightTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_right</item>
+    </style>
+
+    <style name="DialogTheme.PrimaryPink" parent="Theme.AppCompat.Dialog">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:editTextBackground">@drawable/bg_primary_pink_edit_text</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.25</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="textColor">@color/primary_pink</item>
+        <item name="primaryColor">@color/primary_pink</item>
+        <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_pink_round_title_bar_left</item>
+        <item name="defaultMidTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_mid</item>
+        <item name="defaultRightTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_right</item>
+    </style>
 
     <style name="BaseAppTheme.HomeActivity">
         <item name="android:windowBackground">@color/primary_blue</item>
@@ -37,7 +90,7 @@
     </style>
 
     <style name="BaseAppTheme.EditCorrectActivity">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/light_gray_frame</item>
     </style>
 
     <style name="BaseAppTheme.UserActivity">
@@ -50,7 +103,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:actionMenuTextColor">@color/white</item>
-        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:editTextBackground">@drawable/bg_primary_blue_edit_text</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFrame">@null</item>

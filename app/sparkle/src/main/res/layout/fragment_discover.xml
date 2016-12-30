@@ -25,7 +25,7 @@
                 android:id="@+id/btn_title_follow"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_primary_blue_round_title_bar_left"
+                android:background="?attr/defaultLeftTitleTabBackground"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
@@ -35,9 +35,9 @@
                 android:id="@+id/btn_title_recent"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_white_round_title_bar_mid"
+                android:background="?attr/defaultMidTitleTabBackground"
                 android:gravity="center"
-                android:textColor="@color/primary_blue"
+                android:textColor="?attr/textColor"
                 android:textSize="14sp"
                 android:text="@string/title_tab_recent"/>
 
@@ -45,17 +45,17 @@
                 android:id="@+id/btn_title_write"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_white_round_title_bar_right"
+                android:background="?attr/defaultRightTitleTabBackground"
                 android:gravity="center"
-                android:textColor="@color/primary_blue"
+                android:textColor="?attr/textColor"
                 android:textSize="14sp"
                 android:text="@string/title_tab_write"/>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/month"
-            style="@style/TextStyle.Normal.Primary_Blue"
+            android:id="@+id/theme_month"
+            style="@style/TextStyle.Normal.Primary"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
