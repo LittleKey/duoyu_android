@@ -2,6 +2,7 @@ package online.duoyu.sparkle.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -39,6 +40,7 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   private TextView mBtnTitleRecent;
   private TextView mBtnTitleWrite;
   private TextView mMonthView;
+  private View mCurrentTab;
 
   private String mMonth;
 
@@ -51,33 +53,9 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     super.onResume();
     EventBus.getDefault().register(this);
   }
-  @Override
-  public void onPause() {
-    EventBus.getDefault().unregister(this);
-    super.onPause();
-  }
-
-  public void onEventMainThread(UpdateMonthEvent event) {
-    if (!TextUtils.equals(mMonth, event.month)) {
-      mMonth = event.month;
-      updateMonth();
-    }
-  }
-
-  private void updateMonth() {
-    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(mMonth)) {
-      mMonthView.setText(mMonth);
-    }
-  }
-
-  private void updateTitle(String content) {
-    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(content)) {
-      mMonthView.setText(content);
-    }
-  }
 
   @Override
-  protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
+  protected View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_discover, container, false);
     mMonthView = (TextView) view.findViewById(R.id.theme_month);
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
@@ -155,14 +133,44 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
     mViewPager.setCurrentItem(0);
+    mCurrentTab = mBtnTitleFollow;
     ThemeEventBus.getDefault().register(this);
     return view;
+  }
+
+  @Override
+  public void onPause() {
+    EventBus.getDefault().unregister(this);
+    super.onPause();
   }
 
   @Override
   public void onDestroyView() {
     ThemeEventBus.getDefault().unregister(this);
     super.onDestroyView();
+  }
+
+  public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
+    switchTitleBarTab(mCurrentTab);
+  }
+
+  public void onEventMainThread(UpdateMonthEvent event) {
+    if (!TextUtils.equals(mMonth, event.month)) {
+      mMonth = event.month;
+      updateMonth();
+    }
+  }
+
+  private void updateMonth() {
+    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(mMonth)) {
+      mMonthView.setText(mMonth);
+    }
+  }
+
+  private void updateTitle(String content) {
+    if (isLoaded() && mMonthView != null && !TextUtils.isEmpty(content)) {
+      mMonthView.setText(content);
+    }
   }
 
   @Override
@@ -179,10 +187,6 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     if (state == ViewPager.SCROLL_STATE_IDLE) {
       switchTitleBarTab(mViewPager.getCurrentItem());
     }
-  }
-
-  public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
-    switchTitleBarTab(mViewPager.getCurrentItem());
   }
 
   private void switchTitleBarTab(int position) {
@@ -203,6 +207,9 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   }
 
   private void switchTitleBarTab(View tab) {
+    if (tab != mCurrentTab) {
+      mCurrentTab = tab;
+    }
     int white = ResourcesUtils.getColor(R.color.white);
     int primary_color = Colorful.getThemeDelegate().getThemeColor().getPrimaryColor();
     Drawable[] title_drawables = Colorful.getThemeDelegate().getThemeColor().getTitleTabDrawables();

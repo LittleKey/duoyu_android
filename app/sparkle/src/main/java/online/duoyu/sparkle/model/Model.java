@@ -38,22 +38,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
   public static final Parcelable.Creator<Model> CREATOR = new Parcelable.Creator<Model>() {
     @Override
     public Model createFromParcel(Parcel source) {
-      // TODO add other type.
       try {
-        Type type = Type.values()[source.readInt()];
-        Template template = Template.values()[source.readInt()];
-        byte[] bytes = source.createByteArray();
-        switch (type) {
-//          case USER:
-//            User user = User.ADAPTER.decode(bytes);
-//            return ModelFactory.createModelFromUser(user, template);
-//          case DIARY:
-//            Diary diary = Diary.ADAPTER.decode(bytes);
-//            return ModelFactory.createModelFromDiary(diary, template);
-          default:
-            return Model.ADAPTER.decode(bytes);
-//            throw new ParcelFormatException(String.format("can not parcel '%s'", type.name()));
-        }
+        return Model.ADAPTER.decode(source.createByteArray());
       } catch (Exception e) {
         e.printStackTrace();
         return null;
@@ -73,19 +59,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeInt(type.getValue());
-    dest.writeInt(template.getValue());
-    switch (type) {
-//      case USER:
-//        dest.writeByteArray(user.encode());
-//        break;
-//      case DIARY:
-//        dest.writeByteArray(diary.encode());
-//        break;
-      default:
-        dest.writeByteArray(encode());
-        break;
-    }
+    dest.writeByteArray(encode());
   }
 
   private static final long serialVersionUID = 0L;
@@ -278,11 +252,18 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
   )
   public final String email;
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email) {
-    this(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, ByteString.EMPTY);
+  @WireField(
+      tag = 27,
+      adapter = "com.squareup.wire.ProtoAdapter#STRING",
+      label = WireField.Label.REPEATED
+  )
+  public final List<String> content;
+
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content) {
+    this(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, ByteString.EMPTY);
   }
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, ByteString unknownFields) {
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.identity = identity;
     this.token = token;
@@ -310,6 +291,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     this.count = count;
     this.week = week;
     this.email = email;
+    this.content = Internal.immutableCopyOf("content", content);
   }
 
   @Override
@@ -341,6 +323,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     builder.count = count;
     builder.week = week;
     builder.email = email;
+    builder.content = Internal.copyOf("content", content);
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -376,7 +359,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         && Internal.equals(flag, o.flag)
         && Internal.equals(count, o.count)
         && Internal.equals(week, o.week)
-        && Internal.equals(email, o.email);
+        && Internal.equals(email, o.email)
+        && content.equals(o.content);
   }
 
   @Override
@@ -410,6 +394,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       result = result * 37 + (count != null ? count.hashCode() : 0);
       result = result * 37 + (week != null ? week.hashCode() : 0);
       result = result * 37 + (email != null ? email.hashCode() : 0);
+      result = result * 37 + content.hashCode();
       super.hashCode = result;
     }
     return result;
@@ -444,6 +429,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     if (count != null) builder.append(", count=").append(count);
     if (week != null) builder.append(", week=").append(week);
     if (email != null) builder.append(", email=").append(email);
+    if (!content.isEmpty()) builder.append(", content=").append(content);
     return builder.replace(0, 2, "Model{").append('}').toString();
   }
 
@@ -500,9 +486,12 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     public String email;
 
+    public List<String> content;
+
     public Builder() {
       subModels = Internal.newMutableList();
       actions = Internal.newMutableMap();
+      content = Internal.newMutableList();
     }
 
     public Builder identity(String identity) {
@@ -637,9 +626,15 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       return this;
     }
 
+    public Builder content(List<String> content) {
+      Internal.checkElementsNotNull(content);
+      this.content = content;
+      return this;
+    }
+
     @Override
     public Model build() {
-      return new Model(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, super.buildUnknownFields());
+      return new Model(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, super.buildUnknownFields());
     }
   }
 
@@ -702,7 +697,11 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_MONTH(4),
 
-    ITEM_DIARY_WITH_MONTH(5);
+    ITEM_DIARY_WITH_MONTH(5),
+
+    ITEM_EDIT_CORRECT_HEADER(6),
+
+    ITEM_CORRECT_SENTENCE(7);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -723,6 +722,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 3: return ITEM_DIARY;
         case 4: return ITEM_MONTH;
         case 5: return ITEM_DIARY_WITH_MONTH;
+        case 6: return ITEM_EDIT_CORRECT_HEADER;
+        case 7: return ITEM_CORRECT_SENTENCE;
         default: return null;
       }
     }
@@ -768,6 +769,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           + (value.count != null ? Count.ADAPTER.encodedSizeWithTag(24, value.count) : 0)
           + (value.week != null ? ProtoAdapter.STRING.encodedSizeWithTag(25, value.week) : 0)
           + (value.email != null ? ProtoAdapter.STRING.encodedSizeWithTag(26, value.email) : 0)
+          + ProtoAdapter.STRING.asRepeated().encodedSizeWithTag(27, value.content)
           + value.unknownFields().size();
     }
 
@@ -799,6 +801,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       if (value.count != null) Count.ADAPTER.encodeWithTag(writer, 24, value.count);
       if (value.week != null) ProtoAdapter.STRING.encodeWithTag(writer, 25, value.week);
       if (value.email != null) ProtoAdapter.STRING.encodeWithTag(writer, 26, value.email);
+      ProtoAdapter.STRING.asRepeated().encodeWithTag(writer, 27, value.content);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -848,6 +851,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           case 24: builder.count(Count.ADAPTER.decode(reader)); break;
           case 25: builder.week(ProtoAdapter.STRING.decode(reader)); break;
           case 26: builder.email(ProtoAdapter.STRING.decode(reader)); break;
+          case 27: builder.content.add(ProtoAdapter.STRING.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

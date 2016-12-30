@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.squareup.wire.Message;
@@ -23,6 +24,8 @@ import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
+import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdRequest;
+import online.duoyu.sparkle.model.business.GetCorrectsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.LoginRequest;
 import online.duoyu.sparkle.model.business.RecentRequest;
 import online.duoyu.sparkle.model.proto.Cursor;
@@ -80,8 +83,13 @@ public class SparkleRequestManager extends RequestManager {
   public <T extends Message> SparkleRequest<T>
   newSparkleRequest(ApiType apiType, ByteString body, Class<T> clazz,
                     Response.Listener<T> listener, Response.ErrorListener errorListener) {
-    return newSparkleRequest(getUrl(apiType), Request.Method.POST,
-        body, clazz, listener, errorListener);
+    return newSparkleRequest(apiType, Request.Method.POST, body, clazz, listener, errorListener);
+  }
+
+  public <T extends Message> SparkleRequest<T>
+  newSparkleRequest(ApiType apiType, int method, ByteString body, Class<T> clazz,
+                    Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    return newSparkleRequest(getUrl(apiType), method, body, clazz, listener, errorListener);
   }
 
   public <T extends Message> SparkleRequest<T>
@@ -99,7 +107,11 @@ public class SparkleRequestManager extends RequestManager {
       @Override
       public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> headers = new HashMap<>();
-//        headers.put(Const.KEY_COOKIE, convertCookies(buildCookie()));
+        Cache.Entry entry = getCacheEntry();
+        if (entry != null && !TextUtils.isEmpty(entry.etag)) {
+          headers.put(Const.KEY_ETAG, entry.etag);
+        }
+        headers.put(Const.KEY_COOKIE, convertCookies(buildCookie()));
         headers.put(Const.USER_AGENT, Const.USER_AGENT_VALUE);
         if (SparkleApplication.getInstance().getAccountManager().isSignIn()) {
           headers.put(Const.KEY_AUTHORIZATION,
@@ -133,6 +145,20 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_CURRENT_USER;
       case LOGIN:
         return Const.API_LOGIN;
+      case GET_CORRECT_BY_DIARY_AND_USER:
+        return Const.API_GET_CORRECT_BY_DIARY_AND_USER;
+      case GET_CORRECTS_BY_DIARY:
+        return Const.API_GET_CORRECT_BY_DIARY;
+      case CORRECT:
+        return Const.API_CORRECT;
+      case ATTENTION_DIARY:
+        return Const.API_DIARY_ATTENTION;
+      case UNATTENDED_DIARY:
+        return Const.API_DIARY_UNATTENDED;
+      case DIARY:
+        return Const.API_DIARY;
+      case GET_DIARY_BY_ID:
+        return Const.API_GET_DIARY_BY_ID;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
@@ -166,6 +192,18 @@ public class SparkleRequestManager extends RequestManager {
             .password(SparkleUtils.getPrehashedPassword(params.get(Const.KEY_PASSWORD)))
             .build();
         content = ByteString.of(LoginRequest.ADAPTER.encode(loginRequest));
+        break;
+      case GET_CORRECT_BY_DIARY_AND_USER:
+        GetCorrectByDiaryIdRequest getCorrectByDiaryIdRequest = new GetCorrectByDiaryIdRequest.Builder()
+            .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
+            .build();
+        content = ByteString.of(GetCorrectByDiaryIdRequest.ADAPTER.encode(getCorrectByDiaryIdRequest));
+        break;
+      case GET_CORRECTS_BY_DIARY:
+        GetCorrectsByDiaryIdRequest getCorrectsByDiaryIdRequest = new GetCorrectsByDiaryIdRequest.Builder()
+            .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
+            .build();
+        content = ByteString.of(GetCorrectsByDiaryIdRequest.ADAPTER.encode(getCorrectsByDiaryIdRequest));
         break;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());

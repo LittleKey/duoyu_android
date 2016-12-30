@@ -16,19 +16,28 @@ public abstract class LazyLoadFragment extends BaseFragment {
 
   private boolean mShouldLoad = false;
   private boolean mLoaded = false;
+  private Bundle mSavedInstanceState;
 
-  protected abstract View lazyLoad(LayoutInflater inflater, ViewGroup container);
+  protected abstract View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState);
 
   private void lazyLoad() {
     if (mShouldLoad && !mLoaded && getView() != null) {
       ViewGroup container = (ViewGroup) getView();
-      container.addView(lazyLoad(getLayoutInflater(null), container));
+      container.removeAllViews();
+      container.addView(lazyLoad(getLayoutInflater(mSavedInstanceState), container, mSavedInstanceState),
+          new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
       mLoaded = true;
     }
   }
 
   protected boolean isLoaded() {
     return mLoaded;
+  }
+
+  @Override
+  public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    super.onViewStateRestored(savedInstanceState);
+    mSavedInstanceState= savedInstanceState;
   }
 
   @Override
@@ -49,6 +58,7 @@ public abstract class LazyLoadFragment extends BaseFragment {
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    mSavedInstanceState = savedInstanceState;
     lazyLoad();
   }
 }

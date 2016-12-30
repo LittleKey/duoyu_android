@@ -7,17 +7,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
+import com.squareup.wire.Wire;
 
 import java.util.concurrent.TimeUnit;
 
 import me.littlekey.base.utils.FormatUtils;
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
+import okio.ByteString;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.model.ModelFactory;
+import online.duoyu.sparkle.model.business.DiaryRequest;
+import online.duoyu.sparkle.model.business.DiaryResponse;
+import online.duoyu.sparkle.network.ApiType;
+import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.presenter.SparklePresenterFactory;
 import online.duoyu.sparkle.utils.Const;
+import online.duoyu.sparkle.utils.ToastUtils;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Actions;
+import rx.internal.util.ActionSubscriber;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/26/16.
@@ -79,5 +95,43 @@ public class DiaryFragment extends BaseFragment {
             getActivity().finish();
           }
         });
+    RequestFuture<DiaryResponse> future = RequestFuture.newFuture();
+    DiaryRequest diaryRequest = new DiaryRequest.Builder()
+        .diary(model.diary)
+        .build();
+    SparkleRequest<DiaryResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.GET_DIARY_BY_ID, ByteString.of(DiaryRequest.ADAPTER.encode(diaryRequest)),
+            DiaryResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(this.<DiaryResponse>bindToLifecycle())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<DiaryResponse>() {
+          @Override
+          public void call(DiaryResponse diaryResponse) {
+            if (Wire.get(diaryResponse.success, false)) {
+              Model newModel = ModelFactory.createModelFromDiary(diaryResponse.diary, Model.Template.DATA);
+              if (newModel != null) {
+                mPresenterGroup.bind(newModel);
+              }
+            } else {
+              ToastUtils.toast(R.string.get_diary_error);
+            }
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "get diary by id error: " + model);
+            ToastUtils.toast(R.string.get_diary_error);
+          }
+        }, Actions.empty()));
+  }
+
+  @Override
+  public void onDestroyView() {
+    SparkleApplication.getInstance().getRequestManager().cancel(this);
+    mPresenterGroup.unbind();
+    super.onDestroyView();
   }
 }

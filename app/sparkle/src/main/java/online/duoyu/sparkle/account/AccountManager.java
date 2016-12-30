@@ -48,6 +48,10 @@ public class AccountManager {
     return mToken;
   }
 
+  public Model getUser() {
+    return mUser;
+  }
+
   public boolean isSelf(String id) {
     return isSignIn() && mUser != null && TextUtils.equals(mUser.identity, id);
   }

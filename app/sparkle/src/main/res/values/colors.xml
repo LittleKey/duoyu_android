@@ -19,6 +19,7 @@
     <color name="light_gray">#EEE</color>
 
     <color name="gray_edit_input">#CCCCCC</color>
+    <color name="divide_line_gray">#CCCCCC</color>
     <color name="light_gray_frame">#F6F6F6</color>
     <color name="light_gray_text">#C9C9C9</color>
     <color name="brown">#987D53</color>

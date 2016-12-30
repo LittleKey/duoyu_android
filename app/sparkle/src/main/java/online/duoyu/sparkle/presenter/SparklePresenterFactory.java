@@ -46,20 +46,37 @@ public class SparklePresenterFactory {
         .add(new ListenActionPresenter());
   }
 
+  public static ViewGroupPresenter createCorrectSentenceItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.date, new TextPresenter())
+        .add(R.id.correct_sentence, new TextPresenter());
+  }
+
+  public static ViewGroupPresenter createEditCorrectHeaderItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.original_sentence, new TextPresenter())
+        .add(R.id.all_correct_text, new TextPresenter());
+  }
+
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
     return new ViewGroupPresenter(view)
         .add(R.id.title, new TextPresenter())
         .add(R.id.month, new TextPresenter())
         .add(R.id.day, new TextPresenter())
         .add(R.id.week, new TextPresenter())
-        .add(R.id.theme_nickname, new TextPresenter())
-        .add(R.id.theme_nickname, new ThemePresenter())
+        .add(R.id.nickname, new TextPresenter())
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.content, new TextPresenter())
         .add(R.id.attentions, new ActionPresenter())
-        .add(R.id.like, new ActionPresenter())
+        .add(R.id.attentions, new TextPresenter())
+        .add(R.id.likes, new ActionPresenter())
+        .add(R.id.likes, new TextPresenter())
         .add(R.id.comments, new ActionPresenter())
+        .add(R.id.comments, new TextPresenter())
         .add(R.id.corrects, new ActionPresenter())
+        .add(R.id.corrects, new TextPresenter())
         .add(R.id.edit_correct, new ActionPresenter())
         .add(R.id.user, new ActionPresenter());
   }

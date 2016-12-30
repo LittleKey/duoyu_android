@@ -97,6 +97,10 @@ public class Const {
   public static final String KEY_HAS_MORE = "has_more";
   public static final String KEY_ADV_SEARCH = "advsearch";
   public static final String KEY_AUTHORIZATION = "Authorization";
+  public static final String KEY_DIARY_IDENTITY = "diary_identity";
+  public static final String KEY_ORIGIN_CONTENT = "origin_content";
+  public static final String KEY_CORRECT_CONTENT = "correct_content";
+  public static final String KEY_ETAG = "etag";
   /***********************************
    * EXTRA
    **********************************/
@@ -129,6 +133,14 @@ public class Const {
   // diary
   public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/following_user_published";
   public static final String API_DIARY_RECENT = API_HOST_URL + "/diary/recent";
+  public static final String API_DIARY_ATTENTION = API_HOST_URL + "/diary/attention";
+  public static final String API_DIARY_UNATTENDED = API_HOST_URL + "/diary/unattended";
+  public static final String API_DIARY = API_HOST_URL + "/diary";
+  public static final String API_GET_DIARY_BY_ID = API_HOST_URL + "/diary/get_by_id";
+  // correct
+  public static final String API_GET_CORRECT_BY_DIARY_AND_USER = API_HOST_URL + "/correct/get_by_diary_and_user";
+  public static final String API_GET_CORRECT_BY_DIARY = API_HOST_URL + "/correct/get_by_diary_id";
+  public static final String API_CORRECT = API_HOST_URL + "/correct";
   /********************************
    * Network Related
    ********************************/

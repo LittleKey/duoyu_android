@@ -1,44 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RtlHardCoded"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/original"
-        style="@style/TextStyle.Large.Black"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="original text"/>
-
-    <TextView
-        android:id="@+id/all_correct_text"
-        style="@style/TextStyle.Normal"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/original"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:background="@color/light_gray"
-        android:textColor="@color/light_gray_text"
-        android:text="corrects"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/corrects_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/all_correct_text"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <FrameLayout
         android:id="@+id/edit_correct_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:padding="5dp"
         android:background="@color/white">
 
@@ -48,11 +24,4 @@
             android:inputType="text"
             android:textSelectHandle="?attr/primaryColor"/>
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_above="@id/edit_correct_frame"
-        android:background="@drawable/shadow_for_tab_bar"/>
-
-</RelativeLayout>
+</LinearLayout>

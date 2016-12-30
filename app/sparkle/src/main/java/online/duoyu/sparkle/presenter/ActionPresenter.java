@@ -3,8 +3,10 @@ package online.duoyu.sparkle.presenter;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.wire.Wire;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -14,17 +16,33 @@ import java.util.concurrent.TimeUnit;
 import de.greenrobot.event.EventBus;
 import me.littlekey.base.utils.CollectionUtils;
 import me.littlekey.mvp.widget.MvpRecyclerView;
+import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.LoginActivity;
 import online.duoyu.sparkle.event.OnSelectEvent;
 import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.model.business.AttenderRequest;
+import online.duoyu.sparkle.model.business.AttenderResponse;
+import online.duoyu.sparkle.model.business.AttentionRequest;
+import online.duoyu.sparkle.model.business.AttentionResponse;
+import online.duoyu.sparkle.model.business.UnattendedRequest;
+import online.duoyu.sparkle.model.business.UnattendedResponse;
 import online.duoyu.sparkle.model.proto.Action;
 import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Flag;
+import online.duoyu.sparkle.network.ApiType;
+import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.NavigationManager;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Actions;
+import rx.internal.util.ActionSubscriber;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -33,14 +51,17 @@ import timber.log.Timber;
 
 public class ActionPresenter extends SparklePresenter {
 
+  private Subscription mSubscription;
+
   @Override
   public void bind(final Model model) {
     final Action action = getValueByViewId(id(), model);
     if (action == null) {
       return;
     }
-    RxView.clicks(view())
+    mSubscription = RxView.clicks(view())
         .throttleFirst(1, TimeUnit.SECONDS)
+        .compose(RxLifecycleAndroid.<Void>bindView(view()))
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
@@ -88,6 +109,12 @@ public class ActionPresenter extends SparklePresenter {
               case LIKED:
                 liked(model);
                 break;
+              case ATTENTION:
+                attention(model);
+                break;
+              case FOLLOW:
+                follow(model);
+                break;
             }
           }
         });
@@ -95,6 +122,79 @@ public class ActionPresenter extends SparklePresenter {
 
   private void logout() {
     SparkleApplication.getInstance().getAccountManager().logout();
+  }
+
+  private void attention(final Model model) {
+    view().setEnabled(false);
+    boolean should_attending = !Wire.get(model.flag.is_attending, false);
+    group().bind(model.newBuilder()
+        .flag(model.flag.newBuilder().is_attending(should_attending).build())
+        .build());
+    if (should_attending) {
+      AttentionRequest attentionRequest = new AttentionRequest.Builder().diary_id(model.identity).build();
+      RequestFuture<AttentionResponse> future = RequestFuture.newFuture();
+      SparkleRequest<AttentionResponse> request = SparkleApplication.getInstance().getRequestManager()
+          .newSparkleRequest(ApiType.ATTENTION_DIARY,
+              ByteString.of(AttentionRequest.ADAPTER.encode(attentionRequest)),
+              AttentionResponse.class, future, future);
+      request.setTag(this);
+      request.submit();
+      Observable.from(future, Schedulers.newThread())
+          .compose(RxLifecycleAndroid.<AttentionResponse>bindView(view()))
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new ActionSubscriber<>(new Action1<AttentionResponse>() {
+              @Override
+              public void call(AttentionResponse attentionResponse) {
+                view().setEnabled(true);
+                if (!Wire.get(attentionResponse.success, false)) {
+                  // NOTE: attention error restore model
+                  group().bind(model);
+                }
+              }
+            }, new Action1<Throwable>() {
+              @Override
+              public void call(Throwable throwable) {
+                Timber.e(throwable, "attention diary error");
+                view().setEnabled(true);
+                // NOTE: attention error restore model
+                group().bind(model);
+              }
+            }, Actions.empty()));
+    } else {
+      UnattendedRequest unattendedRequest = new UnattendedRequest.Builder().diary_id(model.identity).build();
+      RequestFuture<UnattendedResponse> future = RequestFuture.newFuture();
+      SparkleRequest<UnattendedResponse> request = SparkleApplication.getInstance().getRequestManager()
+          .newSparkleRequest(ApiType.UNATTENDED_DIARY,
+              ByteString.of(UnattendedRequest.ADAPTER.encode(unattendedRequest)),
+              UnattendedResponse.class, future, future);
+      request.setTag(this);
+      request.submit();
+      Observable.from(future, Schedulers.newThread())
+          .compose(RxLifecycleAndroid.<UnattendedResponse>bindView(view()))
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new ActionSubscriber<>(new Action1<UnattendedResponse>() {
+              @Override
+              public void call(UnattendedResponse unattendedRequest) {
+                view().setEnabled(true);
+                if (!Wire.get(unattendedRequest.success, false)) {
+                  // NOTE: unattended error restore model
+                  group().bind(model);
+                }
+              }
+            }, new Action1<Throwable>() {
+              @Override
+              public void call(Throwable throwable) {
+                Timber.e(throwable, "unattended diary error");
+                view().setEnabled(true);
+                // NOTE: unattended error restore model
+                group().bind(model);
+              }
+            }, Actions.empty()));
+    }
+  }
+
+  private void follow(Model model) {
+
   }
 
   private void liked(Model model) {
@@ -235,7 +335,7 @@ public class ActionPresenter extends SparklePresenter {
         return model.actions.get(Const.ACTION_MAIN);
       case R.id.attentions:
         return model.actions.get(Const.ACTION_ATTENTIONS);
-      case R.id.like:
+      case R.id.likes:
         return model.actions.get(Const.ACTION_LIKED);
       case R.id.comments:
         return model.actions.get(Const.ACTION_COMMENTS);
@@ -252,6 +352,9 @@ public class ActionPresenter extends SparklePresenter {
   @Override
   public void unbind() {
     SparkleApplication.getInstance().getRequestManager().cancel(this);
+    if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+      mSubscription.unsubscribe();
+    }
     super.unbind();
   }
 }

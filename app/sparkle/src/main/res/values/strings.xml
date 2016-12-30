@@ -20,4 +20,10 @@
     <string name="title_tab_recent">Recent</string>
     <string name="title_tab_write">Write</string>
     <string name="diary">Diary</string>
+
+    <!-- diary -->
+    <string name="get_diary_error">get diary info error</string>
+
+    <!-- edit correct -->
+    <string name="all_correct">corrects(%d)</string>
 </resources>

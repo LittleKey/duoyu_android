@@ -1,6 +1,7 @@
 package online.duoyu.sparkle.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class FollowUserDiaryFragment extends LazyLoadFragment {
   }
 
   @Override
-  protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
+  protected View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_folow_user_diary, container, false);
     TextView textView = (TextView) view.findViewById(R.id.month);
     textView.setText(getArguments().getString("TEST"));

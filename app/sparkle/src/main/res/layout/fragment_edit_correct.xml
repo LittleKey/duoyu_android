@@ -14,7 +14,7 @@
         android:background="?attr/primaryColor">
 
         <TextView
-            android:id="@+id/sentence"
+            android:id="@+id/sentence_number"
             style="@style/TextStyle.Normal.White"
             android:layout_gravity="center"
             android:text="the first sentence"/>

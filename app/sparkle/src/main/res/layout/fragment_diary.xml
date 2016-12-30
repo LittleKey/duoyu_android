@@ -77,13 +77,13 @@
                             android:id="@+id/avatar"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            app:placeholderImage="@color/primary_blue"
+                            app:placeholderImage="?attr/primaryColor"
                             app:placeholderImageScaleType="fitCenter"
                             app:roundAsCircle="true"/>
 
                         <TextView
-                            android:id="@+id/theme_nickname"
-                            style="@style/TextStyle.Large.Primary"
+                            android:id="@+id/nickname"
+                            style="@style/TextStyle.Large.Black"
                             android:layout_toRightOf="@id/avatar"
                             android:layout_marginLeft="10dp"
                             android:text="nickname"/>
@@ -91,7 +91,7 @@
                         <TextView
                             android:id="@+id/description"
                             style="@style/TextStyle.Middle.Gray"
-                            android:layout_alignLeft="@id/theme_nickname"
+                            android:layout_alignLeft="@id/nickname"
                             android:layout_alignParentBottom="true"
                             android:text="description description description description"/>
                     </RelativeLayout>
@@ -134,32 +134,40 @@
             <TextView
                 android:id="@+id/attentions"
                 style="@style/TextStyle.Small.White"
+                android:layout_width="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:drawableTop="@drawable/back"
                 android:text="999+"/>
 
             <TextView
-                android:id="@+id/like"
+                android:id="@+id/likes"
                 style="@style/TextStyle.Small.White"
+                android:layout_width="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:drawableTop="@drawable/back"
                 android:text="999+"/>
 
             <TextView
                 android:id="@+id/comments"
                 style="@style/TextStyle.Small.White"
+                android:layout_width="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:drawableTop="@drawable/back"
                 android:text="999+"/>
 
             <TextView
                 android:id="@+id/corrects"
                 style="@style/TextStyle.Small.White"
+                android:layout_width="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:drawableTop="@drawable/back"
                 android:text="999+"/>
 

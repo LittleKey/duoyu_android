@@ -1,16 +1,18 @@
 package online.duoyu.sparkle.presenter;
 
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+
 import java.util.Calendar;
-import java.util.Locale;
 
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
  * Created by littlekey on 12/25/16.
@@ -45,28 +47,42 @@ public class TextPresenter extends SparklePresenter {
   private Object getValueByViewId(int id, Model model) {
     switch (id) {
       /** Common **/
+      case R.id.all_correct_text:
+        return SparkleUtils.formatString(R.string.all_correct, model.count.corrects);
+      case R.id.correct_sentence:
+      case R.id.original_sentence:
+        return model.content.get(model.count.position).trim();
       case R.id.content:
 //        return Html.fromHtml(model.description);
 //      case R.id.description:
-        return model.description;
+        return model.description.trim();
       case R.id.theme_title:
       case R.id.title:
-        return model.title;
+        return model.title.trim();
       case R.id.month:
         return model.month;
       case R.id.theme_day:
       case R.id.day:
         return model.day;
+      case R.id.date:
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(model.date);
+        DateTime date_time = new DateTime(cal);
+        return date_time.toString("yyyy-MM-dd");
       case R.id.theme_week:
       case R.id.week:
         return model.week;
-      case R.id.time:
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(model.date * 1000);
-        return new SimpleDateFormat("hh:mm", Locale.US).format(cal.getTime());
       case R.id.nickname:
 //      case R.id.user_name:
         return model.user.nickname;
+      case R.id.attentions:
+        return SparkleUtils.formatInteger(model.count.attentions);
+      case R.id.likes:
+        return SparkleUtils.formatInteger(model.count.likes);
+      case R.id.comments:
+        return SparkleUtils.formatInteger(model.count.comments);
+      case R.id.corrects:
+        return SparkleUtils.formatInteger(model.count.corrects);
 //      case R.id.avatar:
 //      case R.id.subtitle:
 //        return model.subtitle;

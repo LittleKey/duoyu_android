@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +46,25 @@ public class ListFragment extends LazyLoadFragment {
   }
 
   @Override
-  protected View lazyLoad(LayoutInflater inflater, ViewGroup container) {
+  protected View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(getLayout(), container, false);
     mSwipeRefreshLayout = (SparkleSwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
     mRecyclerView = (MvpRecyclerView) rootView.findViewById(R.id.recycler);
+    // TODO: may should not pause load image when scroll settling for a little performance
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+          if (!Fresco.getImagePipeline().isPaused()) {
+            Fresco.getImagePipeline().pause();
+          }
+        } else {
+          if (Fresco.getImagePipeline().isPaused()) {
+            Fresco.getImagePipeline().resume();
+          }
+        }
+      }
+    });
     ApiType apiType;
     int apiTypeNum = getArguments().getInt(Const.KEY_API_TYPE, -1);
     if (apiTypeNum >= 0 && apiTypeNum < ApiType.values().length) {
@@ -63,7 +80,8 @@ public class ListFragment extends LazyLoadFragment {
     } else {
       pairs = pairList.toArray(new NameValuePair[pairList.size()]);
     }
-    resetApi(apiType, getArguments().getStringArrayList(Const.KEY_API_PATH), pairs);
+    resetApi(apiType, getArguments().getStringArrayList(Const.KEY_API_PATH),
+        getArguments().getBundle(Const.KEY_EXTRA), pairs);
     mSwipeRefreshLayout.setEnabled(getArguments().getBoolean(Const.KEY_ENABLE_SWIPE_REFRESH, true));
     return rootView;
   }
@@ -115,7 +133,6 @@ public class ListFragment extends LazyLoadFragment {
       public boolean onCheckEmpty(HeaderFooterAdapter.ViewData emptyView, int headerCount,
                                   int dataCount, int footerCount) {
         boolean isEmpty = super.onCheckEmpty(emptyView, headerCount, dataCount, footerCount);
-
         if (isEmpty) {
           for (Model model : mList.getItems()) {
             adapter.removeData(model);
@@ -141,33 +158,33 @@ public class ListFragment extends LazyLoadFragment {
     return mList == null ? null : mList.getCurrentUrl();
   }
 
-  public void resetApi(@NonNull ApiType apiType, List<String> paths, NameValuePair... pairs) {
-    mList = new SparkleApiList<>(DataGeneratorFactory.createDataGenerator(apiType, paths, pairs));
+  public void resetApi(@NonNull ApiType apiType, List<String> paths, Bundle bundle, NameValuePair... pairs) {
+    mList = new SparkleApiList<>(DataGeneratorFactory.createDataGenerator(apiType, paths, bundle, pairs));
     final ListAdapter adapter = new ListAdapter(getArguments());
     mList.registerDataLoadObserver(adapter);
     mList.registerDataLoadObserver(mSwipeRefreshLayout);
     mSwipeRefreshLayout.setAdapter(adapter);
     adapter.setList(mList);
     mList.refresh();
-    final RecyclerView.LayoutManager layoutManager;
     switch (apiType) {
+      case GET_CORRECTS_BY_DIARY:
       case RECENT_DIARY:
       case FOLLOW_USER_DIARY:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override
           public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
-            outRect.top = FormatUtils.dipsToPix(10);
+            if (parent.getChildAdapterPosition(view) == 0) {
+              outRect.top = FormatUtils.dipsToPix(10);
+            }
             outRect.left = FormatUtils.dipsToPix(4);
             outRect.right = FormatUtils.dipsToPix(4);
-            if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
-              outRect.bottom = FormatUtils.dipsToPix(10);
-            }
+            outRect.bottom = FormatUtils.dipsToPix(10);
           }
         });
-      default:
-        layoutManager = new LinearLayoutManager(getActivity());
+        break;
     }
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(layoutManager);
     mRecyclerView.setItemAnimator(null);
   }

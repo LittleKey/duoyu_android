@@ -1,6 +1,7 @@
 package online.duoyu.sparkle.utils;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import java.security.MessageDigest;
@@ -20,12 +21,21 @@ public class SparkleUtils {
   private SparkleUtils() {
   }
 
+  public static String[] split_content_v1(@NonNull String content) {
+    return content.split(String.format("(?<=(%1$s))",
+        "\\u002e|\\u000a|\\u0021|\\u3002|\\uff01|\\u003f|\\uff1f"));
+  }
+
   public static String formatString(@StringRes int format, Object... args) {
     return formatString(SparkleApplication.getInstance().getString(format), args);
   }
 
   public static String formatString(String format, Object... args) {
     return String.format(Locale.US, format, args);
+  }
+
+  public static String formatInteger(int integer) {
+    return formatString("%d", integer > 999 ? 999 : integer) + (integer > 999 ? "+" : "");
   }
 
   public static Drawable setDrawableBounds(Drawable drawable) {

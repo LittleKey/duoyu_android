@@ -10,6 +10,7 @@ import com.squareup.wire.ProtoWriter;
 import com.squareup.wire.WireField;
 import com.squareup.wire.internal.Internal;
 import java.io.IOException;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.Object;
@@ -35,13 +36,19 @@ public final class Diary extends Message<Diary, Diary.Builder> {
 
   public static final Integer DEFAULT_LIKES = 0;
 
-  public static final Integer DEFAULT_FOLLOWERS = 0;
+  public static final Integer DEFAULT_COMMENTS = 0;
 
   public static final Integer DEFAULT_ATTENTIONS = 0;
 
   public static final Integer DEFAULT_CORRECTS = 0;
 
   public static final Long DEFAULT_DIARY_DATE = 0L;
+
+  public static final Boolean DEFAULT_ATTENDING = false;
+
+  public static final Boolean DEFAULT_CORRECTED = false;
+
+  public static final Boolean DEFAULT_LIKED = false;
 
   @WireField(
       tag = 1,
@@ -89,7 +96,7 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       tag = 8,
       adapter = "com.squareup.wire.ProtoAdapter#INT32"
   )
-  public final Integer followers;
+  public final Integer comments;
 
   @WireField(
       tag = 9,
@@ -109,11 +116,29 @@ public final class Diary extends Message<Diary, Diary.Builder> {
   )
   public final Long diary_date;
 
-  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects, Long diary_date) {
-    this(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, diary_date, ByteString.EMPTY);
+  @WireField(
+      tag = 12,
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
+  public final Boolean attending;
+
+  @WireField(
+      tag = 13,
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
+  public final Boolean corrected;
+
+  @WireField(
+      tag = 14,
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
+  public final Boolean liked;
+
+  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer comments, Integer attentions, Integer corrects, Long diary_date, Boolean attending, Boolean corrected, Boolean liked) {
+    this(diary_id, title, author, language, content, date, likes, comments, attentions, corrects, diary_date, attending, corrected, liked, ByteString.EMPTY);
   }
 
-  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer followers, Integer attentions, Integer corrects, Long diary_date, ByteString unknownFields) {
+  public Diary(String diary_id, String title, User author, Language language, String content, Long date, Integer likes, Integer comments, Integer attentions, Integer corrects, Long diary_date, Boolean attending, Boolean corrected, Boolean liked, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.diary_id = diary_id;
     this.title = title;
@@ -122,10 +147,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     this.content = content;
     this.date = date;
     this.likes = likes;
-    this.followers = followers;
+    this.comments = comments;
     this.attentions = attentions;
     this.corrects = corrects;
     this.diary_date = diary_date;
+    this.attending = attending;
+    this.corrected = corrected;
+    this.liked = liked;
   }
 
   @Override
@@ -138,10 +166,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     builder.content = content;
     builder.date = date;
     builder.likes = likes;
-    builder.followers = followers;
+    builder.comments = comments;
     builder.attentions = attentions;
     builder.corrects = corrects;
     builder.diary_date = diary_date;
+    builder.attending = attending;
+    builder.corrected = corrected;
+    builder.liked = liked;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -159,10 +190,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
         && Internal.equals(content, o.content)
         && Internal.equals(date, o.date)
         && Internal.equals(likes, o.likes)
-        && Internal.equals(followers, o.followers)
+        && Internal.equals(comments, o.comments)
         && Internal.equals(attentions, o.attentions)
         && Internal.equals(corrects, o.corrects)
-        && Internal.equals(diary_date, o.diary_date);
+        && Internal.equals(diary_date, o.diary_date)
+        && Internal.equals(attending, o.attending)
+        && Internal.equals(corrected, o.corrected)
+        && Internal.equals(liked, o.liked);
   }
 
   @Override
@@ -177,10 +211,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       result = result * 37 + (content != null ? content.hashCode() : 0);
       result = result * 37 + (date != null ? date.hashCode() : 0);
       result = result * 37 + (likes != null ? likes.hashCode() : 0);
-      result = result * 37 + (followers != null ? followers.hashCode() : 0);
+      result = result * 37 + (comments != null ? comments.hashCode() : 0);
       result = result * 37 + (attentions != null ? attentions.hashCode() : 0);
       result = result * 37 + (corrects != null ? corrects.hashCode() : 0);
       result = result * 37 + (diary_date != null ? diary_date.hashCode() : 0);
+      result = result * 37 + (attending != null ? attending.hashCode() : 0);
+      result = result * 37 + (corrected != null ? corrected.hashCode() : 0);
+      result = result * 37 + (liked != null ? liked.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -196,10 +233,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
     if (content != null) builder.append(", content=").append(content);
     if (date != null) builder.append(", date=").append(date);
     if (likes != null) builder.append(", likes=").append(likes);
-    if (followers != null) builder.append(", followers=").append(followers);
+    if (comments != null) builder.append(", comments=").append(comments);
     if (attentions != null) builder.append(", attentions=").append(attentions);
     if (corrects != null) builder.append(", corrects=").append(corrects);
     if (diary_date != null) builder.append(", diary_date=").append(diary_date);
+    if (attending != null) builder.append(", attending=").append(attending);
+    if (corrected != null) builder.append(", corrected=").append(corrected);
+    if (liked != null) builder.append(", liked=").append(liked);
     return builder.replace(0, 2, "Diary{").append('}').toString();
   }
 
@@ -218,13 +258,19 @@ public final class Diary extends Message<Diary, Diary.Builder> {
 
     public Integer likes;
 
-    public Integer followers;
+    public Integer comments;
 
     public Integer attentions;
 
     public Integer corrects;
 
     public Long diary_date;
+
+    public Boolean attending;
+
+    public Boolean corrected;
+
+    public Boolean liked;
 
     public Builder() {
     }
@@ -264,8 +310,8 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       return this;
     }
 
-    public Builder followers(Integer followers) {
-      this.followers = followers;
+    public Builder comments(Integer comments) {
+      this.comments = comments;
       return this;
     }
 
@@ -284,9 +330,24 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       return this;
     }
 
+    public Builder attending(Boolean attending) {
+      this.attending = attending;
+      return this;
+    }
+
+    public Builder corrected(Boolean corrected) {
+      this.corrected = corrected;
+      return this;
+    }
+
+    public Builder liked(Boolean liked) {
+      this.liked = liked;
+      return this;
+    }
+
     @Override
     public Diary build() {
-      return new Diary(diary_id, title, author, language, content, date, likes, followers, attentions, corrects, diary_date, super.buildUnknownFields());
+      return new Diary(diary_id, title, author, language, content, date, likes, comments, attentions, corrects, diary_date, attending, corrected, liked, super.buildUnknownFields());
     }
   }
 
@@ -304,10 +365,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
           + (value.content != null ? ProtoAdapter.STRING.encodedSizeWithTag(5, value.content) : 0)
           + (value.date != null ? ProtoAdapter.INT64.encodedSizeWithTag(6, value.date) : 0)
           + (value.likes != null ? ProtoAdapter.INT32.encodedSizeWithTag(7, value.likes) : 0)
-          + (value.followers != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.followers) : 0)
+          + (value.comments != null ? ProtoAdapter.INT32.encodedSizeWithTag(8, value.comments) : 0)
           + (value.attentions != null ? ProtoAdapter.INT32.encodedSizeWithTag(9, value.attentions) : 0)
           + (value.corrects != null ? ProtoAdapter.INT32.encodedSizeWithTag(10, value.corrects) : 0)
           + (value.diary_date != null ? ProtoAdapter.INT64.encodedSizeWithTag(11, value.diary_date) : 0)
+          + (value.attending != null ? ProtoAdapter.BOOL.encodedSizeWithTag(12, value.attending) : 0)
+          + (value.corrected != null ? ProtoAdapter.BOOL.encodedSizeWithTag(13, value.corrected) : 0)
+          + (value.liked != null ? ProtoAdapter.BOOL.encodedSizeWithTag(14, value.liked) : 0)
           + value.unknownFields().size();
     }
 
@@ -320,10 +384,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
       if (value.content != null) ProtoAdapter.STRING.encodeWithTag(writer, 5, value.content);
       if (value.date != null) ProtoAdapter.INT64.encodeWithTag(writer, 6, value.date);
       if (value.likes != null) ProtoAdapter.INT32.encodeWithTag(writer, 7, value.likes);
-      if (value.followers != null) ProtoAdapter.INT32.encodeWithTag(writer, 8, value.followers);
+      if (value.comments != null) ProtoAdapter.INT32.encodeWithTag(writer, 8, value.comments);
       if (value.attentions != null) ProtoAdapter.INT32.encodeWithTag(writer, 9, value.attentions);
       if (value.corrects != null) ProtoAdapter.INT32.encodeWithTag(writer, 10, value.corrects);
       if (value.diary_date != null) ProtoAdapter.INT64.encodeWithTag(writer, 11, value.diary_date);
+      if (value.attending != null) ProtoAdapter.BOOL.encodeWithTag(writer, 12, value.attending);
+      if (value.corrected != null) ProtoAdapter.BOOL.encodeWithTag(writer, 13, value.corrected);
+      if (value.liked != null) ProtoAdapter.BOOL.encodeWithTag(writer, 14, value.liked);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -347,10 +414,13 @@ public final class Diary extends Message<Diary, Diary.Builder> {
           case 5: builder.content(ProtoAdapter.STRING.decode(reader)); break;
           case 6: builder.date(ProtoAdapter.INT64.decode(reader)); break;
           case 7: builder.likes(ProtoAdapter.INT32.decode(reader)); break;
-          case 8: builder.followers(ProtoAdapter.INT32.decode(reader)); break;
+          case 8: builder.comments(ProtoAdapter.INT32.decode(reader)); break;
           case 9: builder.attentions(ProtoAdapter.INT32.decode(reader)); break;
           case 10: builder.corrects(ProtoAdapter.INT32.decode(reader)); break;
           case 11: builder.diary_date(ProtoAdapter.INT64.decode(reader)); break;
+          case 12: builder.attending(ProtoAdapter.BOOL.decode(reader)); break;
+          case 13: builder.corrected(ProtoAdapter.BOOL.decode(reader)); break;
+          case 14: builder.liked(ProtoAdapter.BOOL.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

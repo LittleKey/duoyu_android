@@ -32,7 +32,8 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
   private final Class<T> mClass;
   private final RequestManager.CacheConfig mCacheConfig;
 
-  public SparkleRequest(ApiContext apiContext, int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener, RequestManager.CacheConfig config) {
+  public SparkleRequest(ApiContext apiContext, int method, String url, Class<T> clazz,
+      Response.Listener<T> listener, Response.ErrorListener errorListener, RequestManager.CacheConfig config) {
     super(apiContext, method, url, listener, errorListener);
     this.mCacheConfig = config;
     this.mClass = clazz;
@@ -41,7 +42,7 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
   @Override
   protected T parseResponse(NetworkResponse response) throws Exception {
     RPCResponse pbRPCResponse = RPCResponse.ADAPTER.decode(response.data);
-    if (pbRPCResponse.success == null || !pbRPCResponse.success) {
+    if (!Wire.get(pbRPCResponse.success, false)) {
       if (!TextUtils.isEmpty(pbRPCResponse.content.toString())) {
         Timber.d(pbRPCResponse.content.toString());
       }
@@ -54,8 +55,11 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
               SparkleApplication.getInstance(), 0, intent, 0);
           pendingIntent.send();
           break;
+        case NOT_MODIFIED:
+          // NOTE: should not enter here
+          break;
       }
-      throw new VolleyError();
+      throw new VolleyError(response);
     }
     return ProtoAdapter.get(mClass).decode(Wire.get(pbRPCResponse.content, ByteString.EMPTY));
   }

@@ -16,8 +16,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?attr/primaryColor"
             app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleMargin="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:title="@string/space">
 
             <TextView
@@ -25,7 +27,7 @@
                 style="@style/TextStyle.Mini.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/textSizeLarge"
                 android:textStyle="bold" />

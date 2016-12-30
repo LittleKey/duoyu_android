@@ -157,7 +157,9 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
 
     BAD_REQUEST(10),
 
-    UNAUTHORIZED(20);
+    UNAUTHORIZED(20),
+
+    NOT_MODIFIED(30);
 
     public static final ProtoAdapter<Reason> ADAPTER = ProtoAdapter.newEnumAdapter(Reason.class);
 
@@ -175,6 +177,7 @@ public final class RPCResponse extends Message<RPCResponse, RPCResponse.Builder>
         case 0: return OK;
         case 10: return BAD_REQUEST;
         case 20: return UNAUTHORIZED;
+        case 30: return NOT_MODIFIED;
         default: return null;
       }
     }
