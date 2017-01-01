@@ -26,8 +26,12 @@ import online.duoyu.sparkle.model.business.AttenderRequest;
 import online.duoyu.sparkle.model.business.AttenderResponse;
 import online.duoyu.sparkle.model.business.AttentionRequest;
 import online.duoyu.sparkle.model.business.AttentionResponse;
+import online.duoyu.sparkle.model.business.LikeRequest;
+import online.duoyu.sparkle.model.business.LikeResponse;
 import online.duoyu.sparkle.model.business.UnattendedRequest;
 import online.duoyu.sparkle.model.business.UnattendedResponse;
+import online.duoyu.sparkle.model.business.UnlikeRequest;
+import online.duoyu.sparkle.model.business.UnlikeResponse;
 import online.duoyu.sparkle.model.proto.Action;
 import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Flag;
@@ -124,73 +128,84 @@ public class ActionPresenter extends SparklePresenter {
     SparkleApplication.getInstance().getAccountManager().logout();
   }
 
-  private void attention(final Model model) {
+  private void attention(Model model) {
     view().setEnabled(false);
+    // TODO : check diary author whether is me
     boolean should_attending = !Wire.get(model.flag.is_attending, false);
     group().bind(model.newBuilder()
         .flag(model.flag.newBuilder().is_attending(should_attending).build())
+        .count(model.count.newBuilder()
+            .attentions(Wire.get(model.count.attentions, 0) + (should_attending ? 1 : -1)).build())
         .build());
     if (should_attending) {
-      AttentionRequest attentionRequest = new AttentionRequest.Builder().diary_id(model.identity).build();
-      RequestFuture<AttentionResponse> future = RequestFuture.newFuture();
-      SparkleRequest<AttentionResponse> request = SparkleApplication.getInstance().getRequestManager()
-          .newSparkleRequest(ApiType.ATTENTION_DIARY,
-              ByteString.of(AttentionRequest.ADAPTER.encode(attentionRequest)),
-              AttentionResponse.class, future, future);
-      request.setTag(this);
-      request.submit();
-      Observable.from(future, Schedulers.newThread())
-          .compose(RxLifecycleAndroid.<AttentionResponse>bindView(view()))
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new ActionSubscriber<>(new Action1<AttentionResponse>() {
-              @Override
-              public void call(AttentionResponse attentionResponse) {
-                view().setEnabled(true);
-                if (!Wire.get(attentionResponse.success, false)) {
-                  // NOTE: attention error restore model
-                  group().bind(model);
-                }
-              }
-            }, new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                Timber.e(throwable, "attention diary error");
-                view().setEnabled(true);
-                // NOTE: attention error restore model
-                group().bind(model);
-              }
-            }, Actions.empty()));
+      _attention_imp(model);
     } else {
-      UnattendedRequest unattendedRequest = new UnattendedRequest.Builder().diary_id(model.identity).build();
-      RequestFuture<UnattendedResponse> future = RequestFuture.newFuture();
-      SparkleRequest<UnattendedResponse> request = SparkleApplication.getInstance().getRequestManager()
-          .newSparkleRequest(ApiType.UNATTENDED_DIARY,
-              ByteString.of(UnattendedRequest.ADAPTER.encode(unattendedRequest)),
-              UnattendedResponse.class, future, future);
-      request.setTag(this);
-      request.submit();
-      Observable.from(future, Schedulers.newThread())
-          .compose(RxLifecycleAndroid.<UnattendedResponse>bindView(view()))
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new ActionSubscriber<>(new Action1<UnattendedResponse>() {
-              @Override
-              public void call(UnattendedResponse unattendedRequest) {
-                view().setEnabled(true);
-                if (!Wire.get(unattendedRequest.success, false)) {
-                  // NOTE: unattended error restore model
-                  group().bind(model);
-                }
-              }
-            }, new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                Timber.e(throwable, "unattended diary error");
-                view().setEnabled(true);
-                // NOTE: unattended error restore model
-                group().bind(model);
-              }
-            }, Actions.empty()));
+      _unattended_imp(model);
     }
+  }
+
+  private void _attention_imp(final Model model) {
+    AttentionRequest attentionRequest = new AttentionRequest.Builder().diary_id(model.identity).build();
+    RequestFuture<AttentionResponse> future = RequestFuture.newFuture();
+    SparkleRequest<AttentionResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.ATTENTION_DIARY,
+            ByteString.of(AttentionRequest.ADAPTER.encode(attentionRequest)),
+            AttentionResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(RxLifecycleAndroid.<AttentionResponse>bindView(view()))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<AttentionResponse>() {
+          @Override
+          public void call(AttentionResponse attentionResponse) {
+            if (!Wire.get(attentionResponse.success, false)) {
+              // NOTE: attention error restore model
+              group().bind(model);
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "attention diary error");
+            // NOTE: attention error restore model
+            group().bind(model);
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
+  }
+
+  private void _unattended_imp(final Model model) {
+    UnattendedRequest unattendedRequest = new UnattendedRequest.Builder().diary_id(model.identity).build();
+    RequestFuture<UnattendedResponse> future = RequestFuture.newFuture();
+    SparkleRequest<UnattendedResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.UNATTENDED_DIARY,
+            ByteString.of(UnattendedRequest.ADAPTER.encode(unattendedRequest)),
+            UnattendedResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(RxLifecycleAndroid.<UnattendedResponse>bindView(view()))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<UnattendedResponse>() {
+          @Override
+          public void call(UnattendedResponse unattendedRequest) {
+            if (!Wire.get(unattendedRequest.success, false)) {
+              // NOTE: unattended error restore model
+              group().bind(model);
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "unattended diary error");
+            // NOTE: unattended error restore model
+            group().bind(model);
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
   }
 
   private void follow(Model model) {
@@ -198,38 +213,115 @@ public class ActionPresenter extends SparklePresenter {
   }
 
   private void liked(Model model) {
-//    final boolean isUnlike = model.identity.equals(Const.FAV_DEL);
-//    final ProgressDialog dialog = new ProgressDialog(group().context);
-//    dialog.show();
-//    Map<String, String> query = new HashMap<>();
-//    query.put(Const.KEY_GID, gid);
-//    query.put(Const.KEY_T, token);
-//    query.put(Const.KEY_ACT, Const.ADD_FAV);
-//    Map<String, String> params = new HashMap<>();
-//    params.put(Const.KEY_FAV_NOTE, Const.EMPTY_STRING);
-//    params.put(Const.KEY_UPDATE, Const.ONE);
-//    params.put(Const.KEY_FAV_CAT, model.identity);
-//    params.put(Const.KEY_APPLY, model.description);
-//    SparkleRequest request = EarthApplication.getInstance().getRequestManager()
-//        .newEarthRequest(ApiType.LIKED, Request.Method.POST, new Response.Listener<EarthResponse>() {
-//          @Override
-//          public void onResponse(EarthResponse response) {
-//            EventBus.getDefault().post(new OnLikedEvent(gid, !isUnlike));
-//            ToastUtils.toast(isUnlike ? R.string.unlike_succeed : R.string.like_succeed);
-//            dialog.dismiss();
-//          }
-//        }, new Response.ErrorListener() {
-//          @Override
-//          public void onErrorResponse(VolleyError error) {
-//            EventBus.getDefault().post(new OnLikedEvent(gid, isUnlike));
-//            ToastUtils.toast(isUnlike ? R.string.unlike_error : R.string.like_succeed);
-//            dialog.dismiss();
-//          }
-//        });
-//    request.setTag(this);
-//    request.setQuery(query);
-//    request.setParams(params);
-//    request.submit();
+    view().setEnabled(false);
+    boolean should_liked = !Wire.get(model.flag.is_liked, false);
+    group().bind(model.newBuilder()
+        .flag(model.flag.newBuilder().is_liked(should_liked).build())
+        .count(model.count.newBuilder()
+            .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
+        .build());
+
+    if (should_liked) {
+      _like_imp(model);
+    } else {
+      _unlike_imp(model);
+    }
+  }
+
+  private void _like_imp(final Model model) {
+    ApiType apiType;
+    switch (model.type) {
+      case DIARY:
+        apiType = ApiType.LIKE_DIARY;
+        break;
+      case CORRECT:
+        apiType = ApiType.LIKE_CORRECT;
+        break;
+      case COMMENT:
+        apiType = ApiType.LIKE_COMMENT;
+        break;
+      default:
+        Timber.e("error type: " + model.type);
+        return;
+    }
+    LikeRequest likeRequest = new LikeRequest.Builder()
+        .identity(model.identity)
+        .build();
+    RequestFuture<LikeResponse> future = RequestFuture.newFuture();
+    SparkleRequest<LikeResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(apiType, ByteString.of(LikeRequest.ADAPTER.encode(likeRequest)),
+            LikeResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(RxLifecycleAndroid.<LikeResponse>bindView(view()))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<LikeResponse>() {
+          @Override
+          public void call(LikeResponse likeResponse) {
+            if (!Wire.get(likeResponse.success, false)) {
+              // NOTE: like error restore model
+              group().bind(model);
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "like article error");
+            // NOTE: like error restore model
+            group().bind(model);
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
+  }
+
+  private void _unlike_imp(final Model model) {
+    ApiType apiType;
+    switch (model.type) {
+      case DIARY:
+        apiType = ApiType.UNLIKE_DIARY;
+        break;
+      case CORRECT:
+        apiType = ApiType.UNLIKE_CORRECT;
+        break;
+      case COMMENT:
+        apiType = ApiType.UNLIKE_COMMENT;
+        break;
+      default:
+        Timber.e("error type: " + model.type);
+        return;
+    }
+    UnlikeRequest unlikeRequest = new UnlikeRequest.Builder()
+        .identity(model.identity)
+        .build();
+    RequestFuture<UnlikeResponse> future = RequestFuture.newFuture();
+    SparkleRequest<UnlikeResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(apiType, ByteString.of(UnlikeRequest.ADAPTER.encode(unlikeRequest)),
+            UnlikeResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(RxLifecycleAndroid.<UnlikeResponse>bindView(view()))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<UnlikeResponse>() {
+          @Override
+          public void call(UnlikeResponse unlikeResponse) {
+            if (!Wire.get(unlikeResponse.success, false)) {
+              // NOTE: like error restore model
+              group().bind(model);
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "like article error");
+            // NOTE: like error restore model
+            group().bind(model);
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
   }
 
   @SuppressWarnings("unchecked")

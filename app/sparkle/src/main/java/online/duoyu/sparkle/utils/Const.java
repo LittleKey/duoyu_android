@@ -137,10 +137,17 @@ public class Const {
   public static final String API_DIARY_UNATTENDED = API_HOST_URL + "/diary/unattended";
   public static final String API_DIARY = API_HOST_URL + "/diary";
   public static final String API_GET_DIARY_BY_ID = API_HOST_URL + "/diary/get_by_id";
+  public static final String API_LIKE_DIARY = API_HOST_URL + "/diary/like";
+  public static final String API_UNLIKE_DIARY = API_HOST_URL + "/diary/unlike";
   // correct
   public static final String API_GET_CORRECT_BY_DIARY_AND_USER = API_HOST_URL + "/correct/get_by_diary_and_user";
   public static final String API_GET_CORRECT_BY_DIARY = API_HOST_URL + "/correct/get_by_diary_id";
   public static final String API_CORRECT = API_HOST_URL + "/correct";
+  public static final String API_LIKE_CORRECT = API_HOST_URL + "/correct/like";
+  public static final String API_UNLIKE_CORRECT = API_HOST_URL + "/correct/unlike";
+  // comment
+  public static final String API_LIKE_COMMENT = API_HOST_URL + "/comment/like";
+  public static final String API_UNLIKE_COMMENT = API_HOST_URL + "/comment/unlike";
   /********************************
    * Network Related
    ********************************/

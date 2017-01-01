@@ -159,6 +159,18 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_DIARY;
       case GET_DIARY_BY_ID:
         return Const.API_GET_DIARY_BY_ID;
+      case LIKE_COMMENT:
+        return Const.API_LIKE_COMMENT;
+      case LIKE_CORRECT:
+        return Const.API_LIKE_CORRECT;
+      case LIKE_DIARY:
+        return Const.API_LIKE_DIARY;
+      case UNLIKE_COMMENT:
+        return Const.API_UNLIKE_COMMENT;
+      case UNLIKE_CORRECT:
+        return Const.API_UNLIKE_CORRECT;
+      case UNLIKE_DIARY:
+        return Const.API_UNLIKE_DIARY;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
