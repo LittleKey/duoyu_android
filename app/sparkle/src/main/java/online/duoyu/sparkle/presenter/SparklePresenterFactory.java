@@ -60,6 +60,20 @@ public class SparklePresenterFactory {
         .add(R.id.all_correct_text, new TextPresenter());
   }
 
+  public static ViewGroupPresenter createCorrectItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.date, new TextPresenter())
+        .add(R.id.correct_sentence_list, new ListPresenter());
+  }
+
+  public static ViewGroupPresenter createCorrectWithOriginContentSentenceItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.original_sentence, new TextPresenter())
+        .add(R.id.correct_sentence, new TextPresenter());
+  }
+
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
     return new ViewGroupPresenter(view)
         .add(R.id.title, new TextPresenter())

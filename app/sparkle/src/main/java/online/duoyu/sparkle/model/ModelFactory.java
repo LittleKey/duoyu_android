@@ -172,6 +172,7 @@ public class ModelFactory {
         .actions(actions)
         .count(count)
         .flag(flag)
+        .addition(createModelFromDiary(correct.diary, Model.Template.DATA))
         .build();
   }
 }

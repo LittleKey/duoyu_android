@@ -7,6 +7,7 @@ import java.util.List;
 import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.model.data.FollowUserDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.GetCorrectsByDiaryDataGenerator;
+import online.duoyu.sparkle.model.data.GetCorrectsSentenceByDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.RecentDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.SparkleDataGenerator;
 import online.duoyu.sparkle.network.ApiType;
@@ -25,6 +26,8 @@ public class DataGeneratorFactory {
         return new RecentDiaryDataGenerator(apiType);
       case FOLLOW_USER_DIARY:
         return new FollowUserDiaryDataGenerator(apiType);
+      case GET_CORRECTS_SENTENCE_BY_DIARY:
+        return new GetCorrectsSentenceByDiaryDataGenerator(apiType, bundle);
       case GET_CORRECTS_BY_DIARY:
         return new GetCorrectsByDiaryDataGenerator(apiType, bundle);
       default:

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/original_sentence"
+        style="@style/TextStyle.Middle.Gray"
+        android:text="original content"/>
+
+    <TextView
+        android:id="@+id/correct_sentence"
+        style="@style/TextStyle.Middle.Black"
+        android:text="correct content"/>
+
+</LinearLayout>

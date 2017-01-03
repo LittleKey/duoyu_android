@@ -2,38 +2,21 @@ package online.duoyu.sparkle.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.squareup.wire.Wire;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import de.greenrobot.event.EventBus;
-import me.littlekey.base.utils.FormatUtils;
 import online.duoyu.sparkle.R;
-import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.event.OnEditCorrectTextChangeEvent;
 import online.duoyu.sparkle.model.Model;
-import online.duoyu.sparkle.model.ModelFactory;
-import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdResponse;
 import online.duoyu.sparkle.network.ApiType;
-import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.utils.Const;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Actions;
-import rx.internal.util.ActionSubscriber;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/28/16.
@@ -44,13 +27,14 @@ public class EditCorrectChildFragment extends ListFragment {
   public static EditCorrectChildFragment newInstance(Model model, String correct_content, int position) {
     Bundle args = new Bundle();
     args.putString(Const.KEY_CORRECT_CONTENT, correct_content);
-    args.putInt(Const.KEY_API_TYPE, ApiType.GET_CORRECTS_BY_DIARY.ordinal());
+    args.putInt(Const.KEY_API_TYPE, ApiType.GET_CORRECTS_SENTENCE_BY_DIARY.ordinal());
     Bundle extra_bundle = new Bundle();
     extra_bundle.putParcelable(Const.KEY_MODEL, model);
     extra_bundle.putInt(Const.KEY_POSITION, position);
     args.putBundle(Const.KEY_EXTRA, extra_bundle);
     EditCorrectChildFragment fragment = new EditCorrectChildFragment();
     fragment.setArguments(args);
+    fragment.setLazyLoad(false);
     return fragment;
   }
 

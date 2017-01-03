@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="RtlHardCoded"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:placeholderImage="?attr/primaryColor"
+        app:placeholderImageScaleType="fitCenter"
+        app:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/nickname"
+        style="@style/TextStyle.Middle.Black"
+        android:layout_toRightOf="@id/avatar"
+        android:layout_marginLeft="10dp"
+        android:text="nickname"/>
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/TextStyle.Mini.Gray"
+        android:layout_alignLeft="@id/nickname"
+        android:layout_below="@id/nickname"
+        android:text="2017.01.01"/>
+
+    <TextView
+        android:id="@+id/likes"
+        style="@style/TextStyle.Middle.Gray"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/nickname"
+        android:text="999+"/>
+
+    <me.littlekey.mvp.widget.MvpRecyclerView
+        android:id="@+id/correct_sentence_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/date"
+        android:layout_below="@id/date"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/light_gray"
+        android:listDivider="@layout/thin_light_divider_line"
+        android:text="sentence"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/correct_sentence_list"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/correct_sentence_list"
+        android:background="@color/divide_line_gray"/>
+</RelativeLayout>

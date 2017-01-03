@@ -148,6 +148,7 @@ public class SparkleRequestManager extends RequestManager {
       case GET_CORRECT_BY_DIARY_AND_USER:
         return Const.API_GET_CORRECT_BY_DIARY_AND_USER;
       case GET_CORRECTS_BY_DIARY:
+      case GET_CORRECTS_SENTENCE_BY_DIARY:
         return Const.API_GET_CORRECT_BY_DIARY;
       case CORRECT:
         return Const.API_CORRECT;
@@ -212,6 +213,7 @@ public class SparkleRequestManager extends RequestManager {
         content = ByteString.of(GetCorrectByDiaryIdRequest.ADAPTER.encode(getCorrectByDiaryIdRequest));
         break;
       case GET_CORRECTS_BY_DIARY:
+      case GET_CORRECTS_SENTENCE_BY_DIARY:
         GetCorrectsByDiaryIdRequest getCorrectsByDiaryIdRequest = new GetCorrectsByDiaryIdRequest.Builder()
             .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
             .build();

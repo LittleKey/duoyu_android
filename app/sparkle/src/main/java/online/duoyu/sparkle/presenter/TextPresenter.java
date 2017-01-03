@@ -50,12 +50,13 @@ public class TextPresenter extends SparklePresenter {
       case R.id.all_correct_text:
         return SparkleUtils.formatString(R.string.all_correct, model.count.corrects);
       case R.id.correct_sentence:
+        return model.correct_sentence;
       case R.id.original_sentence:
-        return model.content.get(model.count.position).trim();
+        return model.origin_sentence;
       case R.id.content:
 //        return Html.fromHtml(model.description);
 //      case R.id.description:
-        return model.description.trim();
+        return model.description;
       case R.id.theme_title:
       case R.id.title:
         return model.title.trim();

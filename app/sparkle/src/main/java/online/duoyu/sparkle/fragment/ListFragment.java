@@ -4,7 +4,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +42,12 @@ public class ListFragment extends LazyLoadFragment {
     ListFragment fragment = new ListFragment();
     fragment.setArguments(bundle);
     return fragment;
+  }
+
+  public ListFragment setLazyLoad(boolean enable) {
+    setMenuVisibility(!enable);
+    setUserVisibleHint(!enable);
+    return this;
   }
 
   @Override
@@ -168,6 +173,20 @@ public class ListFragment extends LazyLoadFragment {
     mList.refresh();
     switch (apiType) {
       case GET_CORRECTS_BY_DIARY:
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+          @Override
+          public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            if (parent.getChildAdapterPosition(view) == 0) {
+              outRect.top = FormatUtils.dipsToPix(20);
+            }
+            outRect.left = FormatUtils.dipsToPix(10);
+            outRect.right = FormatUtils.dipsToPix(10);
+            outRect.bottom = FormatUtils.dipsToPix(20);
+          }
+        });
+        break;
+      case GET_CORRECTS_SENTENCE_BY_DIARY:
       case RECENT_DIARY:
       case FOLLOW_USER_DIARY:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {

@@ -42,6 +42,8 @@ public class ListAdapter extends MvpAdapter<Model> {
         return SparklePresenterFactory.createCorrectSentenceItemPresenter(parent, R.layout.item_correct_sentence);
       case ITEM_EDIT_CORRECT_HEADER:
         return SparklePresenterFactory.createEditCorrectHeaderItemPresenter(parent, R.layout.item_edit_correct_child_header);
+      case ITEM_CORRECT:
+        return SparklePresenterFactory.createCorrectItemPresenter(parent, R.layout.item_correct);
       default:
         throw new IllegalStateException("Nonsupport template : " + template.name());
     }
