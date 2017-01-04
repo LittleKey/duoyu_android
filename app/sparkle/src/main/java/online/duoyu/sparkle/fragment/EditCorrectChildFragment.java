@@ -41,7 +41,7 @@ public class EditCorrectChildFragment extends ListFragment {
   @Override
   protected View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
     ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_edit_correct_child, container, false);
-    EditText edit_correct =(EditText) rootView.findViewById(R.id.edit_correct);
+    EditText edit_correct = (EditText) rootView.findViewById(R.id.edit_correct);
     if (getArguments() == null) {
       return rootView;
     }

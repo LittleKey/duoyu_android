@@ -106,6 +106,12 @@ public class ListFragment extends LazyLoadFragment {
     }
   }
 
+  public void insertItem(int position, Model model) {
+    if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
+      ((ListAdapter) mRecyclerView.getAdapter()).insertData(position, model);
+    }
+  }
+
   public void deleteItem(Model model) {
     if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
       ((ListAdapter) mRecyclerView.getAdapter()).removeData(model);
@@ -118,7 +124,7 @@ public class ListFragment extends LazyLoadFragment {
     }
   }
 
-  public void changeItem(Model model, int position) {
+  public void changeItem(int position, Model model) {
     if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
       ((ListAdapter) mRecyclerView.getAdapter()).changeData(position, model);
     }
@@ -172,17 +178,18 @@ public class ListFragment extends LazyLoadFragment {
     adapter.setList(mList);
     mList.refresh();
     switch (apiType) {
+      case GET_COMMENTS_BY_DIARY:
       case GET_CORRECTS_BY_DIARY:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override
           public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
             if (parent.getChildAdapterPosition(view) == 0) {
-              outRect.top = FormatUtils.dipsToPix(20);
+              outRect.top = FormatUtils.dipsToPix(10);
             }
             outRect.left = FormatUtils.dipsToPix(10);
             outRect.right = FormatUtils.dipsToPix(10);
-            outRect.bottom = FormatUtils.dipsToPix(20);
+            outRect.bottom = FormatUtils.dipsToPix(10);
           }
         });
         break;

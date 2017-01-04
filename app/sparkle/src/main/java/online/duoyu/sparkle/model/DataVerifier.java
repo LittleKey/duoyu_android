@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.squareup.wire.Wire;
 
+import online.duoyu.sparkle.model.proto.Comment;
 import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.model.proto.User;
@@ -55,6 +56,7 @@ public class DataVerifier {
     }
     Diary.Builder builder = diary.newBuilder()
         .author(author)
+        .liked(Wire.get(diary.liked, false))
         .likes(Wire.get(diary.likes, 0))
         .comments(Wire.get(diary.comments, 0))
         .corrects(Wire.get(diary.corrects, 0))
@@ -83,8 +85,41 @@ public class DataVerifier {
     Correct.Builder builder = correct.newBuilder()
         .diary(diary)
         .author(author)
+        .liked(Wire.get(correct.liked, false))
         .comments(Wire.get(diary.comments, 0))
         .likes(Wire.get(correct.likes, 0));
     return builder.build();
+  }
+
+  public static Comment verify(Comment comment) {
+    if (comment == null) {
+      return null;
+    }
+    if (TextUtils.isEmpty(comment.comment_id)) {
+      return null;
+    }
+    if (TextUtils.isEmpty(comment.entire_id)) {
+      return null;
+    }
+    User author = verify(comment.author);
+    if (author == null) {
+      return null;
+    }
+    Comment.Builder builder = comment.newBuilder();
+    if (comment.quote_id != null) {
+      if (TextUtils.isEmpty(comment.quote)) {
+        return null;
+      }
+      User quote_author = verify(comment.quote_author);
+      if (quote_author == null) {
+        return null;
+      }
+      builder.quote_author(quote_author);
+    }
+    return builder
+        .author(author)
+        .likes(Wire.get(comment.likes, 0))
+        .liked(Wire.get(comment.liked, false))
+        .build();
   }
 }

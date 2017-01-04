@@ -36,22 +36,19 @@
         android:layout_alignTop="@id/nickname"
         android:text="999+"/>
 
-    <me.littlekey.mvp.widget.MvpRecyclerView
-        android:id="@+id/correct_sentence_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/date"
-        android:layout_below="@id/date"
-        android:layout_marginTop="2dp"
-        android:background="@color/light_gray"
-        android:listDivider="@layout/thin_light_divider_line"
-        android:text="sentence"/>
+    <TextView
+        android:id="@+id/content"
+        style="@style/TextStyle.Middle.Black"
+        android:layout_below="@id/avatar"
+        android:layout_alignLeft="@id/nickname"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="content"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/correct_sentence_list"
-        android:layout_marginTop="10dp"
-        android:layout_alignLeft="@id/correct_sentence_list"
+        android:layout_below="@id/content"
+        android:layout_alignLeft="@id/content"
         android:background="@color/divide_line_gray"/>
 </RelativeLayout>

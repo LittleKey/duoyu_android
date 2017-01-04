@@ -20,6 +20,7 @@ import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.LoginActivity;
+import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.event.OnSelectEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.business.AttenderRequest;
@@ -63,13 +64,15 @@ public class ActionPresenter extends SparklePresenter {
     if (action == null) {
       return;
     }
+    if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+      mSubscription.unsubscribe();
+    }
     mSubscription = RxView.clicks(view())
-        .throttleFirst(1, TimeUnit.SECONDS)
-        .compose(RxLifecycleAndroid.<Void>bindView(view()))
+        .throttleFirst(500, TimeUnit.MICROSECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
-
             switch (action.type) {
               case JUMP_WITH_LOGIN:
                 if (!SparkleApplication.getInstance().getAccountManager().isSignIn()) {
@@ -118,6 +121,9 @@ public class ActionPresenter extends SparklePresenter {
                 break;
               case FOLLOW:
                 follow(model);
+                break;
+              case COMMENT:
+                comment(model);
                 break;
             }
           }
@@ -215,12 +221,18 @@ public class ActionPresenter extends SparklePresenter {
   private void liked(Model model) {
     view().setEnabled(false);
     boolean should_liked = !Wire.get(model.flag.is_liked, false);
-    group().bind(model.newBuilder()
+    Model newModel = model.newBuilder()
         .flag(model.flag.newBuilder().is_liked(should_liked).build())
         .count(model.count.newBuilder()
             .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
-        .build());
-
+        .build();
+    @SuppressWarnings("unchecked")
+    MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    if (adapter != null) {
+      adapter.changeData(adapter.indexOf(model), newModel);
+    } else {
+      group().bind(newModel);
+    }
     if (should_liked) {
       _like_imp(model);
     } else {
@@ -244,6 +256,14 @@ public class ActionPresenter extends SparklePresenter {
         Timber.e("error type: " + model.type);
         return;
     }
+    @SuppressWarnings("unchecked")
+    final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    boolean should_liked = Wire.get(model.flag.is_liked, false);
+    final Model oldModel = model.newBuilder()
+        .flag(model.flag.newBuilder().is_liked(should_liked).build())
+        .count(model.count.newBuilder()
+            .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
+        .build();
     LikeRequest likeRequest = new LikeRequest.Builder()
         .identity(model.identity)
         .build();
@@ -261,7 +281,11 @@ public class ActionPresenter extends SparklePresenter {
           public void call(LikeResponse likeResponse) {
             if (!Wire.get(likeResponse.success, false)) {
               // NOTE: like error restore model
-              group().bind(model);
+              if (adapter != null) {
+                adapter.changeData(adapter.indexOf(model), oldModel);
+              } else {
+                group().bind(oldModel);
+              }
             }
             view().setEnabled(true);
           }
@@ -270,7 +294,11 @@ public class ActionPresenter extends SparklePresenter {
           public void call(Throwable throwable) {
             Timber.e(throwable, "like article error");
             // NOTE: like error restore model
-            group().bind(model);
+            if (adapter != null) {
+              adapter.changeData(adapter.indexOf(model), oldModel);
+            } else {
+              group().bind(oldModel);
+            }
             view().setEnabled(true);
           }
         }, Actions.empty()));
@@ -292,6 +320,14 @@ public class ActionPresenter extends SparklePresenter {
         Timber.e("error type: " + model.type);
         return;
     }
+    @SuppressWarnings("unchecked")
+    final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    boolean should_liked = Wire.get(model.flag.is_liked, false);
+    final Model oldModel = model.newBuilder()
+        .flag(model.flag.newBuilder().is_liked(should_liked).build())
+        .count(model.count.newBuilder()
+            .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
+        .build();
     UnlikeRequest unlikeRequest = new UnlikeRequest.Builder()
         .identity(model.identity)
         .build();
@@ -309,7 +345,11 @@ public class ActionPresenter extends SparklePresenter {
           public void call(UnlikeResponse unlikeResponse) {
             if (!Wire.get(unlikeResponse.success, false)) {
               // NOTE: like error restore model
-              group().bind(model);
+              if (adapter != null) {
+                adapter.changeData(adapter.indexOf(model), oldModel);
+              } else {
+                group().bind(oldModel);
+              }
             }
             view().setEnabled(true);
           }
@@ -318,10 +358,18 @@ public class ActionPresenter extends SparklePresenter {
           public void call(Throwable throwable) {
             Timber.e(throwable, "like article error");
             // NOTE: like error restore model
-            group().bind(model);
+            if (adapter != null) {
+              adapter.changeData(adapter.indexOf(model), oldModel);
+            } else {
+              group().bind(oldModel);
+            }
             view().setEnabled(true);
           }
         }, Actions.empty()));
+  }
+
+  private void comment(Model model) {
+    EventBus.getDefault().post(new OnReplyCommentEvent(model));
   }
 
   @SuppressWarnings("unchecked")

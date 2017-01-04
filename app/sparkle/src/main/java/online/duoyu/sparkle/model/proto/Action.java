@@ -148,7 +148,9 @@ public final class Action extends Message<Action, Action.Builder> {
 
     FOLLOW(7),
 
-    ATTENTION(8);
+    ATTENTION(8),
+
+    COMMENT(9);
 
     public static final ProtoAdapter<Type> ADAPTER = ProtoAdapter.newEnumAdapter(Type.class);
 
@@ -172,6 +174,7 @@ public final class Action extends Message<Action, Action.Builder> {
         case 6: return UPDATE_MONTH;
         case 7: return FOLLOW;
         case 8: return ATTENTION;
+        case 9: return COMMENT;
         default: return null;
       }
     }

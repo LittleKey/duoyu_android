@@ -40,10 +40,16 @@ public class ListAdapter extends MvpAdapter<Model> {
         return SparklePresenterFactory.createDiaryWithMonthItemPresenter(parent, R.layout.item_diary_with_month);
       case ITEM_CORRECT_SENTENCE:
         return SparklePresenterFactory.createCorrectSentenceItemPresenter(parent, R.layout.item_correct_sentence);
-      case ITEM_EDIT_CORRECT_HEADER:
-        return SparklePresenterFactory.createEditCorrectHeaderItemPresenter(parent, R.layout.item_edit_correct_child_header);
+      case ITEM_DIVIDER_HEADER:
+        return SparklePresenterFactory.createDividerHeaderItemPresenter(parent, R.layout.item_divider_header);
+      case ITEM_ORIGIN_SENTENCE:
+        return SparklePresenterFactory.createOriginSentenceItemPresenter(parent, R.layout.item_origin_sentence);
       case ITEM_CORRECT:
-        return SparklePresenterFactory.createCorrectItemPresenter(parent, R.layout.item_correct);
+        return SparklePresenterFactory.createCorrectItemPresenter(parent, R.layout.item_correct, this);
+      case ITEM_COMMENT:
+        return SparklePresenterFactory.createCommentItemPresenter(parent, R.layout.item_comment, this);
+      case ITEM_DIARY_TITLE:
+        return SparklePresenterFactory.createDiaryTitleItemPresenter(parent, R.layout.item_diary_title);
       default:
         throw new IllegalStateException("Nonsupport template : " + template.name());
     }

@@ -739,7 +739,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_DIARY_WITH_MONTH(5),
 
-    ITEM_EDIT_CORRECT_HEADER(6),
+    ITEM_DIVIDER_HEADER(6),
 
     ITEM_CORRECT_SENTENCE(7),
 
@@ -749,7 +749,11 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_USER(10),
 
-    ITEM_CORRECT_WITH_ORIGIN_CONTENT_SENTENCE(11);
+    ITEM_CORRECT_WITH_ORIGIN_CONTENT_SENTENCE(11),
+
+    ITEM_ORIGIN_SENTENCE(12),
+
+    ITEM_DIARY_TITLE(13);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -770,12 +774,14 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 3: return ITEM_DIARY;
         case 4: return ITEM_MONTH;
         case 5: return ITEM_DIARY_WITH_MONTH;
-        case 6: return ITEM_EDIT_CORRECT_HEADER;
+        case 6: return ITEM_DIVIDER_HEADER;
         case 7: return ITEM_CORRECT_SENTENCE;
         case 8: return ITEM_CORRECT;
         case 9: return ITEM_COMMENT;
         case 10: return ITEM_USER;
         case 11: return ITEM_CORRECT_WITH_ORIGIN_CONTENT_SENTENCE;
+        case 12: return ITEM_ORIGIN_SENTENCE;
+        case 13: return ITEM_DIARY_TITLE;
         default: return null;
       }
     }

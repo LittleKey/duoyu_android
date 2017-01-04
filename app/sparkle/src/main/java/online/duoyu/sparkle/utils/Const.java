@@ -124,8 +124,8 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-  private static final String API_HOST_URL = "http://192.168.1.6";
-//  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
+//  private static final String API_HOST_URL = "http://192.168.1.6";
+  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   // user
@@ -141,13 +141,15 @@ public class Const {
   public static final String API_UNLIKE_DIARY = API_HOST_URL + "/diary/unlike";
   // correct
   public static final String API_GET_CORRECT_BY_DIARY_AND_USER = API_HOST_URL + "/correct/get_by_diary_and_user";
-  public static final String API_GET_CORRECT_BY_DIARY = API_HOST_URL + "/correct/get_by_diary_id";
+  public static final String API_GET_CORRECTS_BY_DIARY = API_HOST_URL + "/correct/get_by_diary_id";
   public static final String API_CORRECT = API_HOST_URL + "/correct";
   public static final String API_LIKE_CORRECT = API_HOST_URL + "/correct/like";
   public static final String API_UNLIKE_CORRECT = API_HOST_URL + "/correct/unlike";
   // comment
   public static final String API_LIKE_COMMENT = API_HOST_URL + "/comment/like";
   public static final String API_UNLIKE_COMMENT = API_HOST_URL + "/comment/unlike";
+  public static final String API_GET_COMMENTS_BY_DIARY = API_HOST_URL + "/comment/get_by_diary_id";
+  public static final String API_COMMENT = API_HOST_URL + "/comment";
   /********************************
    * Network Related
    ********************************/

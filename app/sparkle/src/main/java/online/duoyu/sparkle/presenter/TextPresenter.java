@@ -1,7 +1,6 @@
 package online.duoyu.sparkle.presenter;
 
 import android.text.Spannable;
-import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
@@ -47,12 +46,11 @@ public class TextPresenter extends SparklePresenter {
   private Object getValueByViewId(int id, Model model) {
     switch (id) {
       /** Common **/
-      case R.id.all_correct_text:
-        return SparkleUtils.formatString(R.string.all_correct, model.count.corrects);
       case R.id.correct_sentence:
         return model.correct_sentence;
-      case R.id.original_sentence:
+      case R.id.origin_sentence:
         return model.origin_sentence;
+      case R.id.divider_text:
       case R.id.content:
 //        return Html.fromHtml(model.description);
 //      case R.id.description:

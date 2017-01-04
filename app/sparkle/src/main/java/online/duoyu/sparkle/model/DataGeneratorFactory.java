@@ -6,6 +6,7 @@ import java.util.List;
 
 import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.model.data.FollowUserDiaryDataGenerator;
+import online.duoyu.sparkle.model.data.GetCommentsByDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.GetCorrectsByDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.GetCorrectsSentenceByDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.RecentDiaryDataGenerator;
@@ -30,6 +31,8 @@ public class DataGeneratorFactory {
         return new GetCorrectsSentenceByDiaryDataGenerator(apiType, bundle);
       case GET_CORRECTS_BY_DIARY:
         return new GetCorrectsByDiaryDataGenerator(apiType, bundle);
+      case GET_COMMENTS_BY_DIARY:
+        return new GetCommentsByDiaryDataGenerator(apiType, bundle);
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }

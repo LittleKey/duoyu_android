@@ -25,5 +25,8 @@
     <string name="get_diary_error">get diary info error</string>
 
     <!-- edit correct -->
-    <string name="all_correct">corrects(%d)</string>
+    <string name="all_corrects">Corrects(%d)</string>
+
+    <!-- comment -->
+    <string name="all_comments">Comments(%d)</string>
 </resources>

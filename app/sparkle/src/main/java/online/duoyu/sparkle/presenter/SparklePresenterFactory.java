@@ -3,7 +3,9 @@ package online.duoyu.sparkle.presenter;
 import android.view.ViewGroup;
 
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
+import me.littlekey.mvp.widget.MvpRecyclerView;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.model.Model;
 
 /**
  * Created by littlekey on 12/24/16.
@@ -46,6 +48,12 @@ public class SparklePresenterFactory {
         .add(new ListenActionPresenter());
   }
 
+  public static ViewGroupPresenter createDiaryTitleItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.title, new TextPresenter())
+        .add(R.id.nickname, new TextPresenter());
+  }
+
   public static ViewGroupPresenter createCorrectSentenceItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
         .add(R.id.avatar, new ImagePresenter())
@@ -54,14 +62,19 @@ public class SparklePresenterFactory {
         .add(R.id.correct_sentence, new TextPresenter());
   }
 
-  public static ViewGroupPresenter createEditCorrectHeaderItemPresenter(ViewGroup parent, int layout) {
+  public static ViewGroupPresenter createDividerHeaderItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
-        .add(R.id.original_sentence, new TextPresenter())
-        .add(R.id.all_correct_text, new TextPresenter());
+        .add(R.id.divider_text, new TextPresenter());
   }
 
-  public static ViewGroupPresenter createCorrectItemPresenter(ViewGroup parent, int layout) {
+  public static ViewGroupPresenter createOriginSentenceItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
+        .add(R.id.origin_sentence, new TextPresenter());
+  }
+
+  public static ViewGroupPresenter createCorrectItemPresenter(ViewGroup parent, int layout,
+        MvpRecyclerView.Adapter adapter) {
+    return new ViewGroupPresenter(parent, layout, adapter)
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.nickname, new TextPresenter())
         .add(R.id.date, new TextPresenter())
@@ -70,8 +83,20 @@ public class SparklePresenterFactory {
 
   public static ViewGroupPresenter createCorrectWithOriginContentSentenceItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
-        .add(R.id.original_sentence, new TextPresenter())
+        .add(R.id.origin_sentence, new TextPresenter())
         .add(R.id.correct_sentence, new TextPresenter());
+  }
+
+  public static ViewGroupPresenter createCommentItemPresenter(ViewGroup parent, int layout,
+        MvpRecyclerView.Adapter adapter) {
+    return new ViewGroupPresenter(parent, layout, adapter)
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.date, new TextPresenter())
+        .add(R.id.content, new TextPresenter())
+        .add(R.id.likes, new TextPresenter())
+        .add(R.id.likes, new ActionPresenter())
+        .add(new ActionPresenter());
   }
 
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {

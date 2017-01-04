@@ -24,6 +24,7 @@ import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
+import online.duoyu.sparkle.model.business.GetCommentsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.LoginRequest;
@@ -149,7 +150,7 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_GET_CORRECT_BY_DIARY_AND_USER;
       case GET_CORRECTS_BY_DIARY:
       case GET_CORRECTS_SENTENCE_BY_DIARY:
-        return Const.API_GET_CORRECT_BY_DIARY;
+        return Const.API_GET_CORRECTS_BY_DIARY;
       case CORRECT:
         return Const.API_CORRECT;
       case ATTENTION_DIARY:
@@ -172,6 +173,10 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_UNLIKE_CORRECT;
       case UNLIKE_DIARY:
         return Const.API_UNLIKE_DIARY;
+      case GET_COMMENTS_BY_DIARY:
+        return Const.API_GET_COMMENTS_BY_DIARY;
+      case COMMENT:
+        return Const.API_COMMENT;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
@@ -218,6 +223,12 @@ public class SparkleRequestManager extends RequestManager {
             .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
             .build();
         content = ByteString.of(GetCorrectsByDiaryIdRequest.ADAPTER.encode(getCorrectsByDiaryIdRequest));
+        break;
+      case GET_COMMENTS_BY_DIARY:
+        GetCommentsByDiaryIdRequest getCommentsByDiaryIdRequest = new GetCommentsByDiaryIdRequest.Builder()
+            .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
+            .build();
+        content = ByteString.of(GetCommentsByDiaryIdRequest.ADAPTER.encode(getCommentsByDiaryIdRequest));
         break;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());

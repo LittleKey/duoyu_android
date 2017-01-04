@@ -14,6 +14,7 @@ import online.duoyu.sparkle.activity.DiaryActivity;
 import online.duoyu.sparkle.activity.EditCorrectActivity;
 import online.duoyu.sparkle.activity.UserActivity;
 import online.duoyu.sparkle.model.proto.Action;
+import online.duoyu.sparkle.model.proto.Comment;
 import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Diary;
@@ -173,6 +174,57 @@ public class ModelFactory {
         .count(count)
         .flag(flag)
         .addition(createModelFromDiary(correct.diary, Model.Template.DATA))
+        .build();
+  }
+
+  public static Model createModelFromComment(Comment comment, Model.Template template) {
+    comment = DataVerifier.verify(comment);
+    if (comment == null) {
+      return null;
+    }
+    Count count = new Count.Builder()
+        .likes(comment.likes)
+        .floor(comment.floor)
+        .build();
+    Flag flag = new Flag.Builder()
+        .is_liked(comment.liked)
+        .build();
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(comment.date * 1000);
+    DateTime date_time = new DateTime(cal);
+    String month = date_time.monthOfYear().getAsShortText();
+    String week = date_time.dayOfWeek().getAsShortText();
+    Map<Integer, Action> actions = new HashMap<>();
+    actions.put(Const.ACTION_MAIN, new Action.Builder()
+        .type(Action.Type.COMMENT)
+        .build());
+    actions.put(Const.ACTION_LIKED, new Action.Builder()
+        .type(Action.Type.LIKED)
+        .build());
+    Model addition = null;
+    if (comment.quote_id != null) {
+      addition = new Model.Builder()
+          .identity(comment.quote_id)
+          .user(comment.quote_author)
+          .description(comment.quote)
+          .build();
+    }
+    return new Model.Builder()
+        .type(Model.Type.COMMENT)
+        .template(template)
+        .identity(comment.comment_id)
+        .user(comment.author)
+        .cover(comment.author.avatar)
+        .comment(comment)
+        .description(comment.content)
+        .date(cal.getTimeInMillis())
+        .month(month)
+        .week(week)
+        .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
+        .addition(addition)
+        .actions(actions)
+        .count(count)
+        .flag(flag)
         .build();
   }
 }
