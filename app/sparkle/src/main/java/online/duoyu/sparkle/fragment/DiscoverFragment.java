@@ -118,7 +118,7 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
             bundle.putInt(Const.KEY_API_TYPE, ApiType.RECENT_DIARY.ordinal());
             return ListFragment.newInstance(bundle);
           case 2:
-            return FollowUserDiaryFragment.newInstance("01 Jan");
+            return WriteDiaryFragment.newInstance();
           default:
             return null;
         }

@@ -29,4 +29,7 @@
 
     <!-- comment -->
     <string name="all_comments">Comments(%d)</string>
+
+    <!-- write diary -->
+    <string name="btn_publish">Publish</string>
 </resources>

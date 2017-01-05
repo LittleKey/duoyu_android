@@ -19,4 +19,5 @@
     <attr name="defaultLeftTitleTabBackground"/>
     <attr name="defaultMidTitleTabBackground"/>
     <attr name="defaultRightTitleTabBackground"/>
+    <attr name="statefulButtonBackground"/>
 </resources>

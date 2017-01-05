@@ -17,6 +17,7 @@
         <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_blue_round_title_bar_left</item>
         <item name="defaultMidTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_mid</item>
         <item name="defaultRightTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_right</item>
+        <item name="statefulButtonBackground">@drawable/bg_primary_blue_rounded_corners</item>
         <item name="android:editTextBackground">@drawable/bg_primary_blue_edit_text</item>
     </style>
 
@@ -26,6 +27,7 @@
         <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_pink_round_title_bar_left</item>
         <item name="defaultMidTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_mid</item>
         <item name="defaultRightTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_right</item>
+        <item name="statefulButtonBackground">@drawable/bg_primary_pink_rounded_corners</item>
         <item name="android:editTextBackground">@drawable/bg_primary_pink_edit_text</item>
     </style>
 
@@ -45,6 +47,7 @@
         <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_blue_round_title_bar_left</item>
         <item name="defaultMidTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_mid</item>
         <item name="defaultRightTitleTabBackground">@drawable/bg_primary_blue_white_round_title_bar_right</item>
+        <item name="statefulButtonBackground">@drawable/bg_primary_blue_rounded_corners</item>
     </style>
 
     <style name="DialogTheme.PrimaryPink" parent="Theme.AppCompat.Dialog">
@@ -63,6 +66,7 @@
         <item name="defaultLeftTitleTabBackground">@drawable/bg_primary_pink_round_title_bar_left</item>
         <item name="defaultMidTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_mid</item>
         <item name="defaultRightTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_right</item>
+        <item name="statefulButtonBackground">@drawable/bg_primary_pink_rounded_corners</item>
     </style>
 
     <style name="BaseAppTheme.HomeActivity">

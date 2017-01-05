@@ -112,6 +112,7 @@ public class LoginFragment extends BaseFragment {
                 });
           }
         })
+        .compose(this.<Boolean>bindToLifecycle())
         .subscribe(new Action1<Boolean>() {
           @Override
           public void call(Boolean aBoolean) {

@@ -37,10 +37,6 @@
             android:theme="@style/Theme.AppCompat.Dialog.DiaryActivity"/>
 
         <activity
-            android:name=".activity.AttentionsActivity"
-            android:theme="@style/BaseAppTheme.AttentionsActivity"/>
-
-        <activity
             android:name=".activity.CommentsActivity"
             android:theme="@style/BaseAppTheme.CommentsActivity"/>
 
