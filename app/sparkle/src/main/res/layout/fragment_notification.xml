@@ -1,15 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primary_pink">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:text="Hello"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+    <!-- title bar begin -->
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_title_notify"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:background="?attr/defaultLeftTitleTabBackground"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="@string/title_tab_notify"/>
+
+            <TextView
+                android:id="@+id/btn_title_liked"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:background="?attr/defaultMidTitleTabBackground"
+                android:gravity="center"
+                android:textColor="?attr/textColor"
+                android:textSize="14sp"
+                android:text="@string/title_tab_liked"/>
+
+            <TextView
+                android:id="@+id/btn_title_follow"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:background="?attr/defaultRightTitleTabBackground"
+                android:gravity="center"
+                android:textColor="?attr/textColor"
+                android:textSize="14sp"
+                android:text="@string/title_tab_follow"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- title bar end -->
+
+    <!-- content view pager begin -->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"/>
+
+    <!-- content view pager end -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignTop="@id/view_pager"
+        android:background="@drawable/shadow_for_title_bar"/>
+
+</RelativeLayout>

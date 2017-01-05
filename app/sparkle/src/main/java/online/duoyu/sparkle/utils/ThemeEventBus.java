@@ -26,7 +26,7 @@ public class ThemeEventBus {
   }
 
   public static void postChangeThemeEvent(ThemeDelegate delegate) {
-    getDefault().post(new OnThemeChangeEvent(delegate));
+    getDefault().postSticky(new OnThemeChangeEvent(delegate));
   }
 
   public static class OnThemeChangeEvent {

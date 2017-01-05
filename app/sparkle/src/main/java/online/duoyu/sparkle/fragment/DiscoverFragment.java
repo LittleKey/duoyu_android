@@ -132,9 +132,7 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     mViewPager.setAdapter(pagerAdapter);
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
-    mViewPager.setCurrentItem(0);
-    mCurrentTab = mBtnTitleFollow;
-    ThemeEventBus.getDefault().register(this);
+    switchTitleBarTab(mCurrentTab = mBtnTitleFollow);
     return view;
   }
 
@@ -145,12 +143,8 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   }
 
   @Override
-  public void onDestroyView() {
-    ThemeEventBus.getDefault().unregister(this);
-    super.onDestroyView();
-  }
-
   public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
+    super.onEventMainThread(event);
     switchTitleBarTab(mCurrentTab);
   }
 

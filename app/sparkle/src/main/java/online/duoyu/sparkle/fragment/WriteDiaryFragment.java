@@ -42,7 +42,7 @@ public class WriteDiaryFragment extends LazyLoadFragment {
     View view = inflater.inflate(R.layout.fragment_write_diary, container, false);
     mTitleView = (TextView) view.findViewById(R.id.input_title);
     mContentView = (TextView) view.findViewById(R.id.input_content);
-    mBtnPublish = (StatefulButton) view.findViewById(R.id.btn_publish);
+    mBtnPublish = (StatefulButton) view.findViewById(R.id.theme_btn_publish);
     mBtnPublish.setState(StatefulButton.STATE_CANCELED);
     Observable.just(mTitleView, mContentView)
         .flatMap(new Func1<TextView, Observable<Boolean>>() {

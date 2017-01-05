@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.widget.StatefulButton;
 import timber.log.Timber;
 
 /**
@@ -97,35 +98,43 @@ public class Colorful {
         }
         break;
       case R.id.theme_tab_bar:
+      case R.id.theme_date_background:
+      case R.id.theme_btn_publish:
         view.setBackgroundColor(Colorful.getThemeDelegate().getThemeColor().getPrimaryColor());
         break;
     }
   }
 
   public enum ThemeColor {
-    PRIMARY_BLUE(R.color.primary_blue, R.color.primary_blue, new int[] {
+    PRIMARY_BLUE(R.color.primary_blue, R.color.primary_blue,
+        R.drawable.bg_primary_blue_rounded_corners, new int[] {
         R.drawable.bg_primary_blue_white_round_title_bar_left,
         R.drawable.bg_primary_blue_round_title_bar_left,
         R.drawable.bg_primary_blue_white_round_title_bar_mid,
         R.drawable.bg_primary_blue_white_round_title_bar_right,
         R.drawable.bg_primary_blue_round_title_bar_right
     }),
-    PRIMARY_PINK(R.color.primary_pink, R.color.primary_pink, new int[] {
+    PRIMARY_PINK(R.color.primary_pink, R.color.primary_pink,
+        R.drawable.bg_primary_pink_rounded_corners, new int[] {
         R.drawable.bg_primary_pink_white_round_title_bar_left,
         R.drawable.bg_primary_pink_round_title_bar_left,
         R.drawable.bg_primary_pink_white_round_title_bar_mid,
         R.drawable.bg_primary_pink_white_round_title_bar_right,
-        R.drawable.bg_primary_pink_round_title_bar_right
+        R.drawable.bg_primary_pink_round_title_bar_right,
+        R.drawable.bg_primary_blue_rounded_corners
     });
 
     @ColorRes private int mPrimaryColorRes;
     @ColorRes private int mTextColorRes;
     @DrawableRes private int[] mTitleTabDrawableRes;
+    @DrawableRes private int mStatefulButtonBackgroundRes;
 
-    ThemeColor(@ColorRes int primaryColorRes, @ColorRes int textColorRes, @DrawableRes int[] titleTabDrawableRes) {
+    ThemeColor(@ColorRes int primaryColorRes, @ColorRes int textColorRes,
+               @DrawableRes int statefulButtonBackgroundRes, @DrawableRes int[] titleTabDrawableRes) {
       this.mPrimaryColorRes = primaryColorRes;
       this.mTextColorRes = textColorRes;
       this.mTitleTabDrawableRes = titleTabDrawableRes;
+      this.mStatefulButtonBackgroundRes = statefulButtonBackgroundRes;
     }
 
     public @ColorInt int getPrimaryColor() {
@@ -142,6 +151,10 @@ public class Colorful {
         drawables.add(ResourcesUtils.getDrawable(drawRes));
       }
       return drawables.toArray(new Drawable[]{});
+    }
+
+    public Drawable getStatefulButtonBackground() {
+      return ResourcesUtils.getDrawable(mStatefulButtonBackgroundRes);
     }
   }
 

@@ -3,6 +3,7 @@ package online.duoyu.sparkle.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.ResourcesUtils;
 
 /**
@@ -87,9 +89,6 @@ public class StatefulButton extends FrameLayout {
         case R.styleable.StatefulButton_android_maxLines:
           setMaxLines(appearance.getInt(attr, 1));
           break;
-        case R.styleable.StatefulButton_android_background:
-          ResourcesUtils.setBackground(this, appearance.getDrawable(attr));
-          break;
         case R.styleable.StatefulButton_android_drawable:
           ResourcesUtils.setBackground(mTextView, appearance.getDrawable(attr));
           break;
@@ -99,6 +98,7 @@ public class StatefulButton extends FrameLayout {
       }
     }
     appearance.recycle();
+    setBackground(Colorful.getThemeDelegate().getThemeColor().getStatefulButtonBackground());
   }
 
   protected void setSingleLine(boolean singleLine) {

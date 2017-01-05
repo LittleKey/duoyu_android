@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.utils.Colorful;
 
 /**
  * Created by littlekey on 12/20/16.
@@ -27,6 +28,7 @@ public abstract class LazyLoadFragment extends BaseFragment {
       container.addView(lazyLoad(getLayoutInflater(mSavedInstanceState), container, mSavedInstanceState),
           new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
       mLoaded = true;
+      Colorful.changeTheme(container);
     }
   }
 
@@ -57,8 +59,8 @@ public abstract class LazyLoadFragment extends BaseFragment {
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    lazyLoad();
     super.onViewCreated(view, savedInstanceState);
     mSavedInstanceState = savedInstanceState;
-    lazyLoad();
   }
 }
