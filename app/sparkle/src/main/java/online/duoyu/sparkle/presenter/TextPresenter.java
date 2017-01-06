@@ -24,6 +24,7 @@ public class TextPresenter extends SparklePresenter {
   public void bind(Model model) {
     Object attrValue = getValueByViewId(id(), model);
     if (attrValue == null) {
+      view().setVisibility(View.GONE);
       return;
     }
     view().setVisibility(View.VISIBLE);
@@ -82,6 +83,11 @@ public class TextPresenter extends SparklePresenter {
         return SparkleUtils.formatInteger(model.count.comments);
       case R.id.corrects:
         return SparkleUtils.formatInteger(model.count.corrects);
+      case R.id.quote_content:
+        if (model.addition == null) {
+          return null;
+        }
+        return SparkleUtils.formatString("@%s: %s", model.addition.user.nickname, model.addition.description);
 //      case R.id.avatar:
 //      case R.id.subtitle:
 //        return model.subtitle;

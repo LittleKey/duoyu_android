@@ -203,6 +203,7 @@ public class ModelFactory {
         .build());
     Model addition = null;
     if (comment.quote_id != null) {
+      // TODO : determine comment deleted
       addition = new Model.Builder()
           .identity(comment.quote_id)
           .user(comment.quote_author)

@@ -6,12 +6,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.widget.StatefulButton;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -56,10 +58,12 @@ public class WriteDiaryFragment extends LazyLoadFragment {
                   public Boolean call(CharSequence charSequence) {
                     switch (textView.getId()) {
                       case R.id.input_title:
-                        mTitle = charSequence;
+                        mTitle = TextUtils.equals(charSequence, "Type diary title")
+                            ? Const.EMPTY_STRING : charSequence;
                         break;
                       case R.id.input_content:
-                        mContent = charSequence;
+                        mContent = TextUtils.equals(charSequence, "Type diary content")
+                            ? Const.EMPTY_STRING : charSequence;
                         break;
                     }
                     return !TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mContent);
@@ -81,7 +85,7 @@ public class WriteDiaryFragment extends LazyLoadFragment {
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
-
+            // TODO : start edit diary title activity
           }
         });
     RxView.clicks(mContentView)
@@ -90,7 +94,16 @@ public class WriteDiaryFragment extends LazyLoadFragment {
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
-
+            // TODO : start edit diary content activity
+          }
+        });
+    RxView.clicks(mBtnPublish)
+        .compose(this.<Void>bindToLifecycle())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<Void>() {
+          @Override
+          public void call(Void aVoid) {
+            // TODO : publish diary
           }
         });
     return view;

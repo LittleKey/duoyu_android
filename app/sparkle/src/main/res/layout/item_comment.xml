@@ -42,13 +42,26 @@
         android:layout_below="@id/avatar"
         android:layout_alignLeft="@id/nickname"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:maxLines="100000"
         android:text="content"/>
+
+    <TextView
+        android:id="@+id/quote_content"
+        style="@style/TextStyle.Middle.Gray"
+        android:layout_width="match_parent"
+        android:layout_alignLeft="@id/content"
+        android:layout_below="@id/content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:maxLines="100000"
+        android:text="\@LittleKey: hello"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/content"
+        android:layout_below="@id/quote_content"
         android:layout_alignLeft="@id/content"
+        android:layout_marginTop="10dp"
         android:background="@color/divide_line_gray"/>
 </RelativeLayout>

@@ -30,9 +30,11 @@
 
     <!-- edit correct -->
     <string name="all_corrects">Corrects(%d)</string>
+    <string name="corrects">Corrects</string>
 
     <!-- comment -->
     <string name="all_comments">Comments(%d)</string>
+    <string name="comments">Comments</string>
 
     <!-- write diary -->
     <string name="btn_publish">Publish</string>

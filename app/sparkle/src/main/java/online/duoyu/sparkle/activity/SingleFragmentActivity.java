@@ -86,6 +86,10 @@ public abstract class SingleFragmentActivity extends BaseActivity {
     return null;
   }
 
+  protected void updateTitle(String title) {
+    mTitleView.setText(title);
+  }
+
   protected @LayoutRes
   int getLayout() {
     return hasToolbar() ? R.layout.activity_single_fragment : R.layout.activity_without_toolbar;

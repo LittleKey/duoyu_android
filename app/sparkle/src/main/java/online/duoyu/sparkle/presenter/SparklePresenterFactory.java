@@ -94,6 +94,7 @@ public class SparklePresenterFactory {
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.date, new TextPresenter())
         .add(R.id.content, new TextPresenter())
+        .add(R.id.quote_content, new TextPresenter())
         .add(R.id.likes, new TextPresenter())
         .add(R.id.likes, new ActionPresenter())
         .add(new ActionPresenter());

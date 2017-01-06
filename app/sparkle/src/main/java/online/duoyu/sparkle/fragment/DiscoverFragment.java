@@ -145,7 +145,9 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
   @Override
   public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
     super.onEventMainThread(event);
-    switchTitleBarTab(mCurrentTab);
+    if (mCurrentTab != null) {
+      switchTitleBarTab(mCurrentTab);
+    }
   }
 
   public void onEventMainThread(UpdateMonthEvent event) {

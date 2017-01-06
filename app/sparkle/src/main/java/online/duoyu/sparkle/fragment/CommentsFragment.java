@@ -129,13 +129,17 @@ public class CommentsFragment extends ListFragment {
                       if (model != null) {
                         insertItem(2, model);
                         Model divider_model = getDataSet().get(1);
+                        int comments_count = divider_model.count.comments + 1;
                         changeItem(1, divider_model.newBuilder()
                             .description(SparkleUtils
-                                .formatString(R.string.all_comments, divider_model.count.comments + 1))
+                                .formatString(R.string.all_comments, comments_count))
                             .count(divider_model.count.newBuilder()
-                                .comments(divider_model.count.comments + 1)
+                                .comments(comments_count)
                                 .build())
                             .build());
+                        mModel = mModel.newBuilder()
+                            .count(mModel.count.newBuilder().comments(comments_count).build())
+                            .build();
                         mEditCommentView.setText("");
                         ((BaseActivity) getActivity()).closeKeyboard();
                       }

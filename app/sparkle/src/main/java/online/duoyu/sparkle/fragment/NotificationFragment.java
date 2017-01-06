@@ -118,7 +118,9 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
 
   public void onEventMainThread(ThemeEventBus.OnThemeChangeEvent event) {
     super.onEventMainThread(event);
-    switchTitleBarTab(mCurrentTab);
+    if (mCurrentTab != null) {
+      switchTitleBarTab(mCurrentTab);
+    }
   }
 
   @Override
