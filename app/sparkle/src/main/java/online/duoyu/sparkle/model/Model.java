@@ -98,6 +98,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
   public static final String DEFAULT_ORIGIN_SENTENCE = "";
 
+  public static final Integer DEFAULT_EVENT = 0;
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#STRING"
@@ -275,11 +277,17 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
   )
   public final String origin_sentence;
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content, String correct_sentence, String origin_sentence) {
-    this(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, correct_sentence, origin_sentence, ByteString.EMPTY);
+  @WireField(
+      tag = 30,
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
+  public final Integer event;
+
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content, String correct_sentence, String origin_sentence, Integer event) {
+    this(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, correct_sentence, origin_sentence, event, ByteString.EMPTY);
   }
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content, String correct_sentence, String origin_sentence, ByteString unknownFields) {
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String description, String url, String cover, Long date, String month, String day, User user, Comment comment, Diary diary, Correct correct, Happening happening, Notification notification, List<Model> subModels, Model addition, Map<Integer, Action> actions, Flag flag, Count count, String week, String email, List<String> content, String correct_sentence, String origin_sentence, Integer event, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.identity = identity;
     this.token = token;
@@ -310,6 +318,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     this.content = Internal.immutableCopyOf("content", content);
     this.correct_sentence = correct_sentence;
     this.origin_sentence = origin_sentence;
+    this.event = event;
   }
 
   @Override
@@ -344,6 +353,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     builder.content = Internal.copyOf("content", content);
     builder.correct_sentence = correct_sentence;
     builder.origin_sentence = origin_sentence;
+    builder.event = event;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -382,7 +392,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         && Internal.equals(email, o.email)
         && content.equals(o.content)
         && Internal.equals(correct_sentence, o.correct_sentence)
-        && Internal.equals(origin_sentence, o.origin_sentence);
+        && Internal.equals(origin_sentence, o.origin_sentence)
+        && Internal.equals(event, o.event);
   }
 
   @Override
@@ -419,6 +430,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       result = result * 37 + content.hashCode();
       result = result * 37 + (correct_sentence != null ? correct_sentence.hashCode() : 0);
       result = result * 37 + (origin_sentence != null ? origin_sentence.hashCode() : 0);
+      result = result * 37 + (event != null ? event.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -456,6 +468,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     if (!content.isEmpty()) builder.append(", content=").append(content);
     if (correct_sentence != null) builder.append(", correct_sentence=").append(correct_sentence);
     if (origin_sentence != null) builder.append(", origin_sentence=").append(origin_sentence);
+    if (event != null) builder.append(", event=").append(event);
     return builder.replace(0, 2, "Model{").append('}').toString();
   }
 
@@ -517,6 +530,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     public String correct_sentence;
 
     public String origin_sentence;
+
+    public Integer event;
 
     public Builder() {
       subModels = Internal.newMutableList();
@@ -672,9 +687,14 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       return this;
     }
 
+    public Builder event(Integer event) {
+      this.event = event;
+      return this;
+    }
+
     @Override
     public Model build() {
-      return new Model(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, correct_sentence, origin_sentence, super.buildUnknownFields());
+      return new Model(identity, token, type, template, title, subtitle, language, description, url, cover, date, month, day, user, comment, diary, correct, happening, notification, subModels, addition, actions, flag, count, week, email, content, correct_sentence, origin_sentence, event, super.buildUnknownFields());
     }
   }
 
@@ -753,7 +773,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_ORIGIN_SENTENCE(12),
 
-    ITEM_DIARY_TITLE(13);
+    ITEM_DIARY_TITLE(13),
+
+    ITEM_NOTIFICATION(14);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -782,6 +804,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 11: return ITEM_CORRECT_WITH_ORIGIN_CONTENT_SENTENCE;
         case 12: return ITEM_ORIGIN_SENTENCE;
         case 13: return ITEM_DIARY_TITLE;
+        case 14: return ITEM_NOTIFICATION;
         default: return null;
       }
     }
@@ -830,6 +853,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           + ProtoAdapter.STRING.asRepeated().encodedSizeWithTag(27, value.content)
           + (value.correct_sentence != null ? ProtoAdapter.STRING.encodedSizeWithTag(28, value.correct_sentence) : 0)
           + (value.origin_sentence != null ? ProtoAdapter.STRING.encodedSizeWithTag(29, value.origin_sentence) : 0)
+          + (value.event != null ? ProtoAdapter.INT32.encodedSizeWithTag(30, value.event) : 0)
           + value.unknownFields().size();
     }
 
@@ -864,6 +888,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       ProtoAdapter.STRING.asRepeated().encodeWithTag(writer, 27, value.content);
       if (value.correct_sentence != null) ProtoAdapter.STRING.encodeWithTag(writer, 28, value.correct_sentence);
       if (value.origin_sentence != null) ProtoAdapter.STRING.encodeWithTag(writer, 29, value.origin_sentence);
+      if (value.event != null) ProtoAdapter.INT32.encodeWithTag(writer, 30, value.event);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -916,6 +941,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           case 27: builder.content.add(ProtoAdapter.STRING.decode(reader)); break;
           case 28: builder.correct_sentence(ProtoAdapter.STRING.decode(reader)); break;
           case 29: builder.origin_sentence(ProtoAdapter.STRING.decode(reader)); break;
+          case 30: builder.event(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

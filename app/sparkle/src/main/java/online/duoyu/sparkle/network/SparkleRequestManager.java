@@ -23,6 +23,7 @@ import me.littlekey.network.RequestManager;
 import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentRequest;
+import online.duoyu.sparkle.model.business.CurrentUserNotificationRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
 import online.duoyu.sparkle.model.business.GetCommentsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdRequest;
@@ -177,6 +178,9 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_GET_COMMENTS_BY_DIARY;
       case COMMENT:
         return Const.API_COMMENT;
+      case ATTENTION_NOTIFICATION:
+      case LIKED_NOTIFICATION:
+        return Const.API_CURRENT_USER_NOTIFICATION;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }

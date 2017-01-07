@@ -26,6 +26,8 @@ import online.duoyu.sparkle.model.SparkleApiList;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.Const;
+import online.duoyu.sparkle.utils.ResourcesUtils;
+import online.duoyu.sparkle.widget.DividerItemDecoration;
 import online.duoyu.sparkle.widget.SparkleSwipeRefreshLayout;
 
 /**
@@ -178,6 +180,21 @@ public class ListFragment extends LazyLoadFragment {
     adapter.setList(mList);
     mList.refresh();
     switch (apiType) {
+      case LIKED_NOTIFICATION:
+      case ATTENTION_NOTIFICATION:
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(
+            ResourcesUtils.getDrawable(R.drawable.recycler_view_divider_line), 0, true));
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+          @Override
+          public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.top = FormatUtils.dipsToPix(15);
+            outRect.left = FormatUtils.dipsToPix(10);
+            outRect.right = FormatUtils.dipsToPix(10);
+            outRect.bottom = FormatUtils.dipsToPix(15);
+          }
+        });
+        break;
       case GET_COMMENTS_BY_DIARY:
       case GET_CORRECTS_BY_DIARY:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {

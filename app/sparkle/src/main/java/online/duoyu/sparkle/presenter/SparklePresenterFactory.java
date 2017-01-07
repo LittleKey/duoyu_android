@@ -100,6 +100,14 @@ public class SparklePresenterFactory {
         .add(new ActionPresenter());
   }
 
+  public static ViewGroupPresenter createNotificationItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.description, new TextPresenter())
+        .add(R.id.title, new TextPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
     return new ViewGroupPresenter(view)
         .add(R.id.title, new TextPresenter())

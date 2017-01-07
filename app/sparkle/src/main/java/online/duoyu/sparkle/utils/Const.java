@@ -124,8 +124,8 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-  private static final String API_HOST_URL = "http://192.168.1.6";
-//  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
+//  private static final String API_HOST_URL = "http://192.168.1.6";
+  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   // user
@@ -150,6 +150,8 @@ public class Const {
   public static final String API_UNLIKE_COMMENT = API_HOST_URL + "/comment/unlike";
   public static final String API_GET_COMMENTS_BY_DIARY = API_HOST_URL + "/comment/get_by_diary_id";
   public static final String API_COMMENT = API_HOST_URL + "/comment";
+  // notification
+  public static final String API_CURRENT_USER_NOTIFICATION = API_HOST_URL + "/notification";
   /********************************
    * Network Related
    ********************************/

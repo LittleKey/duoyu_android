@@ -20,14 +20,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_title_notify"
+                android:id="@+id/btn_title_attention"
                 android:layout_width="80dp"
                 android:layout_height="25dp"
                 android:background="?attr/defaultLeftTitleTabBackground"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:text="@string/title_tab_notify"/>
+                android:text="@string/title_tab_attention"/>
 
             <TextView
                 android:id="@+id/btn_title_liked"
@@ -60,7 +60,8 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_bar"/>
+        android:layout_below="@id/title_bar"
+        android:background="@color/white"/>
 
     <!-- content view pager end -->
 

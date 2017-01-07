@@ -50,6 +50,8 @@ public final class Flag extends Message<Flag, Flag.Builder> {
 
   public static final Boolean DEFAULT_IS_CORRECTED = false;
 
+  public static final Boolean DEFAULT_UNREAD = false;
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#BOOL"
@@ -134,11 +136,17 @@ public final class Flag extends Message<Flag, Flag.Builder> {
   )
   public final Boolean is_corrected;
 
-  public Flag(Boolean is_admin, Boolean is_me, Boolean is_winner, Boolean is_selected, Boolean can_move, Boolean loading, Boolean is_ready, Boolean in_room, Boolean is_matching, Boolean is_liked, Boolean is_thumbnail, Boolean is_completed, Boolean is_attending, Boolean is_corrected) {
-    this(is_admin, is_me, is_winner, is_selected, can_move, loading, is_ready, in_room, is_matching, is_liked, is_thumbnail, is_completed, is_attending, is_corrected, ByteString.EMPTY);
+  @WireField(
+      tag = 15,
+      adapter = "com.squareup.wire.ProtoAdapter#BOOL"
+  )
+  public final Boolean unread;
+
+  public Flag(Boolean is_admin, Boolean is_me, Boolean is_winner, Boolean is_selected, Boolean can_move, Boolean loading, Boolean is_ready, Boolean in_room, Boolean is_matching, Boolean is_liked, Boolean is_thumbnail, Boolean is_completed, Boolean is_attending, Boolean is_corrected, Boolean unread) {
+    this(is_admin, is_me, is_winner, is_selected, can_move, loading, is_ready, in_room, is_matching, is_liked, is_thumbnail, is_completed, is_attending, is_corrected, unread, ByteString.EMPTY);
   }
 
-  public Flag(Boolean is_admin, Boolean is_me, Boolean is_winner, Boolean is_selected, Boolean can_move, Boolean loading, Boolean is_ready, Boolean in_room, Boolean is_matching, Boolean is_liked, Boolean is_thumbnail, Boolean is_completed, Boolean is_attending, Boolean is_corrected, ByteString unknownFields) {
+  public Flag(Boolean is_admin, Boolean is_me, Boolean is_winner, Boolean is_selected, Boolean can_move, Boolean loading, Boolean is_ready, Boolean in_room, Boolean is_matching, Boolean is_liked, Boolean is_thumbnail, Boolean is_completed, Boolean is_attending, Boolean is_corrected, Boolean unread, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.is_admin = is_admin;
     this.is_me = is_me;
@@ -154,6 +162,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
     this.is_completed = is_completed;
     this.is_attending = is_attending;
     this.is_corrected = is_corrected;
+    this.unread = unread;
   }
 
   @Override
@@ -173,6 +182,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
     builder.is_completed = is_completed;
     builder.is_attending = is_attending;
     builder.is_corrected = is_corrected;
+    builder.unread = unread;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -196,7 +206,8 @@ public final class Flag extends Message<Flag, Flag.Builder> {
         && Internal.equals(is_thumbnail, o.is_thumbnail)
         && Internal.equals(is_completed, o.is_completed)
         && Internal.equals(is_attending, o.is_attending)
-        && Internal.equals(is_corrected, o.is_corrected);
+        && Internal.equals(is_corrected, o.is_corrected)
+        && Internal.equals(unread, o.unread);
   }
 
   @Override
@@ -218,6 +229,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
       result = result * 37 + (is_completed != null ? is_completed.hashCode() : 0);
       result = result * 37 + (is_attending != null ? is_attending.hashCode() : 0);
       result = result * 37 + (is_corrected != null ? is_corrected.hashCode() : 0);
+      result = result * 37 + (unread != null ? unread.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -240,6 +252,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
     if (is_completed != null) builder.append(", is_completed=").append(is_completed);
     if (is_attending != null) builder.append(", is_attending=").append(is_attending);
     if (is_corrected != null) builder.append(", is_corrected=").append(is_corrected);
+    if (unread != null) builder.append(", unread=").append(unread);
     return builder.replace(0, 2, "Flag{").append('}').toString();
   }
 
@@ -271,6 +284,8 @@ public final class Flag extends Message<Flag, Flag.Builder> {
     public Boolean is_attending;
 
     public Boolean is_corrected;
+
+    public Boolean unread;
 
     public Builder() {
     }
@@ -345,9 +360,14 @@ public final class Flag extends Message<Flag, Flag.Builder> {
       return this;
     }
 
+    public Builder unread(Boolean unread) {
+      this.unread = unread;
+      return this;
+    }
+
     @Override
     public Flag build() {
-      return new Flag(is_admin, is_me, is_winner, is_selected, can_move, loading, is_ready, in_room, is_matching, is_liked, is_thumbnail, is_completed, is_attending, is_corrected, super.buildUnknownFields());
+      return new Flag(is_admin, is_me, is_winner, is_selected, can_move, loading, is_ready, in_room, is_matching, is_liked, is_thumbnail, is_completed, is_attending, is_corrected, unread, super.buildUnknownFields());
     }
   }
 
@@ -372,6 +392,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
           + (value.is_completed != null ? ProtoAdapter.BOOL.encodedSizeWithTag(12, value.is_completed) : 0)
           + (value.is_attending != null ? ProtoAdapter.BOOL.encodedSizeWithTag(13, value.is_attending) : 0)
           + (value.is_corrected != null ? ProtoAdapter.BOOL.encodedSizeWithTag(14, value.is_corrected) : 0)
+          + (value.unread != null ? ProtoAdapter.BOOL.encodedSizeWithTag(15, value.unread) : 0)
           + value.unknownFields().size();
     }
 
@@ -391,6 +412,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
       if (value.is_completed != null) ProtoAdapter.BOOL.encodeWithTag(writer, 12, value.is_completed);
       if (value.is_attending != null) ProtoAdapter.BOOL.encodeWithTag(writer, 13, value.is_attending);
       if (value.is_corrected != null) ProtoAdapter.BOOL.encodeWithTag(writer, 14, value.is_corrected);
+      if (value.unread != null) ProtoAdapter.BOOL.encodeWithTag(writer, 15, value.unread);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -414,6 +436,7 @@ public final class Flag extends Message<Flag, Flag.Builder> {
           case 12: builder.is_completed(ProtoAdapter.BOOL.decode(reader)); break;
           case 13: builder.is_attending(ProtoAdapter.BOOL.decode(reader)); break;
           case 14: builder.is_corrected(ProtoAdapter.BOOL.decode(reader)); break;
+          case 15: builder.unread(ProtoAdapter.BOOL.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

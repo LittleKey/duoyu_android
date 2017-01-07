@@ -31,7 +31,7 @@ import rx.functions.Action1;
 public class NotificationFragment extends LazyLoadFragment implements ViewPager.OnPageChangeListener  {
 
   private ViewPager mViewPager;
-  private TextView mBtnTitleNotify;
+  private TextView mBtnTitleAttention;
   private TextView mBtnTitleLiked;
   private TextView mBtnTitleFollow;
 
@@ -44,11 +44,11 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
   @Override
   protected View lazyLoad(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_notification, container, false);
-    mBtnTitleNotify = (TextView) view.findViewById(R.id.btn_title_notify);
+    mBtnTitleAttention = (TextView) view.findViewById(R.id.btn_title_attention);
     mBtnTitleLiked = (TextView) view.findViewById(R.id.btn_title_liked);
     mBtnTitleFollow = (TextView) view.findViewById(R.id.btn_title_follow);
 
-    Observable.from(new View[] {mBtnTitleNotify, mBtnTitleLiked, mBtnTitleFollow}).cache()
+    Observable.from(new View[] {mBtnTitleAttention, mBtnTitleLiked, mBtnTitleFollow}).cache()
         .subscribe(new Action1<View>() {
           @Override
           public void call(final View view) {
@@ -70,7 +70,7 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
                   public void call(Object o) {
                     if (mViewPager != null) {
                       switch (view.getId()) {
-                        case R.id.btn_title_notify:
+                        case R.id.btn_title_attention:
                           mViewPager.setCurrentItem(0);
                           break;
                         case R.id.btn_title_liked:
@@ -92,10 +92,10 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
         Bundle bundle = new Bundle();
         switch (position) {
           case 0:
-            bundle.putInt(Const.KEY_API_TYPE, ApiType.FOLLOW_USER_DIARY.ordinal());
+            bundle.putInt(Const.KEY_API_TYPE, ApiType.ATTENTION_NOTIFICATION.ordinal());
             return ListFragment.newInstance(bundle);
           case 1:
-            bundle.putInt(Const.KEY_API_TYPE, ApiType.RECENT_DIARY.ordinal());
+            bundle.putInt(Const.KEY_API_TYPE, ApiType.LIKED_NOTIFICATION.ordinal());
             return ListFragment.newInstance(bundle);
           case 2:
             return WriteDiaryFragment.newInstance();
@@ -112,7 +112,7 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
     mViewPager.setAdapter(pagerAdapter);
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
-    switchTitleBarTab(mCurrentTab = mBtnTitleNotify);
+    switchTitleBarTab(mCurrentTab = mBtnTitleAttention);
     return view;
   }
 
@@ -142,7 +142,7 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
   private void switchTitleBarTab(int position) {
     switch (position) {
       case 0:
-        switchTitleBarTab(mBtnTitleNotify);
+        switchTitleBarTab(mBtnTitleAttention);
         break;
       case 1:
         switchTitleBarTab(mBtnTitleLiked);
@@ -165,9 +165,9 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
     Drawable white_mid = title_drawables[2];
     Drawable white_round_right = title_drawables[3];
     Drawable primary_color_right = title_drawables[4];
-    if (tab != mBtnTitleNotify) {
-      ResourcesUtils.setBackground(mBtnTitleNotify, white_round_left);
-      mBtnTitleNotify.setTextColor(primary_color);
+    if (tab != mBtnTitleAttention) {
+      ResourcesUtils.setBackground(mBtnTitleAttention, white_round_left);
+      mBtnTitleAttention.setTextColor(primary_color);
     }
     if (tab != mBtnTitleLiked) {
       ResourcesUtils.setBackground(mBtnTitleLiked, white_mid);
@@ -178,7 +178,7 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
       mBtnTitleFollow.setTextColor(primary_color);
     }
     switch (tab.getId()) {
-      case R.id.btn_title_notify:
+      case R.id.btn_title_attention:
         ResourcesUtils.setBackground(tab, primary_color_left);
         break;
       case R.id.btn_title_liked:

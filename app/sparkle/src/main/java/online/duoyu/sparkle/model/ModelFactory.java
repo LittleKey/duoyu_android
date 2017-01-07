@@ -1,14 +1,19 @@
 package online.duoyu.sparkle.model;
 
+import android.text.TextUtils;
+
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.CommentsActivity;
+import online.duoyu.sparkle.activity.CorrectActivity;
 import online.duoyu.sparkle.activity.CorrectsActivity;
 import online.duoyu.sparkle.activity.DiaryActivity;
 import online.duoyu.sparkle.activity.EditCorrectActivity;
@@ -19,6 +24,7 @@ import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.model.proto.Flag;
+import online.duoyu.sparkle.model.proto.Notification;
 import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.SparkleUtils;
@@ -201,6 +207,10 @@ public class ModelFactory {
     actions.put(Const.ACTION_LIKED, new Action.Builder()
         .type(Action.Type.LIKED)
         .build());
+    actions.put(Const.ACTION_USER, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(UserActivity.class.getName())
+        .build());
     Model addition = null;
     if (comment.quote_id != null) {
       // TODO : determine comment deleted
@@ -225,6 +235,101 @@ public class ModelFactory {
         .addition(addition)
         .actions(actions)
         .count(count)
+        .flag(flag)
+        .build();
+  }
+
+  public static Model createModelFromNotification(Notification notification, Model.Template template) {
+    notification = DataVerifier.verify(notification);
+    if (notification == null) {
+      return null;
+    }
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(notification.date * 1000);
+    DateTime date_time = new DateTime(cal);
+    String month = date_time.monthOfYear().getAsShortText();
+    String week = date_time.dayOfWeek().getAsShortText();
+    Flag flag = new Flag.Builder()
+        .unread(notification.unread)
+        .build();
+    int users_count = notification.users.size();
+    String which_type = "";
+    switch (notification.which_type) {
+      case COMMENT:
+        which_type = "comment";
+        break;
+      case CORRECT:
+        which_type = "correct";
+        break;
+      case DIARY:
+        which_type = "diary";
+        break;
+    }
+    String operate = "";
+    switch (notification.event) {
+      case COMMENT_MY_ARTICLE:
+        operate = "comment";
+        break;
+      case CORRECT_ATTENTION_DIARY:
+        operate = "correct attention";
+        break;
+      case LIKE_MY_ARTICLE:
+        operate = "like";
+        break;
+    }
+    List<String> users_name = new ArrayList<>();
+    for (User user: notification.users) {
+      users_name.add(user.nickname);
+    }
+    String description = SparkleUtils.formatString("%s etc. %d users %s %s",
+        TextUtils.join(", ", users_name), users_count, operate, which_type);
+    Map<Integer, Action> actions = new HashMap<>();
+    Class<?> jump_clazz = null;
+    switch (notification.event) {
+      case FOLLOW_ME:
+        jump_clazz = UserActivity.class;
+        break;
+      case COMMENT_MY_ARTICLE:
+        jump_clazz = CommentsActivity.class;
+        break;
+      case CORRECT_ATTENTION_DIARY:
+        jump_clazz = CorrectActivity.class;
+        break;
+      case LIKE_MY_ARTICLE:
+        switch (notification.which_type) {
+          case DIARY:
+            jump_clazz = DiaryActivity.class;
+            break;
+          case CORRECT:
+            jump_clazz = CorrectActivity.class;
+            break;
+          case COMMENT:
+            jump_clazz = CommentsActivity.class;
+            break;
+        }
+    }
+    actions.put(Const.ACTION_MAIN, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(jump_clazz == null ? null : jump_clazz.getName())
+        .build());
+    actions.put(Const.ACTION_USER, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(UserActivity.class.getName())
+        .build());
+    return new Model.Builder()
+        .type(Model.Type.NOTIFICATION)
+        .template(template)
+        .notification(notification)
+        .identity(notification.which)
+        .title(notification.title)
+        .cover(notification.users.get(0).avatar)
+        .description(description)
+        .event(notification.event.ordinal())
+        .date(cal.getTimeInMillis())
+        .month(month)
+        .week(week)
+        .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
+        .actions(actions)
         .flag(flag)
         .build();
   }

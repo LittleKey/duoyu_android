@@ -54,7 +54,7 @@ public class TextPresenter extends SparklePresenter {
       case R.id.divider_text:
       case R.id.content:
 //        return Html.fromHtml(model.description);
-//      case R.id.description:
+      case R.id.description:
         return model.description;
       case R.id.theme_title:
       case R.id.title:

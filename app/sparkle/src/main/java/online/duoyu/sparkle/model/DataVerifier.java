@@ -4,9 +4,13 @@ import android.text.TextUtils;
 
 import com.squareup.wire.Wire;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import online.duoyu.sparkle.model.proto.Comment;
 import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Diary;
+import online.duoyu.sparkle.model.proto.Notification;
 import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.CollectionUtils;
 import online.duoyu.sparkle.utils.Const;
@@ -120,6 +124,27 @@ public class DataVerifier {
         .author(author)
         .likes(Wire.get(comment.likes, 0))
         .liked(Wire.get(comment.liked, false))
+        .build();
+  }
+
+  public static Notification verify(Notification notification) {
+    if (notification == null) {
+      return null;
+    }
+    if (TextUtils.isEmpty(notification.which)) {
+      return null;
+    }
+    List<User> users = new ArrayList<>();
+    for (User user: notification.users) {
+      CollectionUtils.add(users, verify(user));
+    }
+    if (users.size() < 1) {
+      return null;
+    }
+    Notification.Builder builder = notification.newBuilder();
+    return builder
+        .users(users)
+        .unread(Wire.get(notification.unread, false))
         .build();
   }
 }

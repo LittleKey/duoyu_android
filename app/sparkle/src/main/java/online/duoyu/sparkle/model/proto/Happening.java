@@ -29,7 +29,7 @@ public final class Happening extends Message<Happening, Happening.Builder> {
 
   public static final String DEFAULT_TITLE = "";
 
-  public static final Event DEFAULT_EVENT = Event.LIKE_DIARY;
+  public static final Event DEFAULT_EVENT = Event.UNKNOWN_EVENT;
 
   @WireField(
       tag = 1,
@@ -153,15 +153,17 @@ public final class Happening extends Message<Happening, Happening.Builder> {
   }
 
   public enum Event implements WireEnum {
-    LIKE_DIARY(0),
+    UNKNOWN_EVENT(0),
 
-    LIKE_CORRECT(1),
+    LIKE_DIARY(1),
 
-    PUBLISH_DIARY(2),
+    LIKE_CORRECT(2),
 
-    PUBLISH_CORRECT(3),
+    PUBLISH_DIARY(3),
 
-    ATTENTION_DIARY(4);
+    PUBLISH_CORRECT(4),
+
+    ATTENTION_DIARY(5);
 
     public static final ProtoAdapter<Event> ADAPTER = ProtoAdapter.newEnumAdapter(Event.class);
 
@@ -176,11 +178,12 @@ public final class Happening extends Message<Happening, Happening.Builder> {
      */
     public static Event fromValue(int value) {
       switch (value) {
-        case 0: return LIKE_DIARY;
-        case 1: return LIKE_CORRECT;
-        case 2: return PUBLISH_DIARY;
-        case 3: return PUBLISH_CORRECT;
-        case 4: return ATTENTION_DIARY;
+        case 0: return UNKNOWN_EVENT;
+        case 1: return LIKE_DIARY;
+        case 2: return LIKE_CORRECT;
+        case 3: return PUBLISH_DIARY;
+        case 4: return PUBLISH_CORRECT;
+        case 5: return ATTENTION_DIARY;
         default: return null;
       }
     }

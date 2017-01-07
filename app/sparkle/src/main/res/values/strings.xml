@@ -22,7 +22,7 @@
     <string name="diary">Diary</string>
 
     <!-- notification -->
-    <string name="title_tab_notify">Notify</string>
+    <string name="title_tab_attention">Attention</string>
     <string name="title_tab_liked">Liked</string>
 
     <!-- diary -->
