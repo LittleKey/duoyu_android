@@ -82,13 +82,14 @@
 
     <online.duoyu.sparkle.widget.StatefulButton
         android:id="@+id/theme_btn_publish"
-        style="@style/State.Publish"
+        style="@style/State.Done"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:stateCanceled="@style/State.Publish.Canceled"
-        app:stateDone="@style/State.Publish.Done"/>
+        android:text="@string/btn_publish"
+        app:stateCanceled="@style/State.Canceled"
+        app:stateDone="@style/State.Done"/>
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
 import me.littlekey.mvp.widget.MvpRecyclerView;
 import online.duoyu.sparkle.R;
-import online.duoyu.sparkle.model.Model;
 
 /**
  * Created by littlekey on 12/24/16.
@@ -113,9 +112,8 @@ public class SparklePresenterFactory {
     return new ViewGroupPresenter(parent, layout, adapter)
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.nickname, new TextPresenter())
-        .add(R.id.btn_follow, new FlagPresenter())
-        .add(R.id.btn_follow, new ActionPresenter())
-        .add(R.id.btn_follow, new ActionPresenter())
+        .add(R.id.theme_btn_follow, new FlagPresenter())
+        .add(R.id.theme_btn_follow, new ActionPresenter())
         .add(new ActionPresenter());
   }
 

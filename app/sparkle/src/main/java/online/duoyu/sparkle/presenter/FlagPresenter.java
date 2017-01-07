@@ -1,21 +1,16 @@
 package online.duoyu.sparkle.presenter;
 
-import android.graphics.drawable.Drawable;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.wire.Wire;
 
-import me.littlekey.base.utils.CollectionUtils;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.model.Model;
-import online.duoyu.sparkle.model.proto.Action;
-import online.duoyu.sparkle.utils.Const;
+import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.ResourcesUtils;
-import online.duoyu.sparkle.utils.SparkleUtils;
+import online.duoyu.sparkle.widget.StatefulButton;
 
 /**
  * Created by littlekey on 12/25/16.
@@ -27,7 +22,7 @@ public class FlagPresenter extends SparklePresenter {
   public void bind(Model model) {
     switch (id()) {
       /** Common **/
-      case R.id.btn_follow:
+      case R.id.theme_btn_follow:
         judgeFollow(model);
         break;
 //      case R.id.mask:
@@ -58,8 +53,9 @@ public class FlagPresenter extends SparklePresenter {
   }
 
   private void judgeFollow(Model model) {
-    if (view() instanceof TextView) {
-      // TODO
+    if (view() instanceof StatefulButton) {
+      ((StatefulButton) view()).setState(Wire.get(model.flag.is_following, false) ?
+          StatefulButton.STATE_FOLLOWING : StatefulButton.STATE_FOLLOW);
     }
   }
 

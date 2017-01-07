@@ -3,6 +3,10 @@
     <string name="more_press_exit">press back again</string>
     <string name="space">&#160;</string>
 
+    <!-- generate -->
+    <string name="follow">follow</string>
+    <string name="following">following</string>
+
     <!-- Login & Register -->
     <string name="btn_login">Login</string>
     <string name="login_error">login_error</string>

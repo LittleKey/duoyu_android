@@ -163,12 +163,12 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
     }
     int white = ResourcesUtils.getColor(R.color.white);
     int primary_color = Colorful.getThemeDelegate().getThemeColor().getPrimaryColor();
-    Drawable[] title_drawables = Colorful.getThemeDelegate().getThemeColor().getTitleTabDrawables();
-    Drawable white_round_left = title_drawables[0];
-    Drawable primary_color_left = title_drawables[1];
-    Drawable white_mid = title_drawables[2];
-    Drawable white_round_right = title_drawables[3];
-    Drawable primary_color_right = title_drawables[4];
+    Colorful.ThemeColor.TitleTabTheme titleTabTheme = Colorful.getThemeDelegate().getThemeColor().getTitleTabTheme();
+    Drawable white_round_left = titleTabTheme.getLeftWhiteDrawable();
+    Drawable primary_color_left = titleTabTheme.getLeftDrawable();
+    Drawable white_mid = titleTabTheme.getMidWhiteDrawable();
+    Drawable white_round_right = titleTabTheme.getRightWhiteDrawable();
+    Drawable primary_color_right = titleTabTheme.getRightDrawable();
     if (tab != mBtnTitleAttention) {
       ResourcesUtils.setBackground(mBtnTitleAttention, white_round_left);
       mBtnTitleAttention.setTextColor(primary_color);

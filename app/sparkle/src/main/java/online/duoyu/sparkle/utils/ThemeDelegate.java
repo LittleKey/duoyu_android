@@ -2,10 +2,14 @@ package online.duoyu.sparkle.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.StyleRes;
+import android.support.annotation.StyleableRes;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
+import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.BaseActivity;
 import timber.log.Timber;
 
@@ -19,6 +23,7 @@ public class ThemeDelegate {
   private boolean dark;
   private boolean dialog;
   private int styleRes;
+  private String primary;
 
   ThemeDelegate(Context context, Colorful.ThemeColor themeColor, boolean translucent, boolean dark, boolean dialog) {
     this.themeColor = themeColor;
@@ -36,10 +41,15 @@ public class ThemeDelegate {
         ((BaseActivity) context).setTaskDescription(tDesc);
       }
     }
-    styleRes = context.getResources().getIdentifier(
-        (dialog ? "DialogTheme." : "AppTheme.") +
-            (this.themeColor == Colorful.ThemeColor.PRIMARY_BLUE ? "PrimaryBlue" : "PrimaryPink"),
-        "style", context.getPackageName());
+    switch (themeColor) {
+      case PRIMARY_BLUE:
+        primary = "PrimaryBlue";
+        break;
+      case PRIMARY_PINK:
+        primary = "PrimaryPink";
+        break;
+    }
+    styleRes = ResourcesUtils.getStyleIdentifier((dialog ? "DialogTheme." : "AppTheme.") + primary);
     Timber.d("ThemeDelegate fetched theme in " + (System.currentTimeMillis() - curTime) + " milliseconds");
   }
 
@@ -61,5 +71,17 @@ public class ThemeDelegate {
 
   public boolean isDialog() {
     return dialog;
+  }
+
+  public String getPrimary() {
+    return primary;
+  }
+
+  public @StyleRes int themeStyle(@StyleRes int styleableRes) {
+    String styleableName = ResourcesUtils.getResourceEntryName(styleableRes);
+    if (!TextUtils.isEmpty(styleableName)) {
+      return ResourcesUtils.getStyleIdentifier(styleableName + "." + primary);
+    }
+    return 0;
   }
 }

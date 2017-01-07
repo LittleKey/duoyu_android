@@ -24,10 +24,14 @@
         android:layout_centerVertical="true"
         android:text="nickname"/>
 
-    <TextView
-        android:id="@+id/btn_follow"
-        style="@style/TextStyle.Middle.Primary"
+    <online.duoyu.sparkle.widget.StatefulButton
+        android:id="@+id/theme_btn_follow"
+        style="@style/State.Follow"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:text="follow"/>
+        android:text="@string/follow"
+        app:stateFollow="@style/State.Follow"
+        app:stateFollowing="@style/State.Following"/>
 </RelativeLayout>

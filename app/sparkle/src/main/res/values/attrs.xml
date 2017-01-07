@@ -13,11 +13,12 @@
         <attr name="layoutRes" format="reference"/>
         <attr name="stateDone" format="reference"/>
         <attr name="stateCanceled" format="reference"/>
+        <attr name="stateFollow" format="reference" />
+        <attr name="stateFollowing" format="reference" />
     </declare-styleable>
     <attr name="textColor"/>
     <attr name="primaryColor"/>
     <attr name="defaultLeftTitleTabBackground"/>
     <attr name="defaultMidTitleTabBackground"/>
     <attr name="defaultRightTitleTabBackground"/>
-    <attr name="statefulButtonBackground"/>
 </resources>

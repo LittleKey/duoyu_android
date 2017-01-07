@@ -11,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.widget.StatefulButton;
 import timber.log.Timber;
@@ -24,7 +21,7 @@ import timber.log.Timber;
 
 public class Colorful {
   private static ThemeDelegate delegate;
-  private static ThemeColor primaryColor = ThemeColor.PRIMARY_PINK;
+  private static ThemeColor primaryColor = ThemeColor.PRIMARY_BLUE;
   private static boolean isTranslucent = false;
   private static boolean isDark = false;
   private static boolean isDialog = false;
@@ -99,42 +96,85 @@ public class Colorful {
         break;
       case R.id.theme_tab_bar:
       case R.id.theme_date_background:
-      case R.id.theme_btn_publish:
         view.setBackgroundColor(Colorful.getThemeDelegate().getThemeColor().getPrimaryColor());
+        break;
+      case R.id.theme_btn_follow:
+      case R.id.theme_btn_publish:
+        if (view instanceof StatefulButton) {
+          ((StatefulButton) view).updateState();
+        }
         break;
     }
   }
 
   public enum ThemeColor {
-    PRIMARY_BLUE(R.color.primary_blue, R.color.primary_blue,
-        R.drawable.bg_primary_blue_rounded_corners, new int[] {
-        R.drawable.bg_primary_blue_white_round_title_bar_left,
-        R.drawable.bg_primary_blue_round_title_bar_left,
-        R.drawable.bg_primary_blue_white_round_title_bar_mid,
-        R.drawable.bg_primary_blue_white_round_title_bar_right,
-        R.drawable.bg_primary_blue_round_title_bar_right
-    }),
-    PRIMARY_PINK(R.color.primary_pink, R.color.primary_pink,
-        R.drawable.bg_primary_pink_rounded_corners, new int[] {
-        R.drawable.bg_primary_pink_white_round_title_bar_left,
-        R.drawable.bg_primary_pink_round_title_bar_left,
-        R.drawable.bg_primary_pink_white_round_title_bar_mid,
-        R.drawable.bg_primary_pink_white_round_title_bar_right,
-        R.drawable.bg_primary_pink_round_title_bar_right,
-        R.drawable.bg_primary_blue_rounded_corners
-    });
+    PRIMARY_BLUE(
+        R.color.primary_blue,
+        R.color.primary_blue,
+        TitleTabTheme.PRIMARY_BLUE
+    ),
+    PRIMARY_PINK(
+        R.color.primary_pink,
+        R.color.primary_pink,
+        TitleTabTheme.PRIMARY_PINK
+    );
+    public enum TitleTabTheme {
+      PRIMARY_BLUE(
+          R.drawable.bg_primary_blue_white_round_title_bar_left,
+          R.drawable.bg_primary_blue_round_title_bar_left,
+          R.drawable.bg_primary_blue_white_round_title_bar_mid,
+          R.drawable.bg_primary_blue_white_round_title_bar_right,
+          R.drawable.bg_primary_blue_round_title_bar_right
+      ),
+      PRIMARY_PINK(
+          R.drawable.bg_primary_pink_white_round_title_bar_left,
+          R.drawable.bg_primary_pink_round_title_bar_left,
+          R.drawable.bg_primary_pink_white_round_title_bar_mid,
+          R.drawable.bg_primary_pink_white_round_title_bar_right,
+          R.drawable.bg_primary_pink_round_title_bar_right
+      );
+
+      @DrawableRes private int[] mTitleTabDrawablesRes;
+
+      TitleTabTheme(@DrawableRes int leftWhiteDrawableRes, @DrawableRes int leftDrawableRes,
+                    @DrawableRes int midWhiteDrawableRes,
+                    @DrawableRes int rightWhiteDrawableRes, @DrawableRes int rightDrawableRes) {
+        mTitleTabDrawablesRes = new int[] {
+            leftWhiteDrawableRes, leftDrawableRes,
+            midWhiteDrawableRes,
+            rightWhiteDrawableRes, rightDrawableRes
+        };
+      }
+
+      public Drawable getLeftWhiteDrawable() {
+        return ResourcesUtils.getDrawable(mTitleTabDrawablesRes[0]);
+      }
+
+      public Drawable getLeftDrawable() {
+        return ResourcesUtils.getDrawable(mTitleTabDrawablesRes[1]);
+      }
+
+      public Drawable getMidWhiteDrawable() {
+        return ResourcesUtils.getDrawable(mTitleTabDrawablesRes[2]);
+      }
+
+      public Drawable getRightWhiteDrawable() {
+        return ResourcesUtils.getDrawable(mTitleTabDrawablesRes[3]);
+      }
+
+      public Drawable getRightDrawable() {
+        return ResourcesUtils.getDrawable(mTitleTabDrawablesRes[4]);
+      }
+    }
 
     @ColorRes private int mPrimaryColorRes;
     @ColorRes private int mTextColorRes;
-    @DrawableRes private int[] mTitleTabDrawableRes;
-    @DrawableRes private int mStatefulButtonBackgroundRes;
+    private TitleTabTheme mTitleTabTheme;
 
-    ThemeColor(@ColorRes int primaryColorRes, @ColorRes int textColorRes,
-               @DrawableRes int statefulButtonBackgroundRes, @DrawableRes int[] titleTabDrawableRes) {
+    ThemeColor(@ColorRes int primaryColorRes, @ColorRes int textColorRes, TitleTabTheme titleTab) {
       this.mPrimaryColorRes = primaryColorRes;
       this.mTextColorRes = textColorRes;
-      this.mTitleTabDrawableRes = titleTabDrawableRes;
-      this.mStatefulButtonBackgroundRes = statefulButtonBackgroundRes;
+      this.mTitleTabTheme = titleTab;
     }
 
     public @ColorInt int getPrimaryColor() {
@@ -145,17 +185,10 @@ public class Colorful {
       return ResourcesUtils.getColor(mTextColorRes);
     }
 
-    public Drawable[] getTitleTabDrawables() {
-      List<Drawable> drawables = new ArrayList<>();
-      for (@DrawableRes int drawRes: mTitleTabDrawableRes) {
-        drawables.add(ResourcesUtils.getDrawable(drawRes));
-      }
-      return drawables.toArray(new Drawable[]{});
+    public TitleTabTheme getTitleTabTheme() {
+      return mTitleTabTheme;
     }
 
-    public Drawable getStatefulButtonBackground() {
-      return ResourcesUtils.getDrawable(mStatefulButtonBackgroundRes);
-    }
   }
 
   public static Config config(Context context) {
@@ -168,7 +201,7 @@ public class Colorful {
 
   public static class Defaults {
 
-    private static ThemeColor primaryColor = ThemeColor.PRIMARY_PINK;
+    private static ThemeColor primaryColor = ThemeColor.PRIMARY_BLUE;
     private static boolean trans = false;
     private static boolean darkTheme = false;
     private static boolean dialogTheme = false;

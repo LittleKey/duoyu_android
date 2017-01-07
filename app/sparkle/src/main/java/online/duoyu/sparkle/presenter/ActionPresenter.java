@@ -1,9 +1,7 @@
 package online.duoyu.sparkle.presenter;
 
 import android.os.Bundle;
-import android.view.View;
 
-import com.android.volley.Request;
 import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.wire.Wire;
@@ -24,14 +22,10 @@ import online.duoyu.sparkle.activity.LoginActivity;
 import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.event.OnSelectEvent;
 import online.duoyu.sparkle.model.Model;
-import online.duoyu.sparkle.model.business.AttenderRequest;
-import online.duoyu.sparkle.model.business.AttenderResponse;
 import online.duoyu.sparkle.model.business.AttentionRequest;
 import online.duoyu.sparkle.model.business.AttentionResponse;
 import online.duoyu.sparkle.model.business.FollowRequest;
 import online.duoyu.sparkle.model.business.FollowResponse;
-import online.duoyu.sparkle.model.business.FollowerRequest;
-import online.duoyu.sparkle.model.business.FollowerResponse;
 import online.duoyu.sparkle.model.business.LikeRequest;
 import online.duoyu.sparkle.model.business.LikeResponse;
 import online.duoyu.sparkle.model.business.UnattendedRequest;
@@ -48,7 +42,6 @@ import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.NavigationManager;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -564,7 +557,7 @@ public class ActionPresenter extends SparklePresenter {
         return model.actions.get(Const.ACTION_EDIT_CORRECT);
       case R.id.user:
         return model.actions.get(Const.ACTION_USER);
-      case R.id.btn_follow:
+      case R.id.theme_btn_follow:
         return model.actions.get(Const.ACTION_FOLLOW);
     }
     return null;

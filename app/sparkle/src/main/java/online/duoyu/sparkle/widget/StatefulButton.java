@@ -3,7 +3,6 @@ package online.duoyu.sparkle.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -24,9 +23,12 @@ public class StatefulButton extends FrameLayout {
   public static final int STATE_GONE = -1;
   public static final int STATE_DONE = 1;
   public static final int STATE_CANCELED = 2;
+  public static final int STATE_FOLLOW = 3;
+  public static final int STATE_FOLLOWING = 4;
   private SparseIntArray mStateMap = new SparseIntArray();
   private int mLayout;
   private TextView mTextView;
+  private int mCurrentState;
 
   public StatefulButton(Context context) {
     this(context, null);
@@ -42,9 +44,12 @@ public class StatefulButton extends FrameLayout {
         context.obtainStyledAttributes(attrs, R.styleable.StatefulButton);
     mStateMap.put(STATE_DONE, a.getResourceId(R.styleable.StatefulButton_stateDone, 0));
     mStateMap.put(STATE_CANCELED, a.getResourceId(R.styleable.StatefulButton_stateCanceled, 0));
+    mStateMap.put(STATE_FOLLOW, a.getResourceId(R.styleable.StatefulButton_stateFollow, 0));
+    mStateMap.put(STATE_FOLLOWING, a.getResourceId(R.styleable.StatefulButton_stateFollowing, 0));
     mLayout = a.getResourceId(R.styleable.StatefulButton_layoutRes, R.layout.stateful_button);
-    a.recycle();
     init();
+    styleAppearance(a);
+    a.recycle();
   }
 
   protected void init() {
@@ -52,21 +57,7 @@ public class StatefulButton extends FrameLayout {
     mTextView = (TextView) findViewById(R.id.stateful_btn_label);
   }
 
-  public void setState(int state) {
-    if (state == STATE_GONE) {
-      setVisibility(GONE);
-      return;
-    } else if (getVisibility() == GONE) {
-      setVisibility(VISIBLE);
-    }
-    setState(getContext(), mStateMap.get(state));
-  }
-
-  private void setState(Context context, int resId) {
-    TypedArray appearance =
-        context.obtainStyledAttributes(resId,
-            R.styleable.StatefulButton);
-
+  protected void styleAppearance(TypedArray appearance) {
     int n = appearance.getIndexCount();
     for (int i = 0; i < n; i++) {
       int attr = appearance.getIndex(i);
@@ -89,6 +80,9 @@ public class StatefulButton extends FrameLayout {
         case R.styleable.StatefulButton_android_maxLines:
           setMaxLines(appearance.getInt(attr, 1));
           break;
+        case R.styleable.StatefulButton_android_background:
+          ResourcesUtils.setBackground(this, appearance.getDrawable(attr));
+          break;
         case R.styleable.StatefulButton_android_drawable:
           ResourcesUtils.setBackground(mTextView, appearance.getDrawable(attr));
           break;
@@ -97,8 +91,29 @@ public class StatefulButton extends FrameLayout {
           break;
       }
     }
+  }
+
+  public void updateState() {
+    setState(mCurrentState);
+  }
+
+  public void setState(int state) {
+    mCurrentState = state;
+    if (state == STATE_GONE) {
+      setVisibility(GONE);
+      return;
+    } else if (getVisibility() == GONE) {
+      setVisibility(VISIBLE);
+    }
+    setState(getContext(), mStateMap.get(state));
+  }
+
+  private void setState(Context context, int resId) {
+    TypedArray appearance =
+        context.obtainStyledAttributes(Colorful.getThemeDelegate().themeStyle(resId),
+            R.styleable.StatefulButton);
+    styleAppearance(appearance);
     appearance.recycle();
-    setBackground(Colorful.getThemeDelegate().getThemeColor().getStatefulButtonBackground());
   }
 
   protected void setSingleLine(boolean singleLine) {
