@@ -180,6 +180,7 @@ public class ListFragment extends LazyLoadFragment {
     adapter.setList(mList);
     mList.refresh();
     switch (apiType) {
+      case FOLLOWER:
       case LIKED_NOTIFICATION:
       case ATTENTION_NOTIFICATION:
         mRecyclerView.addItemDecoration(new DividerItemDecoration(

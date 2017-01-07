@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
+import java.util.ArrayList;
+
+import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.Colorful;
@@ -98,7 +101,8 @@ public class NotificationFragment extends LazyLoadFragment implements ViewPager.
             bundle.putInt(Const.KEY_API_TYPE, ApiType.LIKED_NOTIFICATION.ordinal());
             return ListFragment.newInstance(bundle);
           case 2:
-            return WriteDiaryFragment.newInstance();
+            bundle.putInt(Const.KEY_API_TYPE, ApiType.FOLLOWER.ordinal());
+            return ListFragment.newInstance(bundle);
           default:
             return null;
         }

@@ -27,6 +27,9 @@ public class FlagPresenter extends SparklePresenter {
   public void bind(Model model) {
     switch (id()) {
       /** Common **/
+      case R.id.btn_follow:
+        judgeFollow(model);
+        break;
 //      case R.id.mask:
 //        judgeMask(model);
 //        break;
@@ -51,6 +54,12 @@ public class FlagPresenter extends SparklePresenter {
   private void judgeCheckBox(Model model) {
     if (view() instanceof CheckBox) {
       ((CheckBox) view()).setChecked(Wire.get(model.flag.is_selected, false));
+    }
+  }
+
+  private void judgeFollow(Model model) {
+    if (view() instanceof TextView) {
+      // TODO
     }
   }
 

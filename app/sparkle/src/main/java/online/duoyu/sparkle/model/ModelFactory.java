@@ -2,6 +2,8 @@ package online.duoyu.sparkle.model;
 
 import android.text.TextUtils;
 
+import com.squareup.wire.Wire;
+
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -42,6 +44,36 @@ public class ModelFactory {
     if (user == null) {
       return null;
     }
+    Count count = new Count.Builder()
+        .followers(Wire.get(user.follower_num, 0))
+        .followings(Wire.get(user.following_num, 0))
+        .build();
+    boolean is_following = false;
+    boolean is_follower = false;
+    switch (user.relationship) {
+      case EACH_FOLLOW:
+        is_follower = true;
+        is_following= true;
+        break;
+      case FOLLOWER:
+        is_follower = true;
+        break;
+      case FOLLOWING:
+        is_following = true;
+        break;
+    }
+    Flag flag = new Flag.Builder()
+        .is_following(is_following)
+        .is_follower(is_follower)
+        .build();
+    Map<Integer, Action> actions = new HashMap<>();
+    actions.put(Const.ACTION_MAIN, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(UserActivity.class.getName())
+        .build());
+    actions.put(Const.ACTION_FOLLOW, new Action.Builder()
+        .type(Action.Type.FOLLOW)
+        .build());
     return new Model.Builder()
         .user(user)
         .type(Model.Type.USER)
@@ -51,6 +83,9 @@ public class ModelFactory {
         .cover(user.avatar)
         .email(user.email)
         .description(user.introduce)
+        .flag(flag)
+        .count(count)
+        .actions(actions)
         .build();
   }
 

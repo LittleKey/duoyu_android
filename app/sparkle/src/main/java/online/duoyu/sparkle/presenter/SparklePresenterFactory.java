@@ -108,6 +108,17 @@ public class SparklePresenterFactory {
         .add(new ActionPresenter());
   }
 
+  public static ViewGroupPresenter createFollowerItemPresenter(ViewGroup parent, int layout,
+        MvpRecyclerView.Adapter adapter) {
+    return new ViewGroupPresenter(parent, layout, adapter)
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.btn_follow, new FlagPresenter())
+        .add(R.id.btn_follow, new ActionPresenter())
+        .add(R.id.btn_follow, new ActionPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
     return new ViewGroupPresenter(view)
         .add(R.id.title, new TextPresenter())

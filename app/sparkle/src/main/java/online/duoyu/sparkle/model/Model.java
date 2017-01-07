@@ -775,7 +775,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_DIARY_TITLE(13),
 
-    ITEM_NOTIFICATION(14);
+    ITEM_NOTIFICATION(14),
+
+    ITEM_FOLLOWER(15);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -805,6 +807,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 12: return ITEM_ORIGIN_SENTENCE;
         case 13: return ITEM_DIARY_TITLE;
         case 14: return ITEM_NOTIFICATION;
+        case 15: return ITEM_FOLLOWER;
         default: return null;
       }
     }

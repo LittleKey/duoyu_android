@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="RtlHardCoded">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        app:placeholderImage="?attr/primaryColor"
+        app:placeholderImageScaleType="fitCenter"
+        app:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/nickname"
+        style="@style/TextStyle.Middle.Black"
+        android:layout_toRightOf="@id/avatar"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:text="nickname"/>
+
+    <TextView
+        android:id="@+id/btn_follow"
+        style="@style/TextStyle.Middle.Primary"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:text="follow"/>
+</RelativeLayout>

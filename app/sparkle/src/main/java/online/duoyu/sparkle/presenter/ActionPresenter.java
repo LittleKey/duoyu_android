@@ -3,6 +3,7 @@ package online.duoyu.sparkle.presenter;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.wire.Wire;
@@ -27,10 +28,16 @@ import online.duoyu.sparkle.model.business.AttenderRequest;
 import online.duoyu.sparkle.model.business.AttenderResponse;
 import online.duoyu.sparkle.model.business.AttentionRequest;
 import online.duoyu.sparkle.model.business.AttentionResponse;
+import online.duoyu.sparkle.model.business.FollowRequest;
+import online.duoyu.sparkle.model.business.FollowResponse;
+import online.duoyu.sparkle.model.business.FollowerRequest;
+import online.duoyu.sparkle.model.business.FollowerResponse;
 import online.duoyu.sparkle.model.business.LikeRequest;
 import online.duoyu.sparkle.model.business.LikeResponse;
 import online.duoyu.sparkle.model.business.UnattendedRequest;
 import online.duoyu.sparkle.model.business.UnattendedResponse;
+import online.duoyu.sparkle.model.business.UnfollowRequest;
+import online.duoyu.sparkle.model.business.UnfollowResponse;
 import online.duoyu.sparkle.model.business.UnlikeRequest;
 import online.duoyu.sparkle.model.business.UnlikeResponse;
 import online.duoyu.sparkle.model.proto.Action;
@@ -215,7 +222,93 @@ public class ActionPresenter extends SparklePresenter {
   }
 
   private void follow(Model model) {
+    view().setEnabled(false);
+    boolean should_follow = !Wire.get(model.flag.is_following, false);
+    Model newModel = model.newBuilder()
+        .flag(model.flag.newBuilder().is_following(should_follow).build())
+        .count(model.count.newBuilder()
+            .followers(model.count.followers + (should_follow ? 1 : -1)).build())
+        .build();
+    @SuppressWarnings("unchecked")
+    MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    if (adapter != null) {
+      adapter.changeData(adapter.indexOf(model), newModel);
+    }
+    if (should_follow) {
+      _follow_imp(model, newModel);
+    } else {
+      _unfollow_imp(model, newModel);
+    }
+  }
 
+  private void _follow_imp(final Model oldModel, final Model newModel) {
+    @SuppressWarnings("unchecked")
+    final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    FollowRequest followRequest = new FollowRequest.Builder()
+        .user_id(oldModel.identity)
+        .build();
+    RequestFuture<FollowResponse> future = RequestFuture.newFuture();
+    SparkleRequest<FollowResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.FOLLOW, ByteString.of(FollowRequest.ADAPTER.encode(followRequest)),
+            FollowResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<FollowResponse>() {
+          @Override
+          public void call(FollowResponse followResponse) {
+            if (!Wire.get(followResponse.success, false)) {
+              if (adapter != null) {
+                adapter.changeData(adapter.indexOf(newModel), oldModel);
+              }
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            if (adapter != null) {
+              adapter.changeData(adapter.indexOf(newModel), oldModel);
+            }
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
+  }
+
+  private void _unfollow_imp(final Model oldModel, final Model newModel) {
+    @SuppressWarnings("unchecked")
+    final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
+    UnfollowRequest unfollowRequest = new UnfollowRequest.Builder()
+        .user_id(oldModel.identity)
+        .build();
+    RequestFuture<UnfollowResponse> future = RequestFuture.newFuture();
+    SparkleRequest<UnfollowResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.UNFOLLOW, ByteString.of(UnfollowRequest.ADAPTER.encode(unfollowRequest)),
+            UnfollowResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<UnfollowResponse>() {
+          @Override
+          public void call(UnfollowResponse unfollowResponse) {
+            if (!Wire.get(unfollowResponse.success, false)) {
+              if (adapter != null) {
+                adapter.changeData(adapter.indexOf(newModel), oldModel);
+              }
+            }
+            view().setEnabled(true);
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            if (adapter != null) {
+              adapter.changeData(adapter.indexOf(newModel), oldModel);
+            }
+            view().setEnabled(true);
+          }
+        }, Actions.empty()));
   }
 
   private void liked(Model model) {
@@ -234,15 +327,15 @@ public class ActionPresenter extends SparklePresenter {
       group().bind(newModel);
     }
     if (should_liked) {
-      _like_imp(model);
+      _like_imp(model, newModel);
     } else {
-      _unlike_imp(model);
+      _unlike_imp(model, newModel);
     }
   }
 
-  private void _like_imp(final Model model) {
+  private void _like_imp(final Model oldModel, final Model newModel) {
     ApiType apiType;
-    switch (model.type) {
+    switch (newModel.type) {
       case DIARY:
         apiType = ApiType.LIKE_DIARY;
         break;
@@ -253,19 +346,13 @@ public class ActionPresenter extends SparklePresenter {
         apiType = ApiType.LIKE_COMMENT;
         break;
       default:
-        Timber.e("error type: " + model.type);
+        Timber.e("error type: " + newModel.type);
         return;
     }
     @SuppressWarnings("unchecked")
     final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
-    boolean should_liked = Wire.get(model.flag.is_liked, false);
-    final Model oldModel = model.newBuilder()
-        .flag(model.flag.newBuilder().is_liked(should_liked).build())
-        .count(model.count.newBuilder()
-            .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
-        .build();
     LikeRequest likeRequest = new LikeRequest.Builder()
-        .identity(model.identity)
+        .identity(newModel.identity)
         .build();
     RequestFuture<LikeResponse> future = RequestFuture.newFuture();
     SparkleRequest<LikeResponse> request = SparkleApplication.getInstance().getRequestManager()
@@ -274,7 +361,6 @@ public class ActionPresenter extends SparklePresenter {
     request.setTag(this);
     request.submit();
     Observable.from(future, Schedulers.newThread())
-        .compose(RxLifecycleAndroid.<LikeResponse>bindView(view()))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new ActionSubscriber<>(new Action1<LikeResponse>() {
           @Override
@@ -282,7 +368,7 @@ public class ActionPresenter extends SparklePresenter {
             if (!Wire.get(likeResponse.success, false)) {
               // NOTE: like error restore model
               if (adapter != null) {
-                adapter.changeData(adapter.indexOf(model), oldModel);
+                adapter.changeData(adapter.indexOf(newModel), oldModel);
               } else {
                 group().bind(oldModel);
               }
@@ -295,7 +381,7 @@ public class ActionPresenter extends SparklePresenter {
             Timber.e(throwable, "like article error");
             // NOTE: like error restore model
             if (adapter != null) {
-              adapter.changeData(adapter.indexOf(model), oldModel);
+              adapter.changeData(adapter.indexOf(newModel), oldModel);
             } else {
               group().bind(oldModel);
             }
@@ -304,9 +390,9 @@ public class ActionPresenter extends SparklePresenter {
         }, Actions.empty()));
   }
 
-  private void _unlike_imp(final Model model) {
+  private void _unlike_imp(final Model oldModel, final Model newModel) {
     ApiType apiType;
-    switch (model.type) {
+    switch (newModel.type) {
       case DIARY:
         apiType = ApiType.UNLIKE_DIARY;
         break;
@@ -317,19 +403,13 @@ public class ActionPresenter extends SparklePresenter {
         apiType = ApiType.UNLIKE_COMMENT;
         break;
       default:
-        Timber.e("error type: " + model.type);
+        Timber.e("error type: " + newModel.type);
         return;
     }
     @SuppressWarnings("unchecked")
     final MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
-    boolean should_liked = Wire.get(model.flag.is_liked, false);
-    final Model oldModel = model.newBuilder()
-        .flag(model.flag.newBuilder().is_liked(should_liked).build())
-        .count(model.count.newBuilder()
-            .likes(Wire.get(model.count.likes, 0) + (should_liked ? 1 : -1)).build())
-        .build();
     UnlikeRequest unlikeRequest = new UnlikeRequest.Builder()
-        .identity(model.identity)
+        .identity(newModel.identity)
         .build();
     RequestFuture<UnlikeResponse> future = RequestFuture.newFuture();
     SparkleRequest<UnlikeResponse> request = SparkleApplication.getInstance().getRequestManager()
@@ -338,7 +418,6 @@ public class ActionPresenter extends SparklePresenter {
     request.setTag(this);
     request.submit();
     Observable.from(future, Schedulers.newThread())
-        .compose(RxLifecycleAndroid.<UnlikeResponse>bindView(view()))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new ActionSubscriber<>(new Action1<UnlikeResponse>() {
           @Override
@@ -346,7 +425,7 @@ public class ActionPresenter extends SparklePresenter {
             if (!Wire.get(unlikeResponse.success, false)) {
               // NOTE: like error restore model
               if (adapter != null) {
-                adapter.changeData(adapter.indexOf(model), oldModel);
+                adapter.changeData(adapter.indexOf(newModel), oldModel);
               } else {
                 group().bind(oldModel);
               }
@@ -359,7 +438,7 @@ public class ActionPresenter extends SparklePresenter {
             Timber.e(throwable, "like article error");
             // NOTE: like error restore model
             if (adapter != null) {
-              adapter.changeData(adapter.indexOf(model), oldModel);
+              adapter.changeData(adapter.indexOf(newModel), oldModel);
             } else {
               group().bind(oldModel);
             }
@@ -485,6 +564,8 @@ public class ActionPresenter extends SparklePresenter {
         return model.actions.get(Const.ACTION_EDIT_CORRECT);
       case R.id.user:
         return model.actions.get(Const.ACTION_USER);
+      case R.id.btn_follow:
+        return model.actions.get(Const.ACTION_FOLLOW);
     }
     return null;
   }

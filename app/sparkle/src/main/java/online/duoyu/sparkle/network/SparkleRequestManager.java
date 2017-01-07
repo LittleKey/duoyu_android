@@ -23,7 +23,7 @@ import me.littlekey.network.RequestManager;
 import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.business.CurrentRequest;
-import online.duoyu.sparkle.model.business.CurrentUserNotificationRequest;
+import online.duoyu.sparkle.model.business.FollowerRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
 import online.duoyu.sparkle.model.business.GetCommentsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdRequest;
@@ -181,6 +181,12 @@ public class SparkleRequestManager extends RequestManager {
       case ATTENTION_NOTIFICATION:
       case LIKED_NOTIFICATION:
         return Const.API_CURRENT_USER_NOTIFICATION;
+      case FOLLOWER:
+        return Const.API_FOLLOWER;
+      case FOLLOW:
+        return Const.API_FOLLOW;
+      case UNFOLLOW:
+        return Const.API_UNFOLLOW;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
@@ -233,6 +239,12 @@ public class SparkleRequestManager extends RequestManager {
             .diary_id(params.get(Const.KEY_DIARY_IDENTITY))
             .build();
         content = ByteString.of(GetCommentsByDiaryIdRequest.ADAPTER.encode(getCommentsByDiaryIdRequest));
+        break;
+      case FOLLOWER:
+        FollowerRequest followerRequest = new FollowerRequest.Builder()
+            .user_id(params.get(Const.KEY_USER_ID))
+            .build();
+        content = ByteString.of(FollowerRequest.ADAPTER.encode(followerRequest));
         break;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());

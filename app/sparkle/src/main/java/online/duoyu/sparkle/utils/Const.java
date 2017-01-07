@@ -27,6 +27,7 @@ public class Const {
   public static final Integer ACTION_COMMENTS = 6;
   public static final Integer ACTION_EDIT_CORRECT = 7;
   public static final Integer ACTION_USER = 8;
+  public static final Integer ACTION_FOLLOW = 9;
   /************************************
    * Key
    ***********************************/
@@ -124,12 +125,15 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-//  private static final String API_HOST_URL = "http://192.168.1.6";
-  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
+  private static final String API_HOST_URL = "http://192.168.1.6";
+//  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   // user
   public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
+  public static final String API_FOLLOWER = API_HOST_URL + "/user/follower";
+  public static final String API_FOLLOW = API_HOST_URL + "/user/follow";
+  public static final String API_UNFOLLOW = API_HOST_URL + "/user/unfollow";
   // diary
   public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/following_user_published";
   public static final String API_DIARY_RECENT = API_HOST_URL + "/diary/recent";

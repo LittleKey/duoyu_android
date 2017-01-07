@@ -5,6 +5,7 @@ import android.os.Bundle;
 import java.util.List;
 
 import me.littlekey.network.NameValuePair;
+import online.duoyu.sparkle.model.data.FollowersDataGenerator;
 import online.duoyu.sparkle.model.data.NotificationDataGenerator;
 import online.duoyu.sparkle.model.data.FollowUserDiaryDataGenerator;
 import online.duoyu.sparkle.model.data.GetCommentsByDiaryDataGenerator;
@@ -37,6 +38,8 @@ public class DataGeneratorFactory {
       case LIKED_NOTIFICATION:
       case ATTENTION_NOTIFICATION:
         return new NotificationDataGenerator(apiType);
+      case FOLLOWER:
+        return new FollowersDataGenerator(apiType, pairs);
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }

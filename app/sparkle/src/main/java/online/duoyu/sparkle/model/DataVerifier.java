@@ -33,8 +33,8 @@ public class DataVerifier {
     if (TextUtils.isEmpty(user.user_id)) {
       return null;
     }
-    User.Builder builder = user.newBuilder();
-    builder.nickname(Wire.get(user.nickname, Const.EMPTY_STRING));
+    User.Builder builder = user.newBuilder()
+        .nickname(Wire.get(user.nickname, Const.EMPTY_STRING));
     return builder.build();
   }
 
