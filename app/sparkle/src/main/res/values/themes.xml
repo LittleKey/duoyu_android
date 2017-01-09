@@ -65,6 +65,18 @@
         <item name="defaultRightTitleTabBackground">@drawable/bg_primary_pink_white_round_title_bar_right</item>
     </style>
 
+    <style name="DatePickDialogTheme.PrimaryBlue" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryDark">@color/primary_blue</item>
+        <item name="colorAccent">@color/primary_blue</item>
+    </style>
+
+    <style name="DatePickDialogTheme.PrimaryPink" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/primary_pink</item>
+        <item name="colorPrimaryDark">@color/primary_pink</item>
+        <item name="colorAccent">@color/primary_pink</item>
+    </style>
+
     <style name="BaseAppTheme.HomeActivity">
         <item name="android:windowBackground">@color/primary_blue</item>
     </style>

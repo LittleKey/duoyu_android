@@ -24,6 +24,7 @@ public class ThemeDelegate {
   private boolean dialog;
   private int styleRes;
   private int styleResForDialog;
+  private int styleResForDatePickerDialog;
   private String primary;
 
   ThemeDelegate(Context context, Colorful.ThemeColor themeColor, boolean translucent, boolean dark, boolean dialog) {
@@ -52,6 +53,7 @@ public class ThemeDelegate {
     }
     styleRes = ResourcesUtils.getStyleIdentifier((dialog ? "DialogTheme." : "AppTheme.") + primary);
     styleResForDialog = dialog ? styleRes : ResourcesUtils.getStyleIdentifier("DialogTheme." + primary);
+    styleResForDatePickerDialog = ResourcesUtils.getStyleIdentifier("DatePickDialogTheme." + primary);
     Timber.d("ThemeDelegate fetched theme in " + (System.currentTimeMillis() - curTime) + " milliseconds");
   }
 
@@ -59,8 +61,12 @@ public class ThemeDelegate {
     return styleRes;
   }
 
-  public int getDialogStyle() {
+  public @StyleRes int getDialogStyle() {
     return styleResForDialog;
+  }
+
+  public @StyleRes int getDatePickerDialogStyle() {
+    return styleResForDatePickerDialog;
   }
 
   public Colorful.ThemeColor getThemeColor() {
