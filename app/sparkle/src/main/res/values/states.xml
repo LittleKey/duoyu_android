@@ -5,58 +5,126 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="State.Done">
+    <style name="State.Small">
+        <item name="android:textSize">@dimen/textSizeSmall</item>
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">26dp</item>
+    </style>
+
+    <style name="State.Normal">
+        <item name="android:textSize">@dimen/textSizeMiddle</item>
+        <item name="android:layout_width">77dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+    <!-- state done -->
+    <style name="State.Small.Done">
         <item name="android:alpha">1</item>
     </style>
 
-    <style name="State.Done.PrimaryBlue">
+    <style name="State.Small.Done.PrimaryBlue">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
     </style>
 
-    <style name="State.Done.PrimaryPink">
+    <style name="State.Small.Done.PrimaryPink">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
     </style>
 
-    <style name="State.Canceled">
+    <style name="State.Normal.Done">
+        <item name="android:alpha">1</item>
+    </style>
+
+    <style name="State.Normal.Done.PrimaryBlue">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.Done.PrimaryPink">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
+    </style>
+    <!-- state canceled -->
+    <style name="State.Small.Canceled">
         <item name="android:alpha">0.5</item>
     </style>
 
-    <style name="State.Canceled.PrimaryBlue">
+    <style name="State.Small.Canceled.PrimaryBlue">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
     </style>
 
-    <style name="State.Canceled.PrimaryPink">
+    <style name="State.Small.Canceled.PrimaryPink">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
     </style>
 
-    <style name="State.Follow">
+    <style name="State.Normal.Canceled">
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="State.Normal.Canceled.PrimaryBlue">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.Canceled.PrimaryPink">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
+    </style>
+    <!-- state follow -->
+    <style name="State.Small.Follow">
         <item name="android:text">@string/follow</item>
     </style>
 
-    <style name="State.Follow.PrimaryBlue">
+    <style name="State.Small.Follow.PrimaryBlue">
         <item name="android:textColor">@color/primary_blue</item>
         <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
     </style>
 
-    <style name="State.Follow.PrimaryPink">
+    <style name="State.Small.Follow.PrimaryPink">
         <item name="android:textColor">@color/primary_pink</item>
         <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
     </style>
 
-    <style name="State.Following">
+    <style name="State.Normal.Follow">
+        <item name="android:text">@string/follow</item>
+    </style>
+
+    <style name="State.Normal.Follow.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.Follow.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
+    <!-- state following -->
+    <style name="State.Small.Following">
         <item name="android:text">@string/following</item>
     </style>
 
-    <style name="State.Following.PrimaryBlue">
+    <style name="State.Small.Following.PrimaryBlue">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
     </style>
 
-    <style name="State.Following.PrimaryPink">
+    <style name="State.Small.Following.PrimaryPink">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.Following">
+        <item name="android:text">@string/following</item>
+    </style>
+
+    <style name="State.Normal.Following.PrimaryBlue">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_primary_blue_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.Following.PrimaryPink">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
     </style>

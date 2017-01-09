@@ -23,6 +23,7 @@ public class ThemeDelegate {
   private boolean dark;
   private boolean dialog;
   private int styleRes;
+  private int styleResForDialog;
   private String primary;
 
   ThemeDelegate(Context context, Colorful.ThemeColor themeColor, boolean translucent, boolean dark, boolean dialog) {
@@ -50,11 +51,16 @@ public class ThemeDelegate {
         break;
     }
     styleRes = ResourcesUtils.getStyleIdentifier((dialog ? "DialogTheme." : "AppTheme.") + primary);
+    styleResForDialog = dialog ? styleRes : ResourcesUtils.getStyleIdentifier("DialogTheme." + primary);
     Timber.d("ThemeDelegate fetched theme in " + (System.currentTimeMillis() - curTime) + " milliseconds");
   }
 
   public @StyleRes int getStyle() {
     return styleRes;
+  }
+
+  public int getDialogStyle() {
+    return styleResForDialog;
   }
 
   public Colorful.ThemeColor getThemeColor() {

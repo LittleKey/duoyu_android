@@ -55,6 +55,7 @@ public class StatefulButton extends FrameLayout {
   protected void init() {
     LayoutInflater.from(getContext()).inflate(mLayout, this, true);
     mTextView = (TextView) findViewById(R.id.stateful_btn_label);
+    mTextView.setIncludeFontPadding(false);
   }
 
   protected void styleAppearance(TypedArray appearance) {

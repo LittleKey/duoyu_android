@@ -100,6 +100,7 @@ public class Colorful {
         break;
       case R.id.theme_btn_follow:
       case R.id.theme_btn_publish:
+      case R.id.theme_btn_sure:
         if (view instanceof StatefulButton) {
           ((StatefulButton) view).updateState();
         }

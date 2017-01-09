@@ -26,11 +26,11 @@ public class NavigationManager {
 
   private NavigationManager() {}
 
-  public static void navigationTo(Activity activity, Class clazz, int requestCode) {
-    navigationTo(activity, clazz, requestCode, null);
+  public static void navigationTo(Activity activity, int requestCode, Class clazz) {
+    navigationTo(activity, requestCode, clazz, null);
   }
 
-  public static void navigationTo(Activity activity, Class clazz, int requestCode, Bundle bundle) {
+  public static void navigationTo(Activity activity, int requestCode, Class clazz, Bundle bundle) {
     Intent intent = new Intent(activity, clazz);
     if (bundle != null) {
       intent.putExtras(bundle);

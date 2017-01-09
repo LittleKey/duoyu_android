@@ -2,6 +2,7 @@
     <string name="app_name">DuoYu</string>
     <string name="more_press_exit">press back again</string>
     <string name="space">&#160;</string>
+    <string name="sure">sure</string>
 
     <!-- generate -->
     <string name="follow">follow</string>
@@ -43,6 +44,7 @@
     <!-- write diary -->
     <string name="btn_publish">Publish</string>
     <string name="input_content">input content</string>
+    <string name="input_title">input_title</string>
     <string name="edit_diary">Edit Diary</string>
     <string name="complete">Complete</string>
 </resources>

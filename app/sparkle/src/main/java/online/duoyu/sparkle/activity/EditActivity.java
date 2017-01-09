@@ -54,6 +54,7 @@ public class EditActivity extends SingleFragmentActivity {
     switch (item.getItemId()) {
       case R.id.action_complete:
         setResult(Activity.RESULT_OK, getIntent());
+        closeKeyboard();
         finish();
         return true;
     }
