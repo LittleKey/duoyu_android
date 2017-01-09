@@ -42,4 +42,7 @@
 
     <!-- write diary -->
     <string name="btn_publish">Publish</string>
+    <string name="input_content">input content</string>
+    <string name="edit_diary">Edit Diary</string>
+    <string name="complete">Complete</string>
 </resources>

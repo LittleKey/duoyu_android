@@ -12,6 +12,7 @@ public class Const {
   public static final String LAST_TOKEN = "last_pass_hash";
   public static final String LAST_THEME = "last_theme";
   public static final String EMPTY_STRING = "";
+  public static final CharSequence EMPTY_CHAR_SEQUENCE = EMPTY_STRING;
   public static final String USER_AGENT = "User-Agent";
   public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36";
   public static final int IMAGE_ITEM_COUNT_PER_PAGE = 20;
@@ -102,6 +103,7 @@ public class Const {
   public static final String KEY_ORIGIN_CONTENT = "origin_content";
   public static final String KEY_CORRECT_CONTENT = "correct_content";
   public static final String KEY_ETAG = "etag";
+  public static final String KEY_CONTENT = "content";
   /***********************************
    * EXTRA
    **********************************/
@@ -222,6 +224,10 @@ public class Const {
   public static final int MIN_STATURE = 155;
   public static final String GENDER_FEMALE = "女";
   public static final String STRING_SPACE = " ";
+  /************************************
+   * Request Code
+   ***********************************/
+  public static final int REQUEST_CODE_EDIT = 1;
   /************************************
    * REGISTERWay
    ***********************************/

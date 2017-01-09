@@ -53,6 +53,8 @@
             android:name=".activity.UserActivity"
             android:theme="@style/BaseAppTheme.UserActivity"/>
 
+        <activity android:name=".activity.EditActivity"/>
+
     </application>
 
 </manifest>

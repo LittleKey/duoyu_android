@@ -160,7 +160,6 @@ public class ActionPresenter extends SparklePresenter {
     request.setTag(this);
     request.submit();
     Observable.from(future, Schedulers.newThread())
-        .compose(RxLifecycleAndroid.<AttentionResponse>bindView(view()))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new ActionSubscriber<>(new Action1<AttentionResponse>() {
           @Override
@@ -192,7 +191,6 @@ public class ActionPresenter extends SparklePresenter {
     request.setTag(this);
     request.submit();
     Observable.from(future, Schedulers.newThread())
-        .compose(RxLifecycleAndroid.<UnattendedResponse>bindView(view()))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new ActionSubscriber<>(new Action1<UnattendedResponse>() {
           @Override

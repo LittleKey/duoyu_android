@@ -3,6 +3,7 @@ package online.duoyu.sparkle.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,14 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
+import de.greenrobot.event.EventBus;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.activity.EditActivity;
+import online.duoyu.sparkle.event.OnEditContentEvent;
 import online.duoyu.sparkle.utils.Const;
+import online.duoyu.sparkle.utils.NavigationManager;
 import online.duoyu.sparkle.widget.StatefulButton;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,27 +57,28 @@ public class WriteDiaryFragment extends LazyLoadFragment {
           @Override
           public Observable<Boolean> call(final TextView textView) {
             return RxTextView.textChanges(textView)
-                .compose(WriteDiaryFragment.this.<CharSequence>bindToLifecycle())
+                .compose(WriteDiaryFragment.this.<CharSequence>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<CharSequence, Boolean>() {
                   @Override
                   public Boolean call(CharSequence charSequence) {
                     switch (textView.getId()) {
                       case R.id.input_title:
-                        mTitle = TextUtils.equals(charSequence, "Type diary title")
-                            ? Const.EMPTY_STRING : charSequence;
+                        mTitle = charSequence;
                         break;
                       case R.id.input_content:
-                        mContent = TextUtils.equals(charSequence, "Type diary content")
-                            ? Const.EMPTY_STRING : charSequence;
+                        mContent = charSequence;
                         break;
+                    }
+                    if (TextUtils.isEmpty(charSequence)) {
+                      textView.setGravity(Gravity.CENTER);
                     }
                     return !TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mContent);
                   }
                 });
           }
         })
-        .compose(this.<Boolean>bindToLifecycle())
+        .compose(this.<Boolean>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .subscribe(new Action1<Boolean>() {
           @Override
           public void call(Boolean aBoolean) {
@@ -80,7 +87,7 @@ public class WriteDiaryFragment extends LazyLoadFragment {
           }
         });
     RxView.clicks(mTitleView)
-        .compose(this.<Void>bindToLifecycle())
+        .compose(this.<Void>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
           @Override
@@ -89,16 +96,19 @@ public class WriteDiaryFragment extends LazyLoadFragment {
           }
         });
     RxView.clicks(mContentView)
-        .compose(this.<Void>bindToLifecycle())
+        .compose(this.<Void>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
-            // TODO : start edit diary content activity
+            Bundle bundle = new Bundle();
+            bundle.putCharSequence(Const.KEY_CONTENT, mContentView.getText());
+            NavigationManager.navigationTo(getActivity(),
+                EditActivity.class, Const.REQUEST_CODE_EDIT, bundle);
           }
         });
     RxView.clicks(mBtnPublish)
-        .compose(this.<Void>bindToLifecycle())
+        .compose(this.<Void>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
           @Override
@@ -106,6 +116,17 @@ public class WriteDiaryFragment extends LazyLoadFragment {
             // TODO : publish diary
           }
         });
+    EventBus.getDefault().register(this);
     return view;
+  }
+
+  public void onEventMainThread(OnEditContentEvent event) {
+    mContentView.setText(event.content);
+  }
+
+  @Override
+  public void onDestroyView() {
+    EventBus.getDefault().unregister(this);
+    super.onDestroyView();
   }
 }

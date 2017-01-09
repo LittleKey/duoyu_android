@@ -2,10 +2,13 @@ package online.duoyu.sparkle.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,6 +42,14 @@ public abstract class SingleFragmentActivity extends BaseActivity {
           @Override
           public void onClick(View v) {
             onBackPressed();
+          }
+        });
+      } else if (hasCancelBtn()) {
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            finish();
           }
         });
       }
@@ -80,6 +91,10 @@ public abstract class SingleFragmentActivity extends BaseActivity {
 
   protected boolean hasBackBtn() {
     return hasToolbar();
+  }
+
+  protected boolean hasCancelBtn() {
+    return hasToolbar() && !hasBackBtn();
   }
 
   protected String activityTitle() {

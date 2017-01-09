@@ -1,6 +1,7 @@
 package online.duoyu.sparkle.utils;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,18 @@ public class NavigationManager {
   public static final String SCHEME = "sparkle";
 
   private NavigationManager() {}
+
+  public static void navigationTo(Activity activity, Class clazz, int requestCode) {
+    navigationTo(activity, clazz, requestCode, null);
+  }
+
+  public static void navigationTo(Activity activity, Class clazz, int requestCode, Bundle bundle) {
+    Intent intent = new Intent(activity, clazz);
+    if (bundle != null) {
+      intent.putExtras(bundle);
+    }
+    activity.startActivityForResult(intent, requestCode);
+  }
 
   public static void navigationTo(Context context, Class clazz) {
     navigationTo(context, clazz, null);

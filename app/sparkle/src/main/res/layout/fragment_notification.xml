@@ -67,7 +67,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4dp"
         android:layout_alignTop="@id/view_pager"
         android:background="@drawable/shadow_for_title_bar"/>
 

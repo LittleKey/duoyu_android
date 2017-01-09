@@ -70,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="type diary content"/>
+            android:maxLines="1000000"
+            android:hint="@string/input_content"/>
     </ScrollView>
 
     <View
