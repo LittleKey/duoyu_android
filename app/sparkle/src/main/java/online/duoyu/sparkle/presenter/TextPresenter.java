@@ -56,6 +56,8 @@ public class TextPresenter extends SparklePresenter {
 //        return Html.fromHtml(model.description);
       case R.id.description:
         return model.description;
+      case R.id.introduce:
+        return model.user.introduce;
       case R.id.theme_title:
       case R.id.title:
         return model.title.trim();
@@ -75,8 +77,14 @@ public class TextPresenter extends SparklePresenter {
       case R.id.nickname:
 //      case R.id.user_name:
         return model.user.nickname;
+      case R.id.email:
+        return model.user.email;
       case R.id.attentions:
         return SparkleUtils.formatInteger(model.count.attentions);
+      case R.id.theme_followers:
+        return SparkleUtils.formatInteger(model.count.followers);
+      case R.id.theme_following:
+        return SparkleUtils.formatInteger(model.count.followings);
       case R.id.likes:
         return SparkleUtils.formatInteger(model.count.likes);
       case R.id.comments:

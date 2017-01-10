@@ -54,6 +54,10 @@ public class ListAdapter extends MvpAdapter<Model> {
         return SparklePresenterFactory.createNotificationItemPresenter(parent, R.layout.item_notification);
       case ITEM_FOLLOWER:
         return SparklePresenterFactory.createFollowerItemPresenter(parent, R.layout.item_follower, this);
+      case ITEM_HAPPENING:
+        return SparklePresenterFactory.createHappeningItemPresenter(parent, R.layout.item_happening);
+      case ITEM_CORRECT_WITH_DIARY:
+        return SparklePresenterFactory.createCorrectWithDiaryItemPresenter(parent, R.layout.item_correct_with_diary, this);
       default:
         throw new IllegalStateException("Nonsupport template : " + template.name());
     }

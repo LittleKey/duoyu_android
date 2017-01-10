@@ -25,6 +25,7 @@ import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.model.proto.Flag;
+import online.duoyu.sparkle.model.proto.Happening;
 import online.duoyu.sparkle.model.proto.Notification;
 import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.Const;
@@ -44,6 +45,7 @@ public class ModelFactory {
       return null;
     }
     Count count = new Count.Builder()
+        .likes(Wire.get(user.liked_num, 0))
         .followers(Wire.get(user.follower_num, 0))
         .followings(Wire.get(user.following_num, 0))
         .build();
@@ -365,6 +367,61 @@ public class ModelFactory {
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
         .actions(actions)
         .flag(flag)
+        .build();
+  }
+
+  public static Model createModelFromHappening(Happening happening, Model.Template template) {
+    happening = DataVerifier.verify(happening);
+    if (happening == null) {
+      return null;
+    }
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(happening.date * 1000);
+    DateTime date_time = new DateTime(cal);
+    String month = date_time.monthOfYear().getAsShortText();
+    String week = date_time.dayOfWeek().getAsShortText();
+    Map<Integer, Action> actions = new HashMap<>();
+    Class<?> jump_clazz = null;
+    String description = Const.EMPTY_STRING;
+    switch (happening.event) {
+      case LIKE_CORRECT:
+        jump_clazz = CorrectActivity.class;
+        description = "like correct of diary ";
+        break;
+      case PUBLISH_CORRECT:
+        description = "publish correct on diary ";
+        jump_clazz = CorrectActivity.class;
+        break;
+      case ATTENTION_DIARY:
+        description = "attention diary ";
+        jump_clazz = DiaryActivity.class;
+        break;
+      case LIKE_DIARY:
+        description = "like diary ";
+        jump_clazz = DiaryActivity.class;
+        break;
+      case PUBLISH_DIARY:
+        description = "publish diary ";
+        jump_clazz = DiaryActivity.class;
+        break;
+    }
+    actions.put(Const.ACTION_MAIN, new Action.Builder()
+        .type(Action.Type.JUMP)
+        .clazz(jump_clazz == null ? null : jump_clazz.getName())
+        .build());
+    return new Model.Builder()
+        .type(Model.Type.HAPPENING)
+        .template(template)
+        .happening(happening)
+        .identity(happening.article_id)
+        .title(happening.title)
+        .description(description)
+        .event(happening.event.ordinal())
+        .date(date_time.getMillis())
+        .month(month)
+        .week(week)
+        .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
+        .actions(actions)
         .build();
   }
 }

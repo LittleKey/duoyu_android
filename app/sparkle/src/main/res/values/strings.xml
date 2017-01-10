@@ -32,6 +32,7 @@
 
     <!-- diary -->
     <string name="get_diary_error">get diary info error</string>
+    <string name="correct">Correct</string>
 
     <!-- edit correct -->
     <string name="all_corrects">Corrects(%d)</string>
@@ -47,4 +48,9 @@
     <string name="input_title">input_title</string>
     <string name="edit_diary">Edit Diary</string>
     <string name="complete">Complete</string>
+
+    <!-- user center -->
+    <string name="tab_correct">Correct</string>
+    <string name="tab_diary">Diary</string>
+    <string name="tab_timeline">Timeline</string>
 </resources>

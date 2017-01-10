@@ -50,7 +50,6 @@
                 android:textColor="?attr/textColor"
                 android:textSize="14sp"
                 android:text="@string/title_tab_write"/>
-
         </LinearLayout>
 
         <TextView

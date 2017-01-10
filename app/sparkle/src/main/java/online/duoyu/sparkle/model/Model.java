@@ -777,7 +777,11 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_NOTIFICATION(14),
 
-    ITEM_FOLLOWER(15);
+    ITEM_FOLLOWER(15),
+
+    ITEM_HAPPENING(16),
+
+    ITEM_CORRECT_WITH_DIARY(17);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -808,6 +812,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 13: return ITEM_DIARY_TITLE;
         case 14: return ITEM_NOTIFICATION;
         case 15: return ITEM_FOLLOWER;
+        case 16: return ITEM_HAPPENING;
+        case 17: return ITEM_CORRECT_WITH_DIARY;
         default: return null;
       }
     }

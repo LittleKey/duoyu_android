@@ -10,6 +10,7 @@ import java.util.List;
 import online.duoyu.sparkle.model.proto.Comment;
 import online.duoyu.sparkle.model.proto.Correct;
 import online.duoyu.sparkle.model.proto.Diary;
+import online.duoyu.sparkle.model.proto.Happening;
 import online.duoyu.sparkle.model.proto.Notification;
 import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.CollectionUtils;
@@ -145,6 +146,23 @@ public class DataVerifier {
     return builder
         .users(users)
         .unread(Wire.get(notification.unread, false))
+        .build();
+  }
+
+  public static Happening verify(Happening happening) {
+    if (happening == null) {
+      return null;
+    }
+    if (TextUtils.isEmpty(happening.article_id)) {
+      return null;
+    }
+    if (TextUtils.isEmpty(happening.title)) {
+      return null;
+    }
+    if (happening.event == Happening.Event.UNKNOWN_EVENT) {
+      return null;
+    }
+    return happening.newBuilder()
         .build();
   }
 }

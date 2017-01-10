@@ -4,6 +4,9 @@ import android.content.Intent;
 
 import online.duoyu.sparkle.fragment.BaseFragment;
 import online.duoyu.sparkle.fragment.UserFragment;
+import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.utils.Const;
+import online.duoyu.sparkle.utils.NavigationManager;
 import online.duoyu.sparkle.utils.ToastUtils;
 
 /**
@@ -14,7 +17,7 @@ public class UserActivity extends SingleFragmentActivity {
 
   @Override
   protected BaseFragment createFragment(Intent intent) {
-    ToastUtils.toast(UserActivity.class.getSimpleName());
-    return UserFragment.newInstance();
+    Model model = NavigationManager.parseIntent(intent).getParcelable(Const.KEY_MODEL);
+    return UserFragment.newInstance(model);
   }
 }

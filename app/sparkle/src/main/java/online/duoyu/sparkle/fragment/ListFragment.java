@@ -183,6 +183,7 @@ public class ListFragment extends LazyLoadFragment {
       case FOLLOWER:
       case LIKED_NOTIFICATION:
       case ATTENTION_NOTIFICATION:
+      case GET_USER_TIMELINE:
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
             ResourcesUtils.getDrawable(R.drawable.recycler_view_divider_line), 0, true));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -198,6 +199,7 @@ public class ListFragment extends LazyLoadFragment {
         break;
       case GET_COMMENTS_BY_DIARY:
       case GET_CORRECTS_BY_DIARY:
+      case GET_USER_PUBLISHED_CORRECTS:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override
           public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -214,6 +216,7 @@ public class ListFragment extends LazyLoadFragment {
       case GET_CORRECTS_SENTENCE_BY_DIARY:
       case RECENT_DIARY:
       case FOLLOW_USER_DIARY:
+      case GET_USER_PUBLISHED_DIARIES:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override
           public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

@@ -82,6 +82,15 @@ public class SparklePresenterFactory {
         .add(R.id.likes, new ActionPresenter());
   }
 
+  public static ViewGroupPresenter createCorrectWithDiaryItemPresenter(ViewGroup parent, int layout,
+        MvpRecyclerView.Adapter adapter) {
+    return new ViewGroupPresenter(parent, layout, adapter)
+        .add(R.id.title, new TextPresenter())
+        .add(R.id.date, new TextPresenter())
+        .add(R.id.correct_sentence_list, new ListPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createCorrectWithOriginContentSentenceItemPresenter(ViewGroup parent, int layout) {
     return new ViewGroupPresenter(parent, layout)
         .add(R.id.origin_sentence, new TextPresenter())
@@ -119,6 +128,14 @@ public class SparklePresenterFactory {
         .add(new ActionPresenter());
   }
 
+  public static ViewGroupPresenter createHappeningItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.description, new TextPresenter())
+        .add(R.id.title, new TextPresenter())
+        .add(R.id.date, new TextPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createDiaryPresenter(ViewGroup view) {
     return new ViewGroupPresenter(view)
         .add(R.id.title, new TextPresenter())
@@ -127,6 +144,7 @@ public class SparklePresenterFactory {
         .add(R.id.week, new TextPresenter())
         .add(R.id.nickname, new TextPresenter())
         .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.introduce, new TextPresenter())
         .add(R.id.content, new TextPresenter())
         .add(R.id.attentions, new ActionPresenter())
         .add(R.id.attentions, new TextPresenter())
@@ -138,5 +156,16 @@ public class SparklePresenterFactory {
         .add(R.id.corrects, new TextPresenter())
         .add(R.id.edit_correct, new ActionPresenter())
         .add(R.id.user, new ActionPresenter());
+  }
+
+  public static ViewGroupPresenter createUserInfoPresenter(ViewGroup view) {
+    return new ViewGroupPresenter(view)
+        .add(R.id.nickname, new TextPresenter())
+        .add(R.id.avatar, new ImagePresenter())
+        .add(R.id.email, new TextPresenter())
+        .add(R.id.theme_followers, new TextPresenter())
+        .add(R.id.theme_followers, new ThemePresenter())
+        .add(R.id.theme_following, new TextPresenter())
+        .add(R.id.theme_following, new ThemePresenter());
   }
 }

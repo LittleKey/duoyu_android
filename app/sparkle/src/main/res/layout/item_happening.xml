@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="RtlHardCoded">
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/TextStyle.Small.Gray"
+        android:text="2017.01.01"/>
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/TextStyle.Small.Gray"
+        android:layout_toRightOf="@id/date"
+        android:layout_marginLeft="5dp"
+        android:text="event"/>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextStyle.Large.Black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/date"
+        android:layout_below="@id/date"
+        android:text="title"/>
+</RelativeLayout>

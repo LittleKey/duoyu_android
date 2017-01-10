@@ -3,6 +3,7 @@ package online.duoyu.sparkle.fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.DiaryRequest;
 import online.duoyu.sparkle.model.business.DiaryResponse;
+import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.presenter.SparklePresenterFactory;
@@ -42,6 +44,7 @@ import timber.log.Timber;
 public class DiaryFragment extends BaseFragment {
 
   private ViewGroupPresenter mPresenterGroup;
+  private Model mModel;
 
   public static DiaryFragment newInstance(Model model) {
     Bundle args = new Bundle();
@@ -54,10 +57,6 @@ public class DiaryFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//    WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//    lp.dimAmount = 0.0f;
-//    getActivity().getWindow().setAttributes(lp);
-//    getActivity().getWindow().setBackgroundDrawableResource(R.color.transparent);
     mPresenterGroup = SparklePresenterFactory.createDiaryPresenter(
         (ViewGroup) inflater.inflate(R.layout.fragment_diary, container, false));
     return mPresenterGroup.view;
@@ -82,11 +81,14 @@ public class DiaryFragment extends BaseFragment {
         view.requestLayout();
       }
     });
-    final Model model = getArguments().getParcelable(Const.KEY_MODEL);
-    if (model == null) {
+    Model model = getArguments().getParcelable(Const.KEY_MODEL);
+    if (model == null || TextUtils.isEmpty(model.identity)) {
       return;
     }
-    mPresenterGroup.bind(model);
+    mModel = ModelFactory.createModelFromDiary(model.diary, Model.Template.DATA);
+    if (mModel != null) {
+      mPresenterGroup.bind(mModel);
+    }
     RxView.clicks(view.findViewById(R.id.close)).cache()
         .throttleFirst(1, TimeUnit.SECONDS)
         .subscribe(new Action1<Void>() {
@@ -97,7 +99,7 @@ public class DiaryFragment extends BaseFragment {
         });
     RequestFuture<DiaryResponse> future = RequestFuture.newFuture();
     DiaryRequest diaryRequest = new DiaryRequest.Builder()
-        .diary(model.diary)
+        .diary(new Diary.Builder().diary_id(model.identity).build())
         .build();
     SparkleRequest<DiaryResponse> request = SparkleApplication.getInstance().getRequestManager()
         .newSparkleRequest(ApiType.GET_DIARY_BY_ID, ByteString.of(DiaryRequest.ADAPTER.encode(diaryRequest)),
@@ -113,6 +115,7 @@ public class DiaryFragment extends BaseFragment {
             if (Wire.get(diaryResponse.success, false)) {
               Model newModel = ModelFactory.createModelFromDiary(diaryResponse.diary, Model.Template.DATA);
               if (newModel != null) {
+                mModel = newModel;
                 mPresenterGroup.bind(newModel);
               }
             } else {
@@ -122,7 +125,7 @@ public class DiaryFragment extends BaseFragment {
         }, new Action1<Throwable>() {
           @Override
           public void call(Throwable throwable) {
-            Timber.e(throwable, "get diary by id error: " + model);
+            Timber.e(throwable, "get diary by id error: " + (mModel == null ? Const.EMPTY_STRING : mModel));
             ToastUtils.toast(R.string.get_diary_error);
           }
         }, Actions.empty()));

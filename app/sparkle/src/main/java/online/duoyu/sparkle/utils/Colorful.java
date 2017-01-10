@@ -90,6 +90,8 @@ public class Colorful {
       case R.id.theme_day:
       case R.id.theme_month:
       case R.id.theme_title_bar:
+      case R.id.theme_followers:
+      case R.id.theme_following:
         if (view instanceof TextView) {
           ((TextView) view).setTextColor(themeDelegate.getThemeColor().getTextColor());
         }

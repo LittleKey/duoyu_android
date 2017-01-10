@@ -9,8 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.squareup.wire.Message;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,14 +20,15 @@ import me.littlekey.network.NameValuePair;
 import me.littlekey.network.RequestManager;
 import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
-import online.duoyu.sparkle.model.business.CurrentRequest;
 import online.duoyu.sparkle.model.business.FollowerRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
 import online.duoyu.sparkle.model.business.GetCommentsByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectByDiaryIdRequest;
 import online.duoyu.sparkle.model.business.GetCorrectsByDiaryIdRequest;
+import online.duoyu.sparkle.model.business.GetCorrectsByUserIdRequest;
+import online.duoyu.sparkle.model.business.GetPublishedByUserIdRequest;
+import online.duoyu.sparkle.model.business.GetTimelineByUserIdRequest;
 import online.duoyu.sparkle.model.business.LoginRequest;
-import online.duoyu.sparkle.model.business.RecentRequest;
 import online.duoyu.sparkle.model.proto.Cursor;
 import online.duoyu.sparkle.model.proto.RPCRequest;
 import online.duoyu.sparkle.utils.Const;
@@ -187,6 +186,12 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_FOLLOW;
       case UNFOLLOW:
         return Const.API_UNFOLLOW;
+      case GET_USER_TIMELINE:
+        return Const.API_GET_USER_TIMELINE;
+      case GET_USER_PUBLISHED_CORRECTS:
+        return Const.API_GET_USER_PUBLISHED_CORRECTS;
+      case GET_USER_PUBLISHED_DIARIES:
+        return Const.API_GET_USER_PUBLISHED_DIARIES;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
@@ -194,6 +199,7 @@ public class SparkleRequestManager extends RequestManager {
 
   private byte[] buildBody(ApiType apiType, Map<String, String> params) {
     ByteString content = null;
+    String timestamp = params.get(Const.KEY_TIME_STAMP);
     switch (apiType) {
       case RECENT_DIARY:
         content = ByteString.EMPTY;
@@ -239,6 +245,27 @@ public class SparkleRequestManager extends RequestManager {
             .user_id(params.get(Const.KEY_USER_ID))
             .build();
         content = ByteString.of(FollowerRequest.ADAPTER.encode(followerRequest));
+        break;
+      case GET_USER_PUBLISHED_CORRECTS:
+        GetCorrectsByUserIdRequest getCorrectsByUserIdRequest = new GetCorrectsByUserIdRequest.Builder()
+            .user_id(params.get(Const.KEY_USER_ID))
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(GetCorrectsByUserIdRequest.ADAPTER.encode(getCorrectsByUserIdRequest));
+        break;
+      case GET_USER_PUBLISHED_DIARIES:
+        GetPublishedByUserIdRequest getPublishedByUserIdRequest = new GetPublishedByUserIdRequest.Builder()
+            .user_id(params.get(Const.KEY_USER_ID))
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(GetPublishedByUserIdRequest.ADAPTER.encode(getPublishedByUserIdRequest));
+        break;
+      case GET_USER_TIMELINE:
+        GetTimelineByUserIdRequest getTimelineByUserIdRequest = new GetTimelineByUserIdRequest.Builder()
+            .user_id(params.get(Const.KEY_USER_ID))
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(GetTimelineByUserIdRequest.ADAPTER.encode(getTimelineByUserIdRequest));
         break;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());

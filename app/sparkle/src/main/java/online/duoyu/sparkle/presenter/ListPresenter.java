@@ -29,6 +29,7 @@ public class ListPresenter extends SparklePresenter {
   public void bind(Model model) {
     List<Model> models = new ArrayList<>();
     switch (model.template) {
+      case ITEM_CORRECT_WITH_DIARY:
       case ITEM_CORRECT:
         for (int i = 0; i < model.content.size(); ++i) {
           String correct_content_sentence = model.content.get(i).trim();
@@ -52,6 +53,7 @@ public class ListPresenter extends SparklePresenter {
       }
       ((RecyclerView) view()).setItemAnimator(null);
       switch (model.template) {
+        case ITEM_CORRECT_WITH_DIARY:
         case ITEM_CORRECT:
           if (((RecyclerView) view()).getLayoutManager() == null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(view().getContext());
