@@ -13,9 +13,9 @@
     <style name="EditStyle.DiaryTitle">
         <item name="android:layout_height">50dp</item>
         <item name="android:textSize">@dimen/textSizeNormal</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
+        <item name="android:gravity">left|bottom</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
         <item name="android:hint">@string/input_title</item>
@@ -23,8 +23,7 @@
 
     <style name="EditStyle.DiaryContent">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:textSize">@dimen/textSizeNormal</item>
         <item name="android:hint">@string/input_content</item>
         <item name="android:gravity">left|top</item>

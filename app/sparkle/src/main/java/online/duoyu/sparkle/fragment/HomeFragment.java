@@ -9,7 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding.view.RxView;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+
 import online.duoyu.sparkle.R;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by littlekey on 12/19/16.
@@ -18,6 +24,9 @@ import online.duoyu.sparkle.R;
 public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
   private ViewPager mViewPager;
+  private View mBtnDiscover;
+  private View mBtnNotification;
+  private View mBtnUserCenter;
 
   public static HomeFragment newInstance() {
     return new HomeFragment();
@@ -33,6 +42,39 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+    mBtnDiscover = view.findViewById(R.id.btn_discover);
+    mBtnNotification = view.findViewById(R.id.btn_notification);
+    mBtnUserCenter = view.findViewById(R.id.btn_user_center);
+    Observable.just(mBtnDiscover, mBtnNotification, mBtnUserCenter)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<View>() {
+          @Override
+          public void call(final View view) {
+            RxView.clicks(view).share()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleAndroid.<Void>bindView(view))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                  @Override
+                  public void call(Void aVoid) {
+                    // TODO : update bottom tab state
+                    if (mViewPager != null) {
+                      switch (view.getId()) {
+                        case R.id.btn_discover:
+                          mViewPager.setCurrentItem(0);
+                          break;
+                        case R.id.btn_notification:
+                          mViewPager.setCurrentItem(1);
+                          break;
+                        case R.id.btn_user_center:
+                          mViewPager.setCurrentItem(2);
+                          break;
+                      }
+                    }
+                  }
+                });
+          }
+        });
     FragmentStatePagerAdapter pagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
       @Override
       public Fragment getItem(int position) {
@@ -56,6 +98,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     mViewPager.setAdapter(pagerAdapter);
     mViewPager.setOffscreenPageLimit(2);
     mViewPager.addOnPageChangeListener(this);
+    // TODO : update bottom tab state
   }
 
   @Override
@@ -65,11 +108,13 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
   @Override
   public void onPageSelected(int position) {
-
+    // TODO : update bottom tab state
   }
 
   @Override
   public void onPageScrollStateChanged(int state) {
-
+    if (state == ViewPager.SCROLL_STATE_IDLE) {
+      // TODO : update bottom tab state
+    }
   }
 }

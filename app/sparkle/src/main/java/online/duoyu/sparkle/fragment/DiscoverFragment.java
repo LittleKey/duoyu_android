@@ -62,7 +62,8 @@ public class DiscoverFragment extends LazyLoadFragment implements ViewPager.OnPa
     mBtnTitleRecent = (TextView) view.findViewById(R.id.btn_title_recent);
     mBtnTitleWrite = (TextView) view.findViewById(R.id.btn_title_write);
 
-    Observable.from(new View[] {mBtnTitleFollow, mBtnTitleRecent, mBtnTitleWrite}).cache()
+    Observable.just(mBtnTitleFollow, mBtnTitleRecent, mBtnTitleWrite).cache()
+        .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<View>() {
           @Override
           public void call(final View view) {
