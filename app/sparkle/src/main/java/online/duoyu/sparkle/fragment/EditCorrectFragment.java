@@ -16,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding.view.RxView;
-import com.squareup.wire.ProtoAdapter;
 import com.squareup.wire.Wire;
 
 import java.io.IOException;

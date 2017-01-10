@@ -47,25 +47,29 @@ public class ListPresenter extends SparklePresenter {
       if (mAdapter == null) {
         mAdapter = new OfflineListAdapter();
       }
-      ((RecyclerView) view()).setAdapter(mAdapter);
+      if (((RecyclerView) view()).getAdapter() == null) {
+        ((RecyclerView) view()).setAdapter(mAdapter);
+      }
       ((RecyclerView) view()).setItemAnimator(null);
       switch (model.template) {
         case ITEM_CORRECT:
-          LinearLayoutManager layoutManager = new LinearLayoutManager(view().getContext());
-          ((RecyclerView) view()).setLayoutManager(layoutManager);
-          ((RecyclerView) view()).addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-              super.getItemOffsets(outRect, view, parent, state);
-              outRect.top = FormatUtils.dipsToPix(5);
-              outRect.left = FormatUtils.dipsToPix(5);
-              outRect.right = FormatUtils.dipsToPix(5);
-              outRect.bottom = FormatUtils.dipsToPix(5);
-            }
-          });
-          ((RecyclerView) view()).addItemDecoration(new DividerItemDecoration(
-              ResourcesUtils.getDrawable(R.drawable.recycler_view_divider_line),
-              FormatUtils.dipsToPix(3.5f)));
+          if (((RecyclerView) view()).getLayoutManager() == null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(view().getContext());
+            ((RecyclerView) view()).setLayoutManager(layoutManager);
+            ((RecyclerView) view()).addItemDecoration(new RecyclerView.ItemDecoration() {
+              @Override
+              public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.top = FormatUtils.dipsToPix(5);
+                outRect.left = FormatUtils.dipsToPix(5);
+                outRect.right = FormatUtils.dipsToPix(5);
+                outRect.bottom = FormatUtils.dipsToPix(5);
+              }
+            });
+            ((RecyclerView) view()).addItemDecoration(new DividerItemDecoration(
+                ResourcesUtils.getDrawable(R.drawable.recycler_view_divider_line),
+                FormatUtils.dipsToPix(3.5f)));
+          }
           break;
       }
       mAdapter.setData(models);

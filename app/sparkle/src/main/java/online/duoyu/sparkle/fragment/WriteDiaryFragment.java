@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -21,6 +22,7 @@ import com.trello.rxlifecycle.android.FragmentEvent;
 import org.joda.time.DateTime;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
 import okio.ByteString;
@@ -33,6 +35,7 @@ import online.duoyu.sparkle.event.OnEditTitleEvent;
 import online.duoyu.sparkle.model.business.DiaryRequest;
 import online.duoyu.sparkle.model.business.DiaryResponse;
 import online.duoyu.sparkle.model.proto.Diary;
+import online.duoyu.sparkle.model.proto.Language;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.utils.Colorful;
@@ -49,6 +52,7 @@ import rx.functions.Action1;
 import rx.functions.Actions;
 import rx.functions.Func1;
 import rx.internal.util.ActionSubscriber;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static rx.android.MainThreadSubscription.verifyMainThread;
@@ -141,7 +145,6 @@ public class WriteDiaryFragment extends LazyLoadFragment {
                     switch (textView.getId()) {
                       case R.id.input_title:
                         mTitle = charSequence;
-                        mContent = charSequence;
                         if (!TextUtils.isEmpty(charSequence)) {
                           textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                         }
@@ -188,6 +191,7 @@ public class WriteDiaryFragment extends LazyLoadFragment {
           }
         });
     RxView.clicks(mBtnPublish)
+        .throttleFirst(500, TimeUnit.MILLISECONDS)
         .compose(this.<Void>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
@@ -196,24 +200,29 @@ public class WriteDiaryFragment extends LazyLoadFragment {
             RequestFuture<DiaryResponse> future = RequestFuture.newFuture();
             final DiaryRequest diaryRequest = new DiaryRequest.Builder()
                 .diary(new Diary.Builder()
-                    .diary_date(mDateTime.getMillis())
+                    .diary_date(mDateTime.getMillis() / 1000)
                     .title(mTitle.toString())
                     .content(mContent.toString())
+                    .language(Language.ENGLISH)
                     .build())
                 .build();
             SparkleRequest<DiaryResponse> request = SparkleApplication.getInstance().getRequestManager()
-                .newSparkleRequest(ApiType.DIARY, ByteString.of(DiaryRequest.ADAPTER.encode(diaryRequest)),
+                .newSparkleRequest(ApiType.DIARY, Request.Method.PUT,
+                    ByteString.of(DiaryRequest.ADAPTER.encode(diaryRequest)),
                     DiaryResponse.class, future, future);
             request.setTag(WriteDiaryFragment.this);
             request.submit();
-            Observable.from(future)
+            Observable.from(future, Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ActionSubscriber<>(new Action1<DiaryResponse>() {
                   @Override
                   public void call(DiaryResponse diaryResponse) {
                     if (!Wire.get(diaryResponse.success, false)) {
                       Timber.e("error on publish diary: %s", diaryResponse.errno.name());
+                      return;
                     }
+                    mContentView.setText(Const.EMPTY_CHAR_SEQUENCE);
+                    mTitleView.setText(Const.EMPTY_CHAR_SEQUENCE);
                   }
                 }, new Action1<Throwable>() {
                   @Override

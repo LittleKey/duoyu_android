@@ -77,7 +77,9 @@ public class SparklePresenterFactory {
         .add(R.id.avatar, new ImagePresenter())
         .add(R.id.nickname, new TextPresenter())
         .add(R.id.date, new TextPresenter())
-        .add(R.id.correct_sentence_list, new ListPresenter());
+        .add(R.id.correct_sentence_list, new ListPresenter())
+        .add(R.id.likes, new TextPresenter())
+        .add(R.id.likes, new ActionPresenter());
   }
 
   public static ViewGroupPresenter createCorrectWithOriginContentSentenceItemPresenter(ViewGroup parent, int layout) {

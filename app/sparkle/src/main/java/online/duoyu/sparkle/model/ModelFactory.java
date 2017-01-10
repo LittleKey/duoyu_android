@@ -7,7 +7,6 @@ import com.squareup.wire.Wire;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -150,7 +149,7 @@ public class ModelFactory {
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
         .title(diary.title)
         .description(diary.content)
-        .content(Arrays.asList(SparkleUtils.split_content_v1(diary.content)))
+        .content(SparkleUtils.split_content_v1(diary.content))
         .cover(diary.author.avatar)
         .count(count)
         .flag(flag)

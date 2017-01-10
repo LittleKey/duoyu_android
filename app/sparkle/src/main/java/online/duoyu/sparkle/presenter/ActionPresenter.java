@@ -141,7 +141,7 @@ public class ActionPresenter extends SparklePresenter {
     group().bind(model.newBuilder()
         .flag(model.flag.newBuilder().is_attending(should_attending).build())
         .count(model.count.newBuilder()
-            .attentions(Wire.get(model.count.attentions, 0) + (should_attending ? 1 : -1)).build())
+            .attentions(Math.max(Wire.get(model.count.attentions, 0) + (should_attending ? 1 : -1), 0)).build())
         .build());
     if (should_attending) {
       _attention_imp(model);

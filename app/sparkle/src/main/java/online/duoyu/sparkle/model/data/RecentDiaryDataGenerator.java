@@ -2,6 +2,8 @@ package online.duoyu.sparkle.model.data;
 
 import android.support.annotation.NonNull;
 
+import com.squareup.wire.Wire;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +53,7 @@ public class RecentDiaryDataGenerator extends SparkleDataGenerator<DiariesRespon
 
   @Override
   public boolean getHasMoreFromResponse(DiariesResponse response) {
-    return response != null && response.cursor != null
-        && response.cursor.has_more != null && response.cursor.has_more;
+    return response != null && response.cursor != null && Wire.get(response.cursor.has_more, false);
   }
 
   @Override

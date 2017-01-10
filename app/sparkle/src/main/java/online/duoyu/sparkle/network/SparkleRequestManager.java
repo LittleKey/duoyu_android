@@ -196,12 +196,7 @@ public class SparkleRequestManager extends RequestManager {
     ByteString content = null;
     switch (apiType) {
       case RECENT_DIARY:
-        RecentRequest recentRequest = new RecentRequest.Builder()
-            .cursor(new Cursor.Builder()
-                .timestamp(DateTime.now().getMillis() / 1000)
-                .limit(20).build())
-            .build();
-        content = ByteString.of(RecentRequest.ADAPTER.encode(recentRequest));
+        content = ByteString.EMPTY;
         break;
       case FOLLOW_USER_DIARY:
         FollowingUserPublishedDiariesRequest followingUserPublishedDiariesRequest =
@@ -211,8 +206,7 @@ public class SparkleRequestManager extends RequestManager {
             .ADAPTER.encode(followingUserPublishedDiariesRequest));
         break;
       case CURRENT_USER:
-        CurrentRequest currentRequest = new CurrentRequest.Builder().build();
-        content = ByteString.of(CurrentRequest.ADAPTER.encode(currentRequest));
+        content = ByteString.EMPTY;
         break;
       case LOGIN:
         LoginRequest loginRequest = new LoginRequest.Builder()

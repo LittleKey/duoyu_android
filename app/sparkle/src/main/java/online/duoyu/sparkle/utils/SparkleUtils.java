@@ -3,9 +3,12 @@ package online.duoyu.sparkle.utils;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import okio.ByteString;
@@ -21,9 +24,15 @@ public class SparkleUtils {
   private SparkleUtils() {
   }
 
-  public static String[] split_content_v1(@NonNull String content) {
-    return content.split(String.format("(?<=(%1$s))",
-        "\\u002e|\\u000a|\\u0021|\\u3002|\\uff01|\\u003f|\\uff1f"));
+  public static List<String> split_content_v1(@NonNull String content) {
+    List<String> sentences = new ArrayList<>();
+    for (String sentence: content.split(String.format("(?<=(%1$s))",
+        "\\u002e|\\u000a|\\u0021|\\u3002|\\uff01|\\u003f|\\uff1f"))) {
+      if (!TextUtils.isEmpty(sentence.trim())) {
+        sentences.add(sentence);
+      }
+    }
+    return sentences;
   }
 
   public static String formatString(@StringRes int format, Object... args) {

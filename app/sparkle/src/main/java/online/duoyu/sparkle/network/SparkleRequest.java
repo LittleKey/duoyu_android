@@ -2,7 +2,6 @@ package online.duoyu.sparkle.network;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
@@ -21,7 +20,6 @@ import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.LoginActivity;
 import online.duoyu.sparkle.model.proto.RPCResponse;
-import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/19/16.
@@ -43,9 +41,6 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
   protected T parseResponse(NetworkResponse response) throws Exception {
     RPCResponse pbRPCResponse = RPCResponse.ADAPTER.decode(response.data);
     if (!Wire.get(pbRPCResponse.success, false)) {
-      if (!TextUtils.isEmpty(pbRPCResponse.content.toString())) {
-        Timber.d(pbRPCResponse.content.toString());
-      }
       switch (pbRPCResponse.reason) {
         case UNAUTHORIZED:
           SparkleApplication.getInstance().getAccountManager().logout();
