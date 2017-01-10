@@ -224,6 +224,8 @@ public class ActionPresenter extends SparklePresenter {
     MvpRecyclerView.Adapter<Model> adapter = group().pageContext.adapter;
     if (adapter != null) {
       adapter.changeData(adapter.indexOf(model), newModel);
+    } else {
+      group().bind(newModel);
     }
     if (should_follow) {
       _follow_imp(model, newModel);
@@ -252,6 +254,8 @@ public class ActionPresenter extends SparklePresenter {
             if (!Wire.get(followResponse.success, false)) {
               if (adapter != null) {
                 adapter.changeData(adapter.indexOf(newModel), oldModel);
+              } else {
+                group().bind(oldModel);
               }
             }
             view().setEnabled(true);
@@ -261,6 +265,8 @@ public class ActionPresenter extends SparklePresenter {
           public void call(Throwable throwable) {
             if (adapter != null) {
               adapter.changeData(adapter.indexOf(newModel), oldModel);
+            } else {
+              group().bind(oldModel);
             }
             view().setEnabled(true);
           }

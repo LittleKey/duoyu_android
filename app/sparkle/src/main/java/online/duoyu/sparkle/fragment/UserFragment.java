@@ -6,30 +6,42 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.jakewharton.rxbinding.view.RxView;
+import com.squareup.wire.Wire;
 import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.littlekey.mvp.presenter.ViewGroupPresenter;
 import me.littlekey.network.NameValuePair;
+import okio.ByteString;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
+import online.duoyu.sparkle.model.business.GetUserByIdRequest;
+import online.duoyu.sparkle.model.business.GetUserByIdResponse;
 import online.duoyu.sparkle.network.ApiType;
+import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.presenter.SparklePresenterFactory;
 import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.ResourcesUtils;
+import online.duoyu.sparkle.utils.ToastUtils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Actions;
+import rx.internal.util.ActionSubscriber;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by littlekey on 12/27/16.
@@ -37,7 +49,7 @@ import rx.functions.Action1;
 
 public class UserFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
-  private ViewGroupPresenter mViewGroupPresenter;
+  private ViewGroupPresenter mPresenterGroup;
   private Model mModel;
   private ViewPager mViewPager;
   private TextView mBtnTimeline;
@@ -56,24 +68,56 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mViewGroupPresenter = SparklePresenterFactory.createUserInfoPresenter(
+    mPresenterGroup = SparklePresenterFactory.createUserInfoPresenter(
         (ViewGroup) inflater.inflate(R.layout.fragment_user, container, false));
-    return mViewGroupPresenter.view;
+    return mPresenterGroup.view;
   }
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Model model = getArguments().getParcelable(Const.KEY_MODEL);
-    mModel = ModelFactory.createModelFromUser(model != null ? model.user : null, Model.Template.DATA);
-    if (mModel == null) {
-      return;
-    }
-    mViewGroupPresenter.bind(mModel);
     mBtnTimeline = (TextView) view.findViewById(R.id.btn_timeline);
     mBtnMyDiary = (TextView) view.findViewById(R.id.btn_my_diary);
     mBtnMyCorrect = (TextView) view.findViewById(R.id.btn_my_correct);
-
+    Model model = getArguments().getParcelable(Const.KEY_MODEL);
+    if (model == null || TextUtils.isEmpty(model.user.user_id)) {
+      return;
+    }
+    mModel = ModelFactory.createModelFromUser(model.user, Model.Template.DATA);
+    if (mModel != null) {
+      mPresenterGroup.bind(mModel);
+    }
+    RequestFuture<GetUserByIdResponse> future = RequestFuture.newFuture();
+    GetUserByIdRequest getUserByIdRequest = new GetUserByIdRequest.Builder()
+        .user_id(model.user.user_id)
+        .build();
+    SparkleRequest<GetUserByIdResponse> request = SparkleApplication.getInstance().getRequestManager()
+        .newSparkleRequest(ApiType.GET_USER_INFO, ByteString.of(GetUserByIdRequest.ADAPTER.encode(getUserByIdRequest)),
+            GetUserByIdResponse.class, future, future);
+    request.setTag(this);
+    request.submit();
+    Observable.from(future, Schedulers.newThread())
+        .compose(this.<GetUserByIdResponse>bindToLifecycle())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new ActionSubscriber<>(new Action1<GetUserByIdResponse>() {
+          @Override
+          public void call(GetUserByIdResponse getUserByIdResponse) {
+            if (Wire.get(getUserByIdResponse.success, false)) {
+              Model newModel = ModelFactory.createModelFromUser(getUserByIdResponse.user, Model.Template.DATA);
+              if (newModel != null) {
+                mModel = newModel;
+                mPresenterGroup.bind(mModel);
+              }
+            } else {
+              ToastUtils.toast("get user info error");
+            }
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            Timber.e(throwable, "get user info error");
+          }
+        }, Actions.empty()));
     Observable.just(mBtnTimeline, mBtnMyDiary, mBtnMyCorrect).cache()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<View>() {
@@ -149,7 +193,7 @@ public class UserFragment extends BaseFragment implements ViewPager.OnPageChange
 
   @Override
   public void onDestroyView() {
-    mViewGroupPresenter.unbind();
+    mPresenterGroup.unbind();
     super.onDestroyView();
   }
 

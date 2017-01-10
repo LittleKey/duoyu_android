@@ -137,6 +137,7 @@ public class Const {
   public static final String API_FOLLOW = API_HOST_URL + "/user/follow";
   public static final String API_UNFOLLOW = API_HOST_URL + "/user/unfollow";
   public static final String API_GET_USER_TIMELINE = API_HOST_URL + "/timeline/get_by_user_id";
+  public static final String API_GET_USER_INFO = API_HOST_URL + "/user/get_by_id";
   // diary
   public static final String API_DIARY_FOLLOW_USER_PUBLISHED = API_HOST_URL + "/diary/following_user_published";
   public static final String API_DIARY_RECENT = API_HOST_URL + "/diary/recent";

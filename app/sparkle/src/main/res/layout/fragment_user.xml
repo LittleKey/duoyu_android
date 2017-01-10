@@ -25,6 +25,14 @@
             app:placeholderImageScaleType="fitCenter"
             app:roundedCornerRadius="2dp"/>
 
+        <online.duoyu.sparkle.widget.StatefulButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/theme_btn_follow"
+            style="@style/State.Small.Follow"
+            android:layout_alignParentRight="true"
+            app:stateFollow="@style/State.Small.Follow"
+            app:stateFollowing="@style/State.Small.Following"/>
+
         <TextView
             android:id="@+id/nickname"
             style="@style/TextStyle.Middle.Black"

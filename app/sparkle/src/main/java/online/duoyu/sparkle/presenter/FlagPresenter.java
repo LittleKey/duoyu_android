@@ -7,7 +7,9 @@ import android.widget.TextView;
 import com.squareup.wire.Wire;
 
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.model.Model;
+import online.duoyu.sparkle.model.proto.User;
 import online.duoyu.sparkle.utils.Colorful;
 import online.duoyu.sparkle.utils.ResourcesUtils;
 import online.duoyu.sparkle.widget.StatefulButton;
@@ -53,7 +55,9 @@ public class FlagPresenter extends SparklePresenter {
   }
 
   private void judgeFollow(Model model) {
-    if (view() instanceof StatefulButton) {
+    if (model.user.relationship == User.Relationship.SELF) {
+      view().setVisibility(View.GONE);
+    } else if (view() instanceof StatefulButton) {
       ((StatefulButton) view()).setState(Wire.get(model.flag.is_following, false) ?
           StatefulButton.STATE_FOLLOWING : StatefulButton.STATE_FOLLOW);
     }

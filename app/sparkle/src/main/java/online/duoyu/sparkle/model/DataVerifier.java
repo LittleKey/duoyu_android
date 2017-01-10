@@ -35,7 +35,8 @@ public class DataVerifier {
       return null;
     }
     User.Builder builder = user.newBuilder()
-        .nickname(Wire.get(user.nickname, Const.EMPTY_STRING));
+        .nickname(Wire.get(user.nickname, Const.EMPTY_STRING))
+        .relationship(Wire.get(user.relationship, User.Relationship.NOT_FOLLOW));
     return builder.build();
   }
 
