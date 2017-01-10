@@ -7,7 +7,6 @@ import com.squareup.wire.Wire;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,9 +105,7 @@ public class ModelFactory {
         .is_attending(diary.attending)
         .is_corrected(diary.corrected)
         .build();
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(diary.diary_date * 1000);
-    DateTime date_time = new DateTime(cal);
+    DateTime date_time = new DateTime(diary.diary_date * 1000);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -145,7 +142,7 @@ public class ModelFactory {
         .user(diary.author)
         .identity(diary.diary_id)
         .language(diary.language.name())
-        .date(cal.getTimeInMillis())
+        .date(date_time.getMillis())
         .month(month)
         .week(week)
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
@@ -171,9 +168,7 @@ public class ModelFactory {
     Flag flag = new Flag.Builder()
         .is_liked(correct.liked)
         .build();
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(correct.date * 1000);
-    DateTime date_time = new DateTime(cal);
+    DateTime date_time = new DateTime(correct.date * 1000);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -205,7 +200,7 @@ public class ModelFactory {
         .correct(correct)
         .user(correct.author)
         .identity(correct.correct_id)
-        .date(cal.getTimeInMillis())
+        .date(date_time.getMillis())
         .month(month)
         .week(week)
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
@@ -231,9 +226,7 @@ public class ModelFactory {
     Flag flag = new Flag.Builder()
         .is_liked(comment.liked)
         .build();
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(comment.date * 1000);
-    DateTime date_time = new DateTime(cal);
+    DateTime date_time = new DateTime(comment.date * 1000);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -264,7 +257,7 @@ public class ModelFactory {
         .cover(comment.author.avatar)
         .comment(comment)
         .description(comment.content)
-        .date(cal.getTimeInMillis())
+        .date(date_time.getMillis())
         .month(month)
         .week(week)
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
@@ -280,9 +273,7 @@ public class ModelFactory {
     if (notification == null) {
       return null;
     }
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(notification.date * 1000);
-    DateTime date_time = new DateTime(cal);
+    DateTime date_time = new DateTime(notification.date * 1000);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Flag flag = new Flag.Builder()
@@ -361,7 +352,7 @@ public class ModelFactory {
         .cover(notification.users.get(0).avatar)
         .description(description)
         .event(notification.event.ordinal())
-        .date(cal.getTimeInMillis())
+        .date(date_time.getMillis())
         .month(month)
         .week(week)
         .day(SparkleUtils.formatString("%02d", date_time.getDayOfMonth()))
@@ -375,9 +366,7 @@ public class ModelFactory {
     if (happening == null) {
       return null;
     }
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(happening.date * 1000);
-    DateTime date_time = new DateTime(cal);
+    DateTime date_time = new DateTime(happening.date * 1000);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
