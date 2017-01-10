@@ -101,8 +101,10 @@ public abstract class SingleFragmentActivity extends BaseActivity {
     return null;
   }
 
-  protected void updateTitle(String title) {
-    mTitleView.setText(title);
+  public void updateTitle(String title) {
+    if (!TextUtils.isEmpty(title)) {
+      mTitleView.setText(title);
+    }
   }
 
   protected @LayoutRes

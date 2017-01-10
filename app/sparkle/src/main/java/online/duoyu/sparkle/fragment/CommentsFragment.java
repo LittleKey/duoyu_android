@@ -21,6 +21,7 @@ import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.BaseActivity;
+import online.duoyu.sparkle.activity.SingleFragmentActivity;
 import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
@@ -127,16 +128,10 @@ public class CommentsFragment extends ListFragment {
                       Model model = ModelFactory.createModelFromComment(
                           commentResponse.comment, Model.Template.ITEM_COMMENT);
                       if (model != null) {
-                        insertItem(2, model);
-                        Model divider_model = getDataSet().get(1);
-                        int comments_count = divider_model.count.comments + 1;
-                        changeItem(1, divider_model.newBuilder()
-                            .description(SparkleUtils
-                                .formatString(R.string.all_comments, comments_count))
-                            .count(divider_model.count.newBuilder()
-                                .comments(comments_count)
-                                .build())
-                            .build());
+                        insertItem(0, model);
+                        int comments_count = (mModel.count == null ? 0 : Wire.get(mModel.count.comments, 0)) + 1;
+                        ((SingleFragmentActivity) getActivity()).updateTitle(
+                            SparkleUtils.formatString(R.string.all_comments, comments_count));
                         mModel = mModel.newBuilder()
                             .count(mModel.count.newBuilder().comments(comments_count).build())
                             .build();

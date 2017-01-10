@@ -3,9 +3,12 @@ package online.duoyu.sparkle.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.squareup.wire.Wire;
+
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.fragment.BaseFragment;
 import online.duoyu.sparkle.fragment.CommentsFragment;
+import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.Const;
 import online.duoyu.sparkle.utils.NavigationManager;
@@ -37,6 +40,9 @@ public class CommentsActivity extends SingleFragmentActivity {
 
   @Override
   protected String activityTitle() {
-    return SparkleUtils.formatString(R.string.comments);
+    Bundle bundle = NavigationManager.parseIntent(getIntent());
+    Model model = bundle.getParcelable(Const.KEY_MODEL);
+    return SparkleUtils.formatString(R.string.all_comments,
+        model == null ? 0 : model.count == null ? 0 : Wire.get(model.count.comments, 0));
   }
 }

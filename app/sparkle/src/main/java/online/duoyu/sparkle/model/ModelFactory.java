@@ -347,7 +347,7 @@ public class ModelFactory {
         .type(Model.Type.NOTIFICATION)
         .template(template)
         .notification(notification)
-        .identity(notification.which)
+        .identity(notification.jump_id)
         .title(notification.title)
         .cover(notification.users.get(0).avatar)
         .description(description)

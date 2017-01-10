@@ -71,16 +71,16 @@ public class GetCommentsByDiaryDataGenerator extends SparkleDataGenerator<Commen
   @Override
   public List<Model> getItemsFromResponse(@NonNull CommentsResponse response, ReadOnlyList<Model> roProcessedItems) {
     List<Model> models = new ArrayList<>();
-    if (roProcessedItems.size() == 0) {
-      CollectionUtils.add(models, mModel.newBuilder()
-          .template(Model.Template.ITEM_DIARY_TITLE)
-          .build());
-      CollectionUtils.add(models, new Model.Builder()
-          .template(Model.Template.ITEM_DIVIDER_HEADER)
-          .description(SparkleUtils.formatString(R.string.all_comments, mModel.count.comments))
-          .count(new Count.Builder().comments(mModel.count.comments).build())
-          .build());
-    }
+//    if (roProcessedItems.size() == 0) {
+//      CollectionUtils.add(models, mModel.newBuilder()
+//          .template(Model.Template.ITEM_DIARY_TITLE)
+//          .build());
+//      CollectionUtils.add(models, new Model.Builder()
+//          .template(Model.Template.ITEM_DIVIDER_HEADER)
+//          .description(SparkleUtils.formatString(R.string.all_comments, mModel.count.comments))
+//          .count(new Count.Builder().comments(mModel.count.comments).build())
+//          .build());
+//    }
     for (Comment comment: response.comments) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromComment(comment, Model.Template.ITEM_COMMENT));

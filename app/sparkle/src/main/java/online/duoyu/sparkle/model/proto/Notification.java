@@ -37,6 +37,8 @@ public final class Notification extends Message<Notification, Notification.Build
 
   public static final String DEFAULT_TITLE = "";
 
+  public static final String DEFAULT_JUMP_ID = "";
+
   @WireField(
       tag = 1,
       adapter = "online.duoyu.sparkle.model.proto.User#ADAPTER",
@@ -80,11 +82,17 @@ public final class Notification extends Message<Notification, Notification.Build
   )
   public final String title;
 
-  public Notification(List<User> users, Long date, String which, Type which_type, Event event, Boolean unread, String title) {
-    this(users, date, which, which_type, event, unread, title, ByteString.EMPTY);
+  @WireField(
+      tag = 8,
+      adapter = "com.squareup.wire.ProtoAdapter#STRING"
+  )
+  public final String jump_id;
+
+  public Notification(List<User> users, Long date, String which, Type which_type, Event event, Boolean unread, String title, String jump_id) {
+    this(users, date, which, which_type, event, unread, title, jump_id, ByteString.EMPTY);
   }
 
-  public Notification(List<User> users, Long date, String which, Type which_type, Event event, Boolean unread, String title, ByteString unknownFields) {
+  public Notification(List<User> users, Long date, String which, Type which_type, Event event, Boolean unread, String title, String jump_id, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.users = Internal.immutableCopyOf("users", users);
     this.date = date;
@@ -93,6 +101,7 @@ public final class Notification extends Message<Notification, Notification.Build
     this.event = event;
     this.unread = unread;
     this.title = title;
+    this.jump_id = jump_id;
   }
 
   @Override
@@ -105,6 +114,7 @@ public final class Notification extends Message<Notification, Notification.Build
     builder.event = event;
     builder.unread = unread;
     builder.title = title;
+    builder.jump_id = jump_id;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -121,7 +131,8 @@ public final class Notification extends Message<Notification, Notification.Build
         && Internal.equals(which_type, o.which_type)
         && Internal.equals(event, o.event)
         && Internal.equals(unread, o.unread)
-        && Internal.equals(title, o.title);
+        && Internal.equals(title, o.title)
+        && Internal.equals(jump_id, o.jump_id);
   }
 
   @Override
@@ -136,6 +147,7 @@ public final class Notification extends Message<Notification, Notification.Build
       result = result * 37 + (event != null ? event.hashCode() : 0);
       result = result * 37 + (unread != null ? unread.hashCode() : 0);
       result = result * 37 + (title != null ? title.hashCode() : 0);
+      result = result * 37 + (jump_id != null ? jump_id.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -151,6 +163,7 @@ public final class Notification extends Message<Notification, Notification.Build
     if (event != null) builder.append(", event=").append(event);
     if (unread != null) builder.append(", unread=").append(unread);
     if (title != null) builder.append(", title=").append(title);
+    if (jump_id != null) builder.append(", jump_id=").append(jump_id);
     return builder.replace(0, 2, "Notification{").append('}').toString();
   }
 
@@ -168,6 +181,8 @@ public final class Notification extends Message<Notification, Notification.Build
     public Boolean unread;
 
     public String title;
+
+    public String jump_id;
 
     public Builder() {
       users = Internal.newMutableList();
@@ -209,9 +224,14 @@ public final class Notification extends Message<Notification, Notification.Build
       return this;
     }
 
+    public Builder jump_id(String jump_id) {
+      this.jump_id = jump_id;
+      return this;
+    }
+
     @Override
     public Notification build() {
-      return new Notification(users, date, which, which_type, event, unread, title, super.buildUnknownFields());
+      return new Notification(users, date, which, which_type, event, unread, title, jump_id, super.buildUnknownFields());
     }
   }
 
@@ -310,6 +330,7 @@ public final class Notification extends Message<Notification, Notification.Build
           + (value.event != null ? Event.ADAPTER.encodedSizeWithTag(5, value.event) : 0)
           + (value.unread != null ? ProtoAdapter.BOOL.encodedSizeWithTag(6, value.unread) : 0)
           + (value.title != null ? ProtoAdapter.STRING.encodedSizeWithTag(7, value.title) : 0)
+          + (value.jump_id != null ? ProtoAdapter.STRING.encodedSizeWithTag(8, value.jump_id) : 0)
           + value.unknownFields().size();
     }
 
@@ -322,6 +343,7 @@ public final class Notification extends Message<Notification, Notification.Build
       if (value.event != null) Event.ADAPTER.encodeWithTag(writer, 5, value.event);
       if (value.unread != null) ProtoAdapter.BOOL.encodeWithTag(writer, 6, value.unread);
       if (value.title != null) ProtoAdapter.STRING.encodeWithTag(writer, 7, value.title);
+      if (value.jump_id != null) ProtoAdapter.STRING.encodeWithTag(writer, 8, value.jump_id);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -352,6 +374,7 @@ public final class Notification extends Message<Notification, Notification.Build
           }
           case 6: builder.unread(ProtoAdapter.BOOL.decode(reader)); break;
           case 7: builder.title(ProtoAdapter.STRING.decode(reader)); break;
+          case 8: builder.jump_id(ProtoAdapter.STRING.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);
