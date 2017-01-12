@@ -2,8 +2,14 @@ package online.duoyu.sparkle.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import com.squareup.wire.Wire;
+
+import de.greenrobot.event.EventBus;
 import online.duoyu.sparkle.R;
+import online.duoyu.sparkle.event.OnCorrectsAmountUpdate;
 import online.duoyu.sparkle.fragment.BaseFragment;
 import online.duoyu.sparkle.fragment.ListFragment;
 import online.duoyu.sparkle.model.Model;
@@ -17,6 +23,31 @@ import online.duoyu.sparkle.utils.SparkleUtils;
  */
 
 public class CorrectsActivity extends SingleFragmentActivity {
+
+  private Model mModel;
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    Bundle bundle = NavigationManager.parseIntent(getIntent());
+    mModel = bundle.getParcelable(Const.KEY_MODEL);
+    super.onCreate(savedInstanceState);
+    EventBus.getDefault().register(this);
+  }
+
+  public void onEventMainThread(OnCorrectsAmountUpdate event) {
+    if (TextUtils.equals(mModel.identity, event.diary_id)) {
+      mModel = mModel.newBuilder()
+          .count(mModel.count.newBuilder().corrects(event.amount).build())
+          .build();
+      updateTitle(SparkleUtils.formatString(R.string.all_corrects, event.amount));
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    EventBus.getDefault().unregister(this);
+    super.onDestroy();
+  }
 
   @Override
   protected BaseFragment createFragment(Intent intent) {
@@ -38,8 +69,6 @@ public class CorrectsActivity extends SingleFragmentActivity {
 
   @Override
   protected String activityTitle() {
-    Bundle bundle = NavigationManager.parseIntent(getIntent());
-    Model model = bundle.getParcelable(Const.KEY_MODEL);
-    return SparkleUtils.formatString(R.string.all_corrects, model == null ? 0 : model.count.corrects);
+    return SparkleUtils.formatString(R.string.all_corrects, Wire.get(mModel.count.corrects, 0));
   }
 }

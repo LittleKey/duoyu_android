@@ -22,6 +22,7 @@ import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.BaseActivity;
 import online.duoyu.sparkle.activity.SingleFragmentActivity;
+import online.duoyu.sparkle.event.OnCommentsAmountUpdate;
 import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
@@ -77,6 +78,7 @@ public class CommentsFragment extends ListFragment {
     if (mModel == null) {
       return rootView;
     }
+    // TODO : update comments count
     RxTextView.textChanges(mEditCommentView)
         .compose(this.<CharSequence>bindToLifecycle())
         .observeOn(AndroidSchedulers.mainThread())
@@ -129,12 +131,8 @@ public class CommentsFragment extends ListFragment {
                           commentResponse.comment, Model.Template.ITEM_COMMENT);
                       if (model != null) {
                         insertItem(0, model);
-                        int comments_count = (mModel.count == null ? 0 : Wire.get(mModel.count.comments, 0)) + 1;
-                        ((SingleFragmentActivity) getActivity()).updateTitle(
-                            SparkleUtils.formatString(R.string.all_comments, comments_count));
-                        mModel = mModel.newBuilder()
-                            .count(mModel.count.newBuilder().comments(comments_count).build())
-                            .build();
+                        int comments_amount = (mModel.count == null ? 0 : Wire.get(mModel.count.comments, 0)) + 1;
+                        updateCommentsAmount(comments_amount);
                         mEditCommentView.setText("");
                         ((BaseActivity) getActivity()).closeKeyboard();
                       }
@@ -177,5 +175,19 @@ public class CommentsFragment extends ListFragment {
       InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.showSoftInput(mEditCommentView, InputMethodManager.SHOW_IMPLICIT);
     }
+  }
+
+  public void onEventMainThread(OnCommentsAmountUpdate event) {
+    if (TextUtils.equals(event.diary_id, mModel.identity)) {
+      updateCommentsAmount(event.amount);
+    }
+  }
+
+  private void updateCommentsAmount(int amount) {
+    ((SingleFragmentActivity) getActivity()).updateTitle(
+        SparkleUtils.formatString(R.string.all_comments, amount));
+    mModel = mModel.newBuilder()
+        .count(mModel.count.newBuilder().comments(amount).build())
+        .build();
   }
 }

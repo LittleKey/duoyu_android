@@ -3,16 +3,20 @@ package online.duoyu.sparkle.model.data;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.squareup.wire.Wire;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import me.littlekey.base.ReadOnlyList;
 import me.littlekey.network.ApiRequest;
 import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.event.OnCommentsAmountUpdate;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.CommentsResponse;
@@ -81,6 +85,8 @@ public class GetCommentsByDiaryDataGenerator extends SparkleDataGenerator<Commen
 //          .count(new Count.Builder().comments(mModel.count.comments).build())
 //          .build());
 //    }
+    EventBus.getDefault().post(
+        new OnCommentsAmountUpdate(mModel.identity, Wire.get(response.cursor.amount, 0)));
     for (Comment comment: response.comments) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromComment(comment, Model.Template.ITEM_COMMENT));

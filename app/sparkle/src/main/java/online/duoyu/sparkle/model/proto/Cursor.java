@@ -32,6 +32,8 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
   public static final Integer DEFAULT_LIMIT = 0;
 
+  public static final Integer DEFAULT_AMOUNT = 0;
+
   public static final Boolean DEFAULT_HAS_MORE = false;
 
   @WireField(
@@ -60,20 +62,27 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
   @WireField(
       tag = 5,
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
+  public final Integer amount;
+
+  @WireField(
+      tag = 6,
       adapter = "com.squareup.wire.ProtoAdapter#BOOL"
   )
   public final Boolean has_more;
 
-  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Boolean has_more) {
-    this(timestamp, offset, page, limit, has_more, ByteString.EMPTY);
+  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Integer amount, Boolean has_more) {
+    this(timestamp, offset, page, limit, amount, has_more, ByteString.EMPTY);
   }
 
-  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Boolean has_more, ByteString unknownFields) {
+  public Cursor(Long timestamp, Integer offset, Integer page, Integer limit, Integer amount, Boolean has_more, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.timestamp = timestamp;
     this.offset = offset;
     this.page = page;
     this.limit = limit;
+    this.amount = amount;
     this.has_more = has_more;
   }
 
@@ -84,6 +93,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     builder.offset = offset;
     builder.page = page;
     builder.limit = limit;
+    builder.amount = amount;
     builder.has_more = has_more;
     builder.addUnknownFields(unknownFields());
     return builder;
@@ -99,6 +109,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
         && Internal.equals(offset, o.offset)
         && Internal.equals(page, o.page)
         && Internal.equals(limit, o.limit)
+        && Internal.equals(amount, o.amount)
         && Internal.equals(has_more, o.has_more);
   }
 
@@ -111,6 +122,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
       result = result * 37 + (offset != null ? offset.hashCode() : 0);
       result = result * 37 + (page != null ? page.hashCode() : 0);
       result = result * 37 + (limit != null ? limit.hashCode() : 0);
+      result = result * 37 + (amount != null ? amount.hashCode() : 0);
       result = result * 37 + (has_more != null ? has_more.hashCode() : 0);
       super.hashCode = result;
     }
@@ -124,6 +136,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     if (offset != null) builder.append(", offset=").append(offset);
     if (page != null) builder.append(", page=").append(page);
     if (limit != null) builder.append(", limit=").append(limit);
+    if (amount != null) builder.append(", amount=").append(amount);
     if (has_more != null) builder.append(", has_more=").append(has_more);
     return builder.replace(0, 2, "Cursor{").append('}').toString();
   }
@@ -136,6 +149,8 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
     public Integer page;
 
     public Integer limit;
+
+    public Integer amount;
 
     public Boolean has_more;
 
@@ -162,6 +177,11 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
       return this;
     }
 
+    public Builder amount(Integer amount) {
+      this.amount = amount;
+      return this;
+    }
+
     public Builder has_more(Boolean has_more) {
       this.has_more = has_more;
       return this;
@@ -169,7 +189,7 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
 
     @Override
     public Cursor build() {
-      return new Cursor(timestamp, offset, page, limit, has_more, super.buildUnknownFields());
+      return new Cursor(timestamp, offset, page, limit, amount, has_more, super.buildUnknownFields());
     }
   }
 
@@ -184,7 +204,8 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
           + (value.offset != null ? ProtoAdapter.INT32.encodedSizeWithTag(2, value.offset) : 0)
           + (value.page != null ? ProtoAdapter.INT32.encodedSizeWithTag(3, value.page) : 0)
           + (value.limit != null ? ProtoAdapter.INT32.encodedSizeWithTag(4, value.limit) : 0)
-          + (value.has_more != null ? ProtoAdapter.BOOL.encodedSizeWithTag(5, value.has_more) : 0)
+          + (value.amount != null ? ProtoAdapter.INT32.encodedSizeWithTag(5, value.amount) : 0)
+          + (value.has_more != null ? ProtoAdapter.BOOL.encodedSizeWithTag(6, value.has_more) : 0)
           + value.unknownFields().size();
     }
 
@@ -194,7 +215,8 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
       if (value.offset != null) ProtoAdapter.INT32.encodeWithTag(writer, 2, value.offset);
       if (value.page != null) ProtoAdapter.INT32.encodeWithTag(writer, 3, value.page);
       if (value.limit != null) ProtoAdapter.INT32.encodeWithTag(writer, 4, value.limit);
-      if (value.has_more != null) ProtoAdapter.BOOL.encodeWithTag(writer, 5, value.has_more);
+      if (value.amount != null) ProtoAdapter.INT32.encodeWithTag(writer, 5, value.amount);
+      if (value.has_more != null) ProtoAdapter.BOOL.encodeWithTag(writer, 6, value.has_more);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -208,7 +230,8 @@ public final class Cursor extends Message<Cursor, Cursor.Builder> {
           case 2: builder.offset(ProtoAdapter.INT32.decode(reader)); break;
           case 3: builder.page(ProtoAdapter.INT32.decode(reader)); break;
           case 4: builder.limit(ProtoAdapter.INT32.decode(reader)); break;
-          case 5: builder.has_more(ProtoAdapter.BOOL.decode(reader)); break;
+          case 5: builder.amount(ProtoAdapter.INT32.decode(reader)); break;
+          case 6: builder.has_more(ProtoAdapter.BOOL.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

@@ -3,15 +3,19 @@ package online.duoyu.sparkle.model.data;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.squareup.wire.Wire;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import me.littlekey.base.ReadOnlyList;
 import me.littlekey.network.ApiRequest;
 import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.event.OnCorrectsAmountUpdate;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.CorrectsResponse;
@@ -68,6 +72,8 @@ public class GetCorrectsByDiaryDataGenerator extends SparkleDataGenerator<Correc
   @Override
   public List<Model> getItemsFromResponse(@NonNull CorrectsResponse response, ReadOnlyList<Model> roProcessedItems) {
     List<Model> models = new ArrayList<>();
+    EventBus.getDefault().post(
+        new OnCorrectsAmountUpdate(mModel.identity, Wire.get(response.cursor.amount, 0)));
     for (Correct correct: response.corrects) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromCorrect(correct, Model.Template.ITEM_CORRECT));
