@@ -105,7 +105,7 @@ public class ModelFactory {
         .is_attending(diary.attending)
         .is_corrected(diary.corrected)
         .build();
-    DateTime date_time = new DateTime(diary.diary_date * 1000);
+    DateTime date_time = new DateTime().withMillis(diary.diary_date);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -168,7 +168,7 @@ public class ModelFactory {
     Flag flag = new Flag.Builder()
         .is_liked(correct.liked)
         .build();
-    DateTime date_time = new DateTime(correct.date * 1000);
+    DateTime date_time = new DateTime().withMillis(correct.date);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -226,7 +226,7 @@ public class ModelFactory {
     Flag flag = new Flag.Builder()
         .is_liked(comment.liked)
         .build();
-    DateTime date_time = new DateTime(comment.date * 1000);
+    DateTime date_time = new DateTime().withMillis(comment.date);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
@@ -273,7 +273,7 @@ public class ModelFactory {
     if (notification == null) {
       return null;
     }
-    DateTime date_time = new DateTime(notification.date * 1000);
+    DateTime date_time = new DateTime().withMillis(notification.date);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Flag flag = new Flag.Builder()
@@ -366,7 +366,7 @@ public class ModelFactory {
     if (happening == null) {
       return null;
     }
-    DateTime date_time = new DateTime(happening.date * 1000);
+    DateTime date_time = new DateTime().withMillis(happening.date);
     String month = date_time.monthOfYear().getAsShortText();
     String week = date_time.dayOfWeek().getAsShortText();
     Map<Integer, Action> actions = new HashMap<>();
