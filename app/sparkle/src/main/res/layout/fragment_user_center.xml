@@ -1,7 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_blue">
+    tools:ignore="RtlHardCoded">
 
+    <RelativeLayout
+        android:id="@+id/user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp"
+        android:paddingBottom="10dp"
+        android:background="@color/white">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:placeholderImage="?attr/primaryColor"
+            app:placeholderImageScaleType="fitCenter"
+            app:roundedCornerRadius="2dp"/>
+
+        <online.duoyu.sparkle.widget.StatefulButton
+            android:id="@+id/theme_btn_edit_profile"
+            style="@style/State.Normal.EditProfile"
+            android:layout_alignParentRight="true"
+            app:stateEditProfile="@style/State.Normal.EditProfile"/>
+
+        <TextView
+            android:id="@+id/nickname"
+            style="@style/TextStyle.Middle.Black"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/avatar"
+            android:layout_alignLeft="@id/avatar"
+            android:text="nickname"/>
+
+        <TextView
+            android:id="@+id/email"
+            style="@style/TextStyle.Small.Gray"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/nickname"
+            android:layout_alignLeft="@id/nickname"/>
+
+        <TextView
+            android:id="@+id/followers_text"
+            style="@style/TextStyle.Small.Gray"
+            android:layout_alignBaseline="@id/email"
+            android:layout_alignParentRight="true"
+            android:text="followers"/>
+
+        <TextView
+            android:id="@+id/theme_followers"
+            style="@style/TextStyle.Small.Primary"
+            android:layout_toLeftOf="@id/followers_text"
+            android:layout_alignBaseline="@id/followers_text"
+            android:layout_marginRight="5dp"
+            android:text="1000"/>
+
+        <TextView
+            android:id="@+id/following_text"
+            style="@style/TextStyle.Small.Gray"
+            android:layout_above="@id/followers_text"
+            android:layout_alignParentRight="true"
+            android:text="following"/>
+
+        <TextView
+            android:id="@+id/theme_following"
+            style="@style/TextStyle.Small.Primary"
+            android:layout_toLeftOf="@id/following_text"
+            android:layout_alignBaseline="@id/following_text"
+            android:layout_marginRight="5dp"
+            android:text="200"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shadow_for_title_bar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shadow_for_tab_bar"/>
+
+    <TextView
+        android:id="@+id/published_diaries"
+        style="@style/TextStyle.Normal.Black"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawablePadding="10dp"
+        android:background="@color/white"
+        android:text="published diaries"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/recycler_view_divider_line"/>
+
+    <TextView
+        android:id="@+id/attending_diaries"
+        style="@style/TextStyle.Normal.Black"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawablePadding="10dp"
+        android:background="@color/white"
+        android:text="attending diaries"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/recycler_view_divider_line"/>
+
+    <TextView
+        android:id="@+id/published_corrects"
+        style="@style/TextStyle.Normal.Black"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawablePadding="10dp"
+        android:background="@color/white"
+        android:text="published corrects"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/recycler_view_divider_line"/>
+
+    <TextView
+        android:id="@+id/settings"
+        style="@style/TextStyle.Normal.Black"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawablePadding="10dp"
+        android:background="@color/white"
+        android:text="settings"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shadow_for_title_bar"/>
 </LinearLayout>

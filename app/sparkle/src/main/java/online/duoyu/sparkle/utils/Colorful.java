@@ -103,6 +103,7 @@ public class Colorful {
       case R.id.theme_btn_follow:
       case R.id.theme_btn_publish:
       case R.id.theme_btn_sure:
+      case R.id.theme_btn_edit_profile:
         if (view instanceof StatefulButton) {
           ((StatefulButton) view).updateState();
         }

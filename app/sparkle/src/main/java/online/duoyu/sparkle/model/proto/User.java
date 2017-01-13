@@ -50,6 +50,8 @@ public final class User extends Message<User, User.Builder> {
 
   public static final Integer DEFAULT_NUMBER = 0;
 
+  public static final Integer DEFAULT_ATTENDING_NUM = 0;
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#STRING"
@@ -149,11 +151,17 @@ public final class User extends Message<User, User.Builder> {
   )
   public final List<Happening> happenings;
 
-  public User(String user_id, String nickname, String email, String avatar, List<Language> native_languages, List<Language> target_languages, String region, String introduce, Integer following_num, Integer follower_num, Integer liked_num, Integer published_num, Integer corrected_num, Relationship relationship, Integer number, List<Happening> happenings) {
-    this(user_id, nickname, email, avatar, native_languages, target_languages, region, introduce, following_num, follower_num, liked_num, published_num, corrected_num, relationship, number, happenings, ByteString.EMPTY);
+  @WireField(
+      tag = 17,
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
+  public final Integer attending_num;
+
+  public User(String user_id, String nickname, String email, String avatar, List<Language> native_languages, List<Language> target_languages, String region, String introduce, Integer following_num, Integer follower_num, Integer liked_num, Integer published_num, Integer corrected_num, Relationship relationship, Integer number, List<Happening> happenings, Integer attending_num) {
+    this(user_id, nickname, email, avatar, native_languages, target_languages, region, introduce, following_num, follower_num, liked_num, published_num, corrected_num, relationship, number, happenings, attending_num, ByteString.EMPTY);
   }
 
-  public User(String user_id, String nickname, String email, String avatar, List<Language> native_languages, List<Language> target_languages, String region, String introduce, Integer following_num, Integer follower_num, Integer liked_num, Integer published_num, Integer corrected_num, Relationship relationship, Integer number, List<Happening> happenings, ByteString unknownFields) {
+  public User(String user_id, String nickname, String email, String avatar, List<Language> native_languages, List<Language> target_languages, String region, String introduce, Integer following_num, Integer follower_num, Integer liked_num, Integer published_num, Integer corrected_num, Relationship relationship, Integer number, List<Happening> happenings, Integer attending_num, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.user_id = user_id;
     this.nickname = nickname;
@@ -171,6 +179,7 @@ public final class User extends Message<User, User.Builder> {
     this.relationship = relationship;
     this.number = number;
     this.happenings = Internal.immutableCopyOf("happenings", happenings);
+    this.attending_num = attending_num;
   }
 
   @Override
@@ -192,6 +201,7 @@ public final class User extends Message<User, User.Builder> {
     builder.relationship = relationship;
     builder.number = number;
     builder.happenings = Internal.copyOf("happenings", happenings);
+    builder.attending_num = attending_num;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -217,7 +227,8 @@ public final class User extends Message<User, User.Builder> {
         && Internal.equals(corrected_num, o.corrected_num)
         && Internal.equals(relationship, o.relationship)
         && Internal.equals(number, o.number)
-        && happenings.equals(o.happenings);
+        && happenings.equals(o.happenings)
+        && Internal.equals(attending_num, o.attending_num);
   }
 
   @Override
@@ -241,6 +252,7 @@ public final class User extends Message<User, User.Builder> {
       result = result * 37 + (relationship != null ? relationship.hashCode() : 0);
       result = result * 37 + (number != null ? number.hashCode() : 0);
       result = result * 37 + happenings.hashCode();
+      result = result * 37 + (attending_num != null ? attending_num.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -265,6 +277,7 @@ public final class User extends Message<User, User.Builder> {
     if (relationship != null) builder.append(", relationship=").append(relationship);
     if (number != null) builder.append(", number=").append(number);
     if (!happenings.isEmpty()) builder.append(", happenings=").append(happenings);
+    if (attending_num != null) builder.append(", attending_num=").append(attending_num);
     return builder.replace(0, 2, "User{").append('}').toString();
   }
 
@@ -300,6 +313,8 @@ public final class User extends Message<User, User.Builder> {
     public Integer number;
 
     public List<Happening> happenings;
+
+    public Integer attending_num;
 
     public Builder() {
       native_languages = Internal.newMutableList();
@@ -390,9 +405,14 @@ public final class User extends Message<User, User.Builder> {
       return this;
     }
 
+    public Builder attending_num(Integer attending_num) {
+      this.attending_num = attending_num;
+      return this;
+    }
+
     @Override
     public User build() {
-      return new User(user_id, nickname, email, avatar, native_languages, target_languages, region, introduce, following_num, follower_num, liked_num, published_num, corrected_num, relationship, number, happenings, super.buildUnknownFields());
+      return new User(user_id, nickname, email, avatar, native_languages, target_languages, region, introduce, following_num, follower_num, liked_num, published_num, corrected_num, relationship, number, happenings, attending_num, super.buildUnknownFields());
     }
   }
 
@@ -458,6 +478,7 @@ public final class User extends Message<User, User.Builder> {
           + (value.relationship != null ? Relationship.ADAPTER.encodedSizeWithTag(14, value.relationship) : 0)
           + (value.number != null ? ProtoAdapter.INT32.encodedSizeWithTag(15, value.number) : 0)
           + Happening.ADAPTER.asRepeated().encodedSizeWithTag(16, value.happenings)
+          + (value.attending_num != null ? ProtoAdapter.INT32.encodedSizeWithTag(17, value.attending_num) : 0)
           + value.unknownFields().size();
     }
 
@@ -479,6 +500,7 @@ public final class User extends Message<User, User.Builder> {
       if (value.relationship != null) Relationship.ADAPTER.encodeWithTag(writer, 14, value.relationship);
       if (value.number != null) ProtoAdapter.INT32.encodeWithTag(writer, 15, value.number);
       Happening.ADAPTER.asRepeated().encodeWithTag(writer, 16, value.happenings);
+      if (value.attending_num != null) ProtoAdapter.INT32.encodeWithTag(writer, 17, value.attending_num);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -525,6 +547,7 @@ public final class User extends Message<User, User.Builder> {
           }
           case 15: builder.number(ProtoAdapter.INT32.decode(reader)); break;
           case 16: builder.happenings.add(Happening.ADAPTER.decode(reader)); break;
+          case 17: builder.attending_num(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

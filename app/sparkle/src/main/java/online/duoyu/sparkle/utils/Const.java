@@ -16,6 +16,7 @@ public class Const {
   public static final String USER_AGENT = "User-Agent";
   public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36";
   public static final int IMAGE_ITEM_COUNT_PER_PAGE = 20;
+  public static final int LIMIT_MAX_SENTENCE_COUNT = 3;
   /***********************************
    * Action
    **********************************/
@@ -29,6 +30,9 @@ public class Const {
   public static final Integer ACTION_EDIT_CORRECT = 7;
   public static final Integer ACTION_USER = 8;
   public static final Integer ACTION_FOLLOW = 9;
+  public static final Integer ACTION_PUBLISHED_DIARIES = 10;
+  public static final Integer ACTION_ATTENDING_DIARIES = 11;
+  public static final Integer ACTION_PUBLISHED_CORRECTS = 12;
   /************************************
    * Key
    ***********************************/
@@ -148,6 +152,8 @@ public class Const {
   public static final String API_LIKE_DIARY = API_HOST_URL + "/diary/like";
   public static final String API_UNLIKE_DIARY = API_HOST_URL + "/diary/unlike";
   public static final String API_GET_USER_PUBLISHED_DIARIES = API_HOST_URL + "/diary/get_by_user_id";
+  public static final String API_PUBLISHED_DIARIES = API_HOST_URL + "/diary/published";
+  public static final String API_ATTENDING_DIARIES = API_HOST_URL + "/diary/attending";
   // correct
   public static final String API_GET_CORRECT_BY_DIARY_AND_USER = API_HOST_URL + "/correct/get_by_diary_and_user";
   public static final String API_GET_CORRECTS_BY_DIARY = API_HOST_URL + "/correct/get_by_diary_id";
@@ -155,6 +161,7 @@ public class Const {
   public static final String API_LIKE_CORRECT = API_HOST_URL + "/correct/like";
   public static final String API_UNLIKE_CORRECT = API_HOST_URL + "/correct/unlike";
   public static final String API_GET_USER_PUBLISHED_CORRECTS = API_HOST_URL + "/correct/get_by_user_id";
+  public static final String API_PUBLISHED_CORRECTS = API_HOST_URL + "/correct/published";
   // comment
   public static final String API_LIKE_COMMENT = API_HOST_URL + "/comment/like";
   public static final String API_UNLIKE_COMMENT = API_HOST_URL + "/comment/unlike";

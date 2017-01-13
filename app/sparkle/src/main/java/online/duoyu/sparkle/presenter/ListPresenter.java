@@ -31,7 +31,7 @@ public class ListPresenter extends SparklePresenter {
     switch (model.template) {
       case ITEM_CORRECT_WITH_DIARY:
       case ITEM_CORRECT:
-        for (int i = 0; i < model.content.size(); ++i) {
+        for (int i = 0; i < Math.min(model.content.size(), model.count.limit); ++i) {
           String correct_content_sentence = model.content.get(i).trim();
           String origin_content_sentence = model.addition.content.get(i).trim();
           if (!TextUtils.isEmpty(correct_content_sentence) && !TextUtils.isEmpty(origin_content_sentence)) {

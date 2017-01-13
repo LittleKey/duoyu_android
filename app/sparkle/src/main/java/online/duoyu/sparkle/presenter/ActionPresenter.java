@@ -563,6 +563,12 @@ public class ActionPresenter extends SparklePresenter {
         return model.actions.get(Const.ACTION_USER);
       case R.id.theme_btn_follow:
         return model.actions.get(Const.ACTION_FOLLOW);
+      case R.id.published_diaries:
+        return model.actions.get(Const.ACTION_PUBLISHED_DIARIES);
+      case R.id.attending_diaries:
+        return model.actions.get(Const.ACTION_ATTENDING_DIARIES);
+      case R.id.published_corrects:
+        return model.actions.get(Const.ACTION_PUBLISHED_CORRECTS);
     }
     return null;
   }

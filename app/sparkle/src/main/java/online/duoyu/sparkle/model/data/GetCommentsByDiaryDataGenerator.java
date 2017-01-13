@@ -14,20 +14,17 @@ import de.greenrobot.event.EventBus;
 import me.littlekey.base.ReadOnlyList;
 import me.littlekey.network.ApiRequest;
 import okio.ByteString;
-import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
-import online.duoyu.sparkle.event.OnCommentsAmountUpdate;
+import online.duoyu.sparkle.event.OnCommentsAmountUpdateEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.CommentsResponse;
 import online.duoyu.sparkle.model.business.GetCorrectsByDiaryIdRequest;
 import online.duoyu.sparkle.model.proto.Comment;
-import online.duoyu.sparkle.model.proto.Count;
 import online.duoyu.sparkle.model.proto.Cursor;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.utils.CollectionUtils;
 import online.duoyu.sparkle.utils.Const;
-import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
  * Created by littlekey on 1/4/17.
@@ -86,7 +83,7 @@ public class GetCommentsByDiaryDataGenerator extends SparkleDataGenerator<Commen
 //          .build());
 //    }
     EventBus.getDefault().post(
-        new OnCommentsAmountUpdate(mModel.identity, Wire.get(response.cursor.amount, 0)));
+        new OnCommentsAmountUpdateEvent(mModel.identity, Wire.get(response.cursor.amount, 0)));
     for (Comment comment: response.comments) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromComment(comment, Model.Template.ITEM_COMMENT));

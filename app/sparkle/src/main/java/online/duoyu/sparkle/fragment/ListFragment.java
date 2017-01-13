@@ -200,6 +200,9 @@ public class ListFragment extends LazyLoadFragment {
       case GET_COMMENTS_BY_DIARY:
       case GET_CORRECTS_BY_DIARY:
       case GET_USER_PUBLISHED_CORRECTS:
+      case MY_PUBLISHED_CORRECTS:
+      case MY_PUBLISHED_DIARIES:
+      case MY_ATTENDING_DIARIES:
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
           @Override
           public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

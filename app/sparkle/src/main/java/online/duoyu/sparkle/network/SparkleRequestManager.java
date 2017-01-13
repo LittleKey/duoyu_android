@@ -20,6 +20,8 @@ import me.littlekey.network.NameValuePair;
 import me.littlekey.network.RequestManager;
 import okio.ByteString;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.model.business.AttendingRequest;
+import online.duoyu.sparkle.model.business.CorrectsRequest;
 import online.duoyu.sparkle.model.business.FollowerRequest;
 import online.duoyu.sparkle.model.business.FollowingUserPublishedDiariesRequest;
 import online.duoyu.sparkle.model.business.GetCommentsByDiaryIdRequest;
@@ -29,6 +31,8 @@ import online.duoyu.sparkle.model.business.GetCorrectsByUserIdRequest;
 import online.duoyu.sparkle.model.business.GetPublishedByUserIdRequest;
 import online.duoyu.sparkle.model.business.GetTimelineByUserIdRequest;
 import online.duoyu.sparkle.model.business.LoginRequest;
+import online.duoyu.sparkle.model.business.PublishedRequest;
+import online.duoyu.sparkle.model.business.RecentRequest;
 import online.duoyu.sparkle.model.proto.Cursor;
 import online.duoyu.sparkle.model.proto.RPCRequest;
 import online.duoyu.sparkle.utils.Const;
@@ -194,6 +198,12 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_GET_USER_PUBLISHED_DIARIES;
       case GET_USER_INFO:
         return Const.API_GET_USER_INFO;
+      case MY_PUBLISHED_DIARIES:
+        return Const.API_PUBLISHED_DIARIES;
+      case MY_ATTENDING_DIARIES:
+        return Const.API_ATTENDING_DIARIES;
+      case MY_PUBLISHED_CORRECTS:
+        return Const.API_PUBLISHED_CORRECTS;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }
@@ -204,7 +214,10 @@ public class SparkleRequestManager extends RequestManager {
     String timestamp = params.get(Const.KEY_TIME_STAMP);
     switch (apiType) {
       case RECENT_DIARY:
-        content = ByteString.EMPTY;
+        RecentRequest recentRequest = new RecentRequest.Builder()
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(RecentRequest.ADAPTER.encode(recentRequest));
         break;
       case FOLLOW_USER_DIARY:
         FollowingUserPublishedDiariesRequest followingUserPublishedDiariesRequest =
@@ -268,6 +281,24 @@ public class SparkleRequestManager extends RequestManager {
             .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
             .build();
         content = ByteString.of(GetTimelineByUserIdRequest.ADAPTER.encode(getTimelineByUserIdRequest));
+        break;
+      case MY_PUBLISHED_DIARIES:
+        PublishedRequest publishedRequest = new PublishedRequest.Builder()
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(PublishedRequest.ADAPTER.encode(publishedRequest));
+        break;
+      case MY_ATTENDING_DIARIES:
+        AttendingRequest attendingRequest = new AttendingRequest.Builder()
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(AttendingRequest.ADAPTER.encode(attendingRequest));
+        break;
+      case MY_PUBLISHED_CORRECTS:
+        CorrectsRequest correctsRequest = new CorrectsRequest.Builder()
+            .cursor(timestamp != null ? new Cursor.Builder().timestamp(Long.valueOf(timestamp)).build() : null)
+            .build();
+        content = ByteString.of(CorrectsRequest.ADAPTER.encode(correctsRequest));
         break;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());

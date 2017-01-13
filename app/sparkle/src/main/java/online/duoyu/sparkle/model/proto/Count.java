@@ -61,6 +61,8 @@ public final class Count extends Message<Count, Count.Builder> {
 
   public static final Integer DEFAULT_FLOOR = 0;
 
+  public static final Integer DEFAULT_LIMIT = 0;
+
   @WireField(
       tag = 1,
       adapter = "com.squareup.wire.ProtoAdapter#FLOAT"
@@ -175,11 +177,17 @@ public final class Count extends Message<Count, Count.Builder> {
   )
   public final Integer floor;
 
-  public Count(Float rating, Integer selected_num, Integer likes, Integer pages, Integer rating_count, Integer number, Integer width, Integer height, Integer x_offset, Integer score, Float progress, Integer position, Integer diaries, Integer corrects, Integer comments, Integer attentions, Integer followers, Integer followings, Integer floor) {
-    this(rating, selected_num, likes, pages, rating_count, number, width, height, x_offset, score, progress, position, diaries, corrects, comments, attentions, followers, followings, floor, ByteString.EMPTY);
+  @WireField(
+      tag = 20,
+      adapter = "com.squareup.wire.ProtoAdapter#INT32"
+  )
+  public final Integer limit;
+
+  public Count(Float rating, Integer selected_num, Integer likes, Integer pages, Integer rating_count, Integer number, Integer width, Integer height, Integer x_offset, Integer score, Float progress, Integer position, Integer diaries, Integer corrects, Integer comments, Integer attentions, Integer followers, Integer followings, Integer floor, Integer limit) {
+    this(rating, selected_num, likes, pages, rating_count, number, width, height, x_offset, score, progress, position, diaries, corrects, comments, attentions, followers, followings, floor, limit, ByteString.EMPTY);
   }
 
-  public Count(Float rating, Integer selected_num, Integer likes, Integer pages, Integer rating_count, Integer number, Integer width, Integer height, Integer x_offset, Integer score, Float progress, Integer position, Integer diaries, Integer corrects, Integer comments, Integer attentions, Integer followers, Integer followings, Integer floor, ByteString unknownFields) {
+  public Count(Float rating, Integer selected_num, Integer likes, Integer pages, Integer rating_count, Integer number, Integer width, Integer height, Integer x_offset, Integer score, Float progress, Integer position, Integer diaries, Integer corrects, Integer comments, Integer attentions, Integer followers, Integer followings, Integer floor, Integer limit, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.rating = rating;
     this.selected_num = selected_num;
@@ -200,6 +208,7 @@ public final class Count extends Message<Count, Count.Builder> {
     this.followers = followers;
     this.followings = followings;
     this.floor = floor;
+    this.limit = limit;
   }
 
   @Override
@@ -224,6 +233,7 @@ public final class Count extends Message<Count, Count.Builder> {
     builder.followers = followers;
     builder.followings = followings;
     builder.floor = floor;
+    builder.limit = limit;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -252,7 +262,8 @@ public final class Count extends Message<Count, Count.Builder> {
         && Internal.equals(attentions, o.attentions)
         && Internal.equals(followers, o.followers)
         && Internal.equals(followings, o.followings)
-        && Internal.equals(floor, o.floor);
+        && Internal.equals(floor, o.floor)
+        && Internal.equals(limit, o.limit);
   }
 
   @Override
@@ -279,6 +290,7 @@ public final class Count extends Message<Count, Count.Builder> {
       result = result * 37 + (followers != null ? followers.hashCode() : 0);
       result = result * 37 + (followings != null ? followings.hashCode() : 0);
       result = result * 37 + (floor != null ? floor.hashCode() : 0);
+      result = result * 37 + (limit != null ? limit.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -306,6 +318,7 @@ public final class Count extends Message<Count, Count.Builder> {
     if (followers != null) builder.append(", followers=").append(followers);
     if (followings != null) builder.append(", followings=").append(followings);
     if (floor != null) builder.append(", floor=").append(floor);
+    if (limit != null) builder.append(", limit=").append(limit);
     return builder.replace(0, 2, "Count{").append('}').toString();
   }
 
@@ -347,6 +360,8 @@ public final class Count extends Message<Count, Count.Builder> {
     public Integer followings;
 
     public Integer floor;
+
+    public Integer limit;
 
     public Builder() {
     }
@@ -446,9 +461,14 @@ public final class Count extends Message<Count, Count.Builder> {
       return this;
     }
 
+    public Builder limit(Integer limit) {
+      this.limit = limit;
+      return this;
+    }
+
     @Override
     public Count build() {
-      return new Count(rating, selected_num, likes, pages, rating_count, number, width, height, x_offset, score, progress, position, diaries, corrects, comments, attentions, followers, followings, floor, super.buildUnknownFields());
+      return new Count(rating, selected_num, likes, pages, rating_count, number, width, height, x_offset, score, progress, position, diaries, corrects, comments, attentions, followers, followings, floor, limit, super.buildUnknownFields());
     }
   }
 
@@ -478,6 +498,7 @@ public final class Count extends Message<Count, Count.Builder> {
           + (value.followers != null ? ProtoAdapter.INT32.encodedSizeWithTag(17, value.followers) : 0)
           + (value.followings != null ? ProtoAdapter.INT32.encodedSizeWithTag(18, value.followings) : 0)
           + (value.floor != null ? ProtoAdapter.INT32.encodedSizeWithTag(19, value.floor) : 0)
+          + (value.limit != null ? ProtoAdapter.INT32.encodedSizeWithTag(20, value.limit) : 0)
           + value.unknownFields().size();
     }
 
@@ -502,6 +523,7 @@ public final class Count extends Message<Count, Count.Builder> {
       if (value.followers != null) ProtoAdapter.INT32.encodeWithTag(writer, 17, value.followers);
       if (value.followings != null) ProtoAdapter.INT32.encodeWithTag(writer, 18, value.followings);
       if (value.floor != null) ProtoAdapter.INT32.encodeWithTag(writer, 19, value.floor);
+      if (value.limit != null) ProtoAdapter.INT32.encodeWithTag(writer, 20, value.limit);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -530,6 +552,7 @@ public final class Count extends Message<Count, Count.Builder> {
           case 17: builder.followers(ProtoAdapter.INT32.decode(reader)); break;
           case 18: builder.followings(ProtoAdapter.INT32.decode(reader)); break;
           case 19: builder.floor(ProtoAdapter.INT32.decode(reader)); break;
+          case 20: builder.limit(ProtoAdapter.INT32.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);

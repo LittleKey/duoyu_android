@@ -128,4 +128,33 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_primary_pink_rounded_corners</item>
     </style>
+
+    <!-- state edit profile -->
+    <style name="State.Small.EditProfile">
+        <item name="android:text">@string/edit_profile</item>
+    </style>
+
+    <style name="State.Small.EditProfile.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Small.EditProfile.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.EditProfile">
+        <item name="android:text">@string/edit_profile</item>
+    </style>
+
+    <style name="State.Normal.EditProfile.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.EditProfile.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
 </resources>

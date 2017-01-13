@@ -49,5 +49,4 @@
         android:layout_height="2dp"
         android:layout_above="@id/theme_tab_bar"
         android:background="@drawable/shadow_for_tab_bar"/>
-
 </RelativeLayout>

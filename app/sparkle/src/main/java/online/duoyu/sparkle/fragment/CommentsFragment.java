@@ -22,7 +22,7 @@ import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.BaseActivity;
 import online.duoyu.sparkle.activity.SingleFragmentActivity;
-import online.duoyu.sparkle.event.OnCommentsAmountUpdate;
+import online.duoyu.sparkle.event.OnCommentsAmountUpdateEvent;
 import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
@@ -177,7 +177,7 @@ public class CommentsFragment extends ListFragment {
     }
   }
 
-  public void onEventMainThread(OnCommentsAmountUpdate event) {
+  public void onEventMainThread(OnCommentsAmountUpdateEvent event) {
     if (TextUtils.equals(event.diary_id, mModel.identity)) {
       updateCommentsAmount(event.amount);
     }

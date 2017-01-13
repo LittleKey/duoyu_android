@@ -53,4 +53,7 @@
     <string name="tab_correct">Correct</string>
     <string name="tab_diary">Diary</string>
     <string name="tab_timeline">Timeline</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="all_diaries">Diaries(%d)</string>
+    <string name="all_attending_diaries">Attending(%d)</string>
 </resources>

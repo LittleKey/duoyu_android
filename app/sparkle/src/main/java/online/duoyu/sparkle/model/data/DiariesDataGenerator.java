@@ -5,30 +5,32 @@ import android.support.annotation.NonNull;
 import com.squareup.wire.Wire;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import me.littlekey.base.ReadOnlyList;
+import me.littlekey.base.utils.CollectionUtils;
 import me.littlekey.network.ApiRequest;
-import okio.ByteString;
+import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.event.OnDiariesAmountUpdateEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.DiariesResponse;
-import online.duoyu.sparkle.model.business.RecentRequest;
-import online.duoyu.sparkle.model.proto.Cursor;
 import online.duoyu.sparkle.model.proto.Diary;
 import online.duoyu.sparkle.network.ApiType;
-import online.duoyu.sparkle.utils.CollectionUtils;
+import online.duoyu.sparkle.utils.Const;
 
 /**
- * Created by littlekey on 12/25/16.
+ * Created by littlekey on 1/10/17.
  */
 
-public class RecentDiaryDataGenerator extends SparkleDataGenerator<DiariesResponse> {
+public class DiariesDataGenerator extends SparkleDataGenerator<DiariesResponse> {
 
-  public RecentDiaryDataGenerator(ApiType apiType) {
-    super(apiType);
+  public DiariesDataGenerator(ApiType apiType, NameValuePair... pairs) {
+    super(apiType, pairs);
   }
 
   @Override
@@ -39,16 +41,10 @@ public class RecentDiaryDataGenerator extends SparkleDataGenerator<DiariesRespon
 
   @Override
   public ApiRequest<DiariesResponse> getNextRequestFromResponse(DiariesResponse response) {
-    Cursor cursor = new Cursor.Builder()
-        .timestamp(response.diaries.get(response.diaries.size() - 1).date)
-        .limit(20)
-        .build();
-    RecentRequest request = new RecentRequest.Builder()
-        .cursor(cursor)
-        .build();
+    Map<String, String> pairs = new HashMap<>(mBasePairs);
+    pairs.put(Const.KEY_TIME_STAMP, String.valueOf(response.diaries.get(response.diaries.size() - 1).date));
     return SparkleApplication.getInstance().getRequestManager()
-        .newSparkleRequest(mApiType, ByteString.of(RecentRequest.ADAPTER.encode(request)),
-            DiariesResponse.class, mListener, mErrorListener);
+        .newSparkleRequest(mApiType, pairs, DiariesResponse.class, mListener, mErrorListener);
   }
 
   @Override
@@ -59,6 +55,8 @@ public class RecentDiaryDataGenerator extends SparkleDataGenerator<DiariesRespon
   @Override
   public List<Model> getItemsFromResponse(@NonNull DiariesResponse response, ReadOnlyList<Model> roProcessedItems) {
     List<Model> models = new ArrayList<>();
+    EventBus.getDefault().post(
+        new OnDiariesAmountUpdateEvent(mApiType, Wire.get(response.cursor.amount, 0)));
     for (Diary diary: response.diaries) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromDiary(diary, Model.Template.ITEM_DIARY_WITH_MONTH));

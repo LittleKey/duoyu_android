@@ -57,6 +57,12 @@
 
         <activity android:name=".activity.CorrectActivity"/>
 
+        <activity android:name=".activity.PublishedDiariesActivity"/>
+
+        <activity android:name=".activity.AttendingDiariesActivity"/>
+
+        <activity android:name=".activity.PublishedCorrectsActivity"/>
+
     </application>
 
 </manifest>

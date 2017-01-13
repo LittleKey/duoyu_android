@@ -3,7 +3,6 @@ package online.duoyu.sparkle.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.squareup.wire.Wire;
 
@@ -19,26 +18,19 @@ import online.duoyu.sparkle.utils.NavigationManager;
 import online.duoyu.sparkle.utils.SparkleUtils;
 
 /**
- * Created by littlekey on 12/27/16.
+ * Created by littlekey on 1/14/17.
  */
 
-public class CorrectsActivity extends SingleFragmentActivity {
-
-  private Model mModel;
+public class PublishedCorrectsActivity extends SingleFragmentActivity {
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
-    Bundle bundle = NavigationManager.parseIntent(getIntent());
-    mModel = bundle.getParcelable(Const.KEY_MODEL);
-    super.onCreate(savedInstanceState);
     EventBus.getDefault().register(this);
+    super.onCreate(savedInstanceState);
   }
 
   public void onEventMainThread(OnCorrectsAmountUpdateEvent event) {
-    if (TextUtils.equals(mModel.identity, event.diary_id)) {
-      mModel = mModel.newBuilder()
-          .count(mModel.count.newBuilder().corrects(event.amount).build())
-          .build();
+    if (event.apiType == ApiType.MY_PUBLISHED_CORRECTS) {
       updateTitle(SparkleUtils.formatString(R.string.all_corrects, event.amount));
     }
   }
@@ -52,8 +44,7 @@ public class CorrectsActivity extends SingleFragmentActivity {
   @Override
   protected BaseFragment createFragment(Intent intent) {
     Bundle bundle = new Bundle();
-    bundle.putInt(Const.KEY_API_TYPE, ApiType.GET_CORRECTS_BY_DIARY.ordinal());
-    bundle.putBundle(Const.KEY_EXTRA, NavigationManager.parseIntent(intent));
+    bundle.putInt(Const.KEY_API_TYPE, ApiType.MY_PUBLISHED_CORRECTS.ordinal());
     return ListFragment.newInstance(bundle).setLazyLoad(false);
   }
 
@@ -69,6 +60,7 @@ public class CorrectsActivity extends SingleFragmentActivity {
 
   @Override
   protected String activityTitle() {
-    return SparkleUtils.formatString(R.string.all_corrects, Wire.get(mModel.count.corrects, 0));
+    Model model = NavigationManager.parseIntent(getIntent()).getParcelable(Const.KEY_MODEL);
+    return SparkleUtils.formatString(R.string.all_corrects, model == null ? 0 : Wire.get(model.count.corrects, 0));
   }
 }

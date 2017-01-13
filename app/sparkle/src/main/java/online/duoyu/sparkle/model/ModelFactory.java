@@ -47,6 +47,8 @@ public class ModelFactory {
         .likes(Wire.get(user.liked_num, 0))
         .followers(Wire.get(user.follower_num, 0))
         .followings(Wire.get(user.following_num, 0))
+        .diaries(Wire.get(user.published_num, 0))
+        .attentions(Wire.get(user.attending_num, 0))
         .build();
     boolean is_following = false;
     boolean is_follower = false;
@@ -164,6 +166,7 @@ public class ModelFactory {
     Count count = new Count.Builder()
         .likes(correct.likes)
         .comments(correct.comments)
+        .limit(Const.LIMIT_MAX_SENTENCE_COUNT)
         .build();
     Flag flag = new Flag.Builder()
         .is_liked(correct.liked)

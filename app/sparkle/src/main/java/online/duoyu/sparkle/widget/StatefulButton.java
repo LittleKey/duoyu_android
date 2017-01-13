@@ -25,6 +25,7 @@ public class StatefulButton extends FrameLayout {
   public static final int STATE_CANCELED = 2;
   public static final int STATE_FOLLOW = 3;
   public static final int STATE_FOLLOWING = 4;
+  public static final int STATE_EDIT_PROFILE = 5;
   private SparseIntArray mStateMap = new SparseIntArray();
   private int mLayout;
   private TextView mTextView;
@@ -46,6 +47,7 @@ public class StatefulButton extends FrameLayout {
     mStateMap.put(STATE_CANCELED, a.getResourceId(R.styleable.StatefulButton_stateCanceled, 0));
     mStateMap.put(STATE_FOLLOW, a.getResourceId(R.styleable.StatefulButton_stateFollow, 0));
     mStateMap.put(STATE_FOLLOWING, a.getResourceId(R.styleable.StatefulButton_stateFollowing, 0));
+    mStateMap.put(STATE_EDIT_PROFILE, a.getResourceId(R.styleable.StatefulButton_stateEditProfile, 0));
     mLayout = a.getResourceId(R.styleable.StatefulButton_layoutRes, R.layout.stateful_button);
     init();
     styleAppearance(a);

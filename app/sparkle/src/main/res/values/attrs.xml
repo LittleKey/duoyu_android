@@ -13,8 +13,9 @@
         <attr name="layoutRes" format="reference"/>
         <attr name="stateDone" format="reference"/>
         <attr name="stateCanceled" format="reference"/>
-        <attr name="stateFollow" format="reference" />
-        <attr name="stateFollowing" format="reference" />
+        <attr name="stateFollow" format="reference"/>
+        <attr name="stateFollowing" format="reference"/>
+        <attr name="stateEditProfile" format="reference"/>
     </declare-styleable>
     <attr name="textColor"/>
     <attr name="primaryColor"/>

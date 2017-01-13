@@ -200,7 +200,7 @@ public class WriteDiaryFragment extends LazyLoadFragment {
             RequestFuture<DiaryResponse> future = RequestFuture.newFuture();
             final DiaryRequest diaryRequest = new DiaryRequest.Builder()
                 .diary(new Diary.Builder()
-                    .diary_date(mDateTime.getMillis() / 1000)
+                    .diary_date(mDateTime.getMillis())
                     .title(mTitle.toString())
                     .content(mContent.toString())
                     .language(Language.ENGLISH)

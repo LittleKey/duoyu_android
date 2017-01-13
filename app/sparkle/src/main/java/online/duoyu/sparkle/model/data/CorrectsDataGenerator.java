@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import me.littlekey.base.ReadOnlyList;
 import me.littlekey.base.utils.CollectionUtils;
 import me.littlekey.network.ApiRequest;
 import me.littlekey.network.NameValuePair;
 import online.duoyu.sparkle.SparkleApplication;
+import online.duoyu.sparkle.event.OnCorrectsAmountUpdateEvent;
 import online.duoyu.sparkle.model.Model;
 import online.duoyu.sparkle.model.ModelFactory;
 import online.duoyu.sparkle.model.business.CorrectsResponse;
@@ -25,9 +27,9 @@ import online.duoyu.sparkle.utils.Const;
  * Created by littlekey on 1/10/17.
  */
 
-public class GetUserCorrectsDataGenerator extends SparkleDataGenerator<CorrectsResponse> {
+public class CorrectsDataGenerator extends SparkleDataGenerator<CorrectsResponse> {
 
-  public GetUserCorrectsDataGenerator(ApiType apiType, NameValuePair... pairs) {
+  public CorrectsDataGenerator(ApiType apiType, NameValuePair... pairs) {
     super(apiType, pairs);
   }
 
@@ -53,6 +55,8 @@ public class GetUserCorrectsDataGenerator extends SparkleDataGenerator<CorrectsR
   @Override
   public List<Model> getItemsFromResponse(@NonNull CorrectsResponse response, ReadOnlyList<Model> roProcessedItems) {
     List<Model> models = new ArrayList<>();
+    EventBus.getDefault().post(
+        new OnCorrectsAmountUpdateEvent(mApiType, Wire.get(response.cursor.amount, 0)));
     for (Correct correct: response.corrects) {
       CollectionUtils.add(models,
           ModelFactory.createModelFromCorrect(correct, Model.Template.ITEM_CORRECT_WITH_DIARY));
