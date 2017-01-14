@@ -26,6 +26,8 @@ public class StatefulButton extends FrameLayout {
   public static final int STATE_FOLLOW = 3;
   public static final int STATE_FOLLOWING = 4;
   public static final int STATE_EDIT_PROFILE = 5;
+  public static final int STATE_CAN_SEND_VERIFY_CODE = 6;
+  public static final int STATE_CAN_NOT_SEND_VERIFY_CODE = 7;
   private SparseIntArray mStateMap = new SparseIntArray();
   private int mLayout;
   private TextView mTextView;
@@ -48,6 +50,8 @@ public class StatefulButton extends FrameLayout {
     mStateMap.put(STATE_FOLLOW, a.getResourceId(R.styleable.StatefulButton_stateFollow, 0));
     mStateMap.put(STATE_FOLLOWING, a.getResourceId(R.styleable.StatefulButton_stateFollowing, 0));
     mStateMap.put(STATE_EDIT_PROFILE, a.getResourceId(R.styleable.StatefulButton_stateEditProfile, 0));
+    mStateMap.put(STATE_CAN_SEND_VERIFY_CODE, a.getResourceId(R.styleable.StatefulButton_stateCanSendVerifyCode, 0));
+    mStateMap.put(STATE_CAN_NOT_SEND_VERIFY_CODE, a.getResourceId(R.styleable.StatefulButton_stateCanNotSendVerifyCode, 0));
     mLayout = a.getResourceId(R.styleable.StatefulButton_layoutRes, R.layout.stateful_button);
     init();
     styleAppearance(a);
@@ -136,7 +140,7 @@ public class StatefulButton extends FrameLayout {
     mTextView.setTextColor(textColor);
   }
 
-  protected void setText(String text) {
+  public void setText(String text) {
     mTextView.setText(text);
   }
 

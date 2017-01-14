@@ -16,6 +16,9 @@
     <string name="duoyu_diary">DuoYu Diary.</string>
     <string name="email">Email</string>
     <string name="input_your_email">Input your email</string>
+    <string name="input_verify_code">Input verify code</string>
+    <string name="send_verify_code">Send Code</string>
+    <string name="send_verify_code_delay">Delay (%d)</string>
     <string name="password">Password</string>
     <string name="input_your_password">Input your password</string>
     <string name="forgot_password">Forgot password?</string>

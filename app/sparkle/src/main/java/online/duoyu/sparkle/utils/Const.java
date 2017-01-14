@@ -131,10 +131,12 @@ public class Const {
   /***********************************
    * API
    ***********************************/
-  private static final String API_HOST_URL = "http://192.168.1.6";
-//  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
+//  private static final String API_HOST_URL = "http://192.168.1.6";
+  private static final String API_HOST_URL = "http://ali-vps.littlekey.me";
   // account
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
+  public static final String API_EMAIL_VERIFY = API_HOST_URL + "/account/verify_code";
+  public static final String API_REGISTER = API_HOST_URL + "/account/register";
   // user
   public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
   public static final String API_FOLLOWER = API_HOST_URL + "/user/follower";

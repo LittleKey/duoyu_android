@@ -157,4 +157,60 @@
         <item name="android:textColor">@color/primary_pink</item>
         <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
     </style>
+
+    <style name="State.Small.CanSendVerifyCode">
+        <item name="android:text">@string/send_verify_code</item>
+    </style>
+
+    <style name="State.Small.CanSendVerifyCode.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Small.CanSendVerifyCode.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.CanSendVerifyCode">
+        <item name="android:text">@string/send_verify_code</item>
+    </style>
+
+    <style name="State.Normal.CanSendVerifyCode.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.CanSendVerifyCode.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Small.CanNotSendVerifyCode">
+        <item name="android:text">@string/send_verify_code_delay</item>
+    </style>
+
+    <style name="State.Small.CanNotSendVerifyCode.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Small.CanNotSendVerifyCode.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.CanNotSendVerifyCode">
+        <item name="android:text">@string/send_verify_code_delay</item>
+    </style>
+
+    <style name="State.Normal.CanNotSendVerifyCode.PrimaryBlue">
+        <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:background">@drawable/bg_primary_blue_stroke_rounded_corners</item>
+    </style>
+
+    <style name="State.Normal.CanNotSendVerifyCode.PrimaryPink">
+        <item name="android:textColor">@color/primary_pink</item>
+        <item name="android:background">@drawable/bg_primary_pink_stroke_rounded_corners</item>
+    </style>
 </resources>

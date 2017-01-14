@@ -16,6 +16,8 @@
         <attr name="stateFollow" format="reference"/>
         <attr name="stateFollowing" format="reference"/>
         <attr name="stateEditProfile" format="reference"/>
+        <attr name="stateCanSendVerifyCode" format="reference"/>
+        <attr name="stateCanNotSendVerifyCode" format="reference"/>
     </declare-styleable>
     <attr name="textColor"/>
     <attr name="primaryColor"/>

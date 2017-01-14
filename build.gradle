@@ -128,7 +128,7 @@ ext {
     jodaTimeVersion = "2.9.7"
 
     rxbindingVersion = "1.0.0"
-    rxjavaVersion = "1.1.6"
+    rxjavaVersion = "1.2.5"
     rxandroidVersion = "1.2.1"
     rxlifecycleVersion = "1.0"
 
