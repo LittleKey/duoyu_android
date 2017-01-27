@@ -27,6 +27,8 @@ public class OfflineListAdapter extends MvpAdapter<Model> {
       case ITEM_CORRECT_WITH_ORIGIN_CONTENT_SENTENCE:
         return SparklePresenterFactory.createCorrectWithOriginContentSentenceItemPresenter(
             parent, R.layout.item_correct_with_origin_content_sentence);
+      case ITEM_LANGUAGE:
+        return SparklePresenterFactory.createLanguageItemPresenter(parent, R.layout.item_language);
       default:
         throw new IllegalStateException("Nonsupport template : " + template.name());
     }

@@ -1,58 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="15dp">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/input_email"
-        style="@style/EditStyle"
-        android:imeActionLabel="next"
-        android:singleLine="true"
-        android:hint="@string/input_your_email"/>
-
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="15dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            app:placeholderImage="?attr/primaryColor"
+            app:placeholderImageScaleType="fitCenter"
+            app:roundedCornerRadius="2dp"/>
 
         <EditText
-            android:id="@+id/input_verify_code"
+            android:id="@+id/input_email"
             style="@style/EditStyle"
             android:imeOptions="actionNext"
             android:singleLine="true"
-            android:hint="@string/input_verify_code"/>
+            android:hint="@string/input_your_email"/>
+
+        <EditText
+            android:id="@+id/input_nickname"
+            style="@style/EditStyle"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:hint="Input your nickname"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_verify_code"
+                style="@style/EditStyle"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:hint="@string/input_verify_code"/>
+
+            <online.duoyu.sparkle.widget.StatefulButton
+                android:id="@+id/btn_send_verify_code"
+                style="@style/State.Normal.CanSendVerifyCode"
+                android:layout_gravity="center_vertical|right"
+                android:text="@string/send_verify_code"
+                android:layout_marginRight="10dp"
+                app:stateCanSendVerifyCode="@style/State.Normal.CanSendVerifyCode"
+                app:stateCanNotSendVerifyCode="@style/State.Normal.CanNotSendVerifyCode"/>
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/input_password"
+            style="@style/EditStyle"
+            android:drawableRight="@mipmap/ic_launcher"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            android:fontFamily="sans-serif"
+            android:hapticFeedbackEnabled="false"
+            android:singleLine="true"
+            android:hint="@string/input_your_password"/>
+
+        <TextView
+            android:id="@+id/mother_languages"
+            style="@style/TextStyle.Large.Black"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="mother languages"/>
+
+        <TextView
+            android:id="@+id/target_languages"
+            style="@style/TextStyle.Large.Black"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="target_languages"/>
 
         <online.duoyu.sparkle.widget.StatefulButton
-            android:id="@+id/btn_send"
-            style="@style/State.Normal.CanSendVerifyCode"
-            android:layout_gravity="center_vertical|right"
-            android:text="@string/send_verify_code"
-            android:layout_marginRight="10dp"
-            app:stateCanSendVerifyCode="@style/State.Normal.CanSendVerifyCode"
-            app:stateCanNotSendVerifyCode="@style/State.Normal.CanNotSendVerifyCode"/>
-    </FrameLayout>
-
-    <EditText
-        android:id="@+id/input_password"
-        style="@style/EditStyle"
-        android:drawableRight="@mipmap/ic_launcher"
-        android:inputType="textPassword"
-        android:imeOptions="actionDone"
-        android:hapticFeedbackEnabled="false"
-        android:singleLine="true"
-        android:hint="@string/input_your_password"/>
-
-    <online.duoyu.sparkle.widget.StatefulButton
-        android:id="@+id/btn_register"
-        style="@style/State.Normal.Canceled"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="right"
-        android:text="@string/register"
-        app:stateCanceled="@style/State.Normal.Canceled"
-        app:stateDone="@style/State.Normal.Done"/>
-</LinearLayout>
+            android:id="@+id/btn_register"
+            style="@style/State.Normal.Canceled"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
+            android:text="@string/register"
+            app:stateCanceled="@style/State.Normal.Canceled"
+            app:stateDone="@style/State.Normal.Done"/>
+    </LinearLayout>
+</ScrollView>

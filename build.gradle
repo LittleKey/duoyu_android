@@ -111,7 +111,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 ext {
     compileSdkVersion = 25
-    buildToolsVersion = "25"
+    buildToolsVersion = "25.0.2"
     targetSdkVersion = 25
     supportLibraryVersion = "25.1.0"
 

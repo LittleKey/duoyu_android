@@ -44,11 +44,6 @@ public class SparkleRequest<T extends Message> extends ApiRequest<T> {
       switch (pbRPCResponse.reason) {
         case UNAUTHORIZED:
           SparkleApplication.getInstance().getAccountManager().logout();
-          Intent intent = new Intent(SparkleApplication.getInstance(), LoginActivity.class);
-          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-          PendingIntent pendingIntent = PendingIntent.getActivity(
-              SparkleApplication.getInstance(), 0, intent, 0);
-          pendingIntent.send();
           break;
         case NOT_MODIFIED:
           // NOTE: should not enter here

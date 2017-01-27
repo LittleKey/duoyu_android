@@ -53,6 +53,7 @@ public class TextPresenter extends SparklePresenter {
         return model.origin_sentence;
       case R.id.divider_text:
       case R.id.content:
+      case R.id.language_text:
 //        return Html.fromHtml(model.description);
       case R.id.description:
         return model.description;

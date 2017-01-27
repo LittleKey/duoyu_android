@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.BaseActivity;
+import online.duoyu.sparkle.activity.ForgotPasswordActivity;
 import online.duoyu.sparkle.activity.HomeActivity;
 import online.duoyu.sparkle.activity.RegisterActivity;
 import online.duoyu.sparkle.model.business.LoginResponse;
@@ -156,6 +157,34 @@ public class LoginFragment extends BaseFragment {
           @Override
           public void call(Void aVoid) {
             NavigationManager.navigationTo(getActivity(), RegisterActivity.class);
+          }
+        });
+    Observable.just(R.id.forgot_password).cache()
+        .map(new Func1<Integer, View>() {
+          @Override
+          public View call(Integer integer) {
+            return view.findViewById(integer);
+          }
+        })
+        .filter(new Func1<View, Boolean>() {
+          @Override
+          public Boolean call(View view) {
+            return view != null;
+          }
+        })
+        .flatMap(new Func1<View, Observable<Void>>() {
+          @Override
+          public Observable<Void> call(View view) {
+            return RxView.clicks(view)
+                .compose(LoginFragment.this.<Void>bindToLifecycle())
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
+          }
+        })
+        .subscribe(new Action1<Void>() {
+          @Override
+          public void call(Void aVoid) {
+            NavigationManager.navigationTo(getActivity(), ForgotPasswordActivity.class);
           }
         });
   }

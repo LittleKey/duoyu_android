@@ -18,17 +18,14 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.wire.Wire;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.LoginActivity;
-import online.duoyu.sparkle.model.business.RegisterRequest;
-import online.duoyu.sparkle.model.business.RegisterResponse;
-import online.duoyu.sparkle.model.proto.Language;
+import online.duoyu.sparkle.model.business.ChangePasswordRequest;
+import online.duoyu.sparkle.model.business.ChangePasswordResponse;
 import online.duoyu.sparkle.network.ApiType;
 import online.duoyu.sparkle.network.SparkleRequest;
 import online.duoyu.sparkle.utils.NavigationManager;
@@ -46,20 +43,19 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by littlekey on 12/24/16.
+ * Created by littlekey on 1/27/17.
  */
 
-public class RegisterStep1Fragment extends BaseFragment {
+public class ForgotPasswordFragment extends BaseFragment {
 
   private CharSequence mEmail;
   private CharSequence mPassword;
   private CharSequence mVerifyCode;
-  private CharSequence mNickname;
   private SendVerifyCodeHandler mHandler;
 
-  public static RegisterStep1Fragment newInstance() {
+  public static ForgotPasswordFragment newInstance() {
     Bundle args = new Bundle();
-    RegisterStep1Fragment fragment = new RegisterStep1Fragment();
+    ForgotPasswordFragment fragment = new ForgotPasswordFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -67,25 +63,24 @@ public class RegisterStep1Fragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_register, container, false);
+    return inflater.inflate(R.layout.fragment_forgot_password, container, false);
   }
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    final StatefulButton btn_register = (StatefulButton) view.findViewById(R.id.btn_register);
-    StatefulButton btn_send_verify_code = (StatefulButton) view.findViewById(R.id.btn_send_verify_code);
-    EditText input_email = (EditText) view.findViewById(R.id.input_email);
-    final EditText input_password = (EditText) view.findViewById(R.id.input_password);
+    final StatefulButton btn_send_verify_code = (StatefulButton) view.findViewById(R.id.btn_send_verify_code);
     EditText verify_code_view = (EditText) view.findViewById(R.id.input_verify_code);
-    EditText input_nickname = (EditText) view.findViewById(R.id.input_nickname);
+    final EditText input_password = (EditText) view.findViewById(R.id.input_password);
+    EditText input_email = (EditText) view.findViewById(R.id.input_email);
+    final StatefulButton btn_forgot_password = (StatefulButton) view.findViewById(R.id.btn_forgot_password);
     mHandler = new SendVerifyCodeHandler(btn_send_verify_code);
-    Observable.just(input_email, input_password, verify_code_view, input_nickname)
+    Observable.just(input_email, input_password, verify_code_view)
         .flatMap(new Func1<EditText, Observable<Boolean>>() {
           @Override
           public Observable<Boolean> call(final EditText editText) {
             return RxTextView.textChanges(editText)
-                .compose(RegisterStep1Fragment.this.<CharSequence>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(ForgotPasswordFragment.this.<CharSequence>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<CharSequence, Boolean>() {
                   @Override
@@ -100,14 +95,10 @@ public class RegisterStep1Fragment extends BaseFragment {
                       case R.id.input_verify_code:
                         mVerifyCode = charSequence;
                         break;
-                      case R.id.input_nickname:
-                        mNickname = charSequence;
-                        break;
                     }
                     return !TextUtils.isEmpty(mEmail)
                         && !TextUtils.isEmpty(mPassword)
-                        && !TextUtils.isEmpty(mVerifyCode)
-                        && !TextUtils.isEmpty(mNickname);
+                        && !TextUtils.isEmpty(mVerifyCode);
                   }
                 });
           }
@@ -115,54 +106,46 @@ public class RegisterStep1Fragment extends BaseFragment {
         .subscribe(new Action1<Boolean>() {
           @Override
           public void call(Boolean aBoolean) {
-            btn_register.setEnabled(aBoolean);
-            btn_register.setState(aBoolean ? StatefulButton.STATE_DONE : StatefulButton.STATE_CANCELED);
+            btn_forgot_password.setEnabled(aBoolean);
+            btn_forgot_password.setState(aBoolean ? StatefulButton.STATE_DONE : StatefulButton.STATE_CANCELED);
           }
         });
-    RxView.clicks(btn_register)
+    RxView.clicks(btn_forgot_password)
         .compose(this.<Void>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Void>() {
           @Override
           public void call(Void aVoid) {
-            List<Language> native_languages = new ArrayList<>();
-            native_languages.add(Language.CHINESE);
-            List<Language> target_languages = new ArrayList<>();
-            target_languages.add(Language.JAPANESE);
-            target_languages.add(Language.ENGLISH);
-            RequestFuture<RegisterResponse> future = RequestFuture.newFuture();
-            RegisterRequest registerRequest = new RegisterRequest.Builder()
+            RequestFuture<ChangePasswordResponse> future = RequestFuture.newFuture();
+            ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest.Builder()
                 .email(mEmail.toString())
-                .password(SparkleUtils.getPrehashedPassword(mPassword.toString()))
                 .email_verification_code(mVerifyCode.toString())
-                .nickname(mNickname.toString())
-                .avatar("http://avatar.com")
-                .native_languages(native_languages)
-                .target_languages(target_languages)
+                .password(SparkleUtils.getPrehashedPassword(mPassword.toString()))
                 .build();
-            SparkleRequest<RegisterResponse> request = SparkleApplication.getInstance().getRequestManager()
-                .newSparkleRequest(ApiType.REGISTER,
-                    ByteString.of(RegisterRequest.ADAPTER.encode(registerRequest)),
-                    RegisterResponse.class, future, future);
-            request.setTag(RegisterStep1Fragment.this);
+            SparkleRequest<ChangePasswordResponse> request = SparkleApplication.getInstance().getRequestManager()
+                .newSparkleRequest(ApiType.CHANGE_PASSWORD,
+                    ByteString.of(ChangePasswordRequest.ADAPTER.encode(changePasswordRequest)),
+                    ChangePasswordResponse.class, future, future);
+            request.setTag(ForgotPasswordFragment.this);
             request.submit();
             Observable.from(future, Schedulers.newThread())
-                .compose(RegisterStep1Fragment.this.<RegisterResponse>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(ForgotPasswordFragment.this.<ChangePasswordResponse>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ActionSubscriber<>(new Action1<RegisterResponse>() {
+
+                .subscribe(new ActionSubscriber<>(new Action1<ChangePasswordResponse>() {
                   @Override
-                  public void call(RegisterResponse registerResponse) {
-                    if (Wire.get(registerResponse.success, false)) {
+                  public void call(ChangePasswordResponse changePasswordResponse) {
+                    if (Wire.get(changePasswordResponse.success, false)) {
                       NavigationManager.navigationTo(getActivity(), LoginActivity.class,
-                          Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                          Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     } else {
-                      Timber.e("register error");
+                      Timber.e("change password error");
                     }
                   }
                 }, new Action1<Throwable>() {
                   @Override
                   public void call(Throwable throwable) {
-                    Timber.e(throwable, "register error");
+                    Timber.e(throwable, "change password error");
                   }
                 }, Actions.empty()));
           }

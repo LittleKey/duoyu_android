@@ -713,7 +713,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     NOTIFICATION(6),
 
-    DATE(7);
+    DATE(7),
+
+    LANGUAGE(8);
 
     public static final ProtoAdapter<Type> ADAPTER = ProtoAdapter.newEnumAdapter(Type.class);
 
@@ -736,6 +738,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 5: return HAPPENING;
         case 6: return NOTIFICATION;
         case 7: return DATE;
+        case 8: return LANGUAGE;
         default: return null;
       }
     }
@@ -781,7 +784,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
 
     ITEM_HAPPENING(16),
 
-    ITEM_CORRECT_WITH_DIARY(17);
+    ITEM_CORRECT_WITH_DIARY(17),
+
+    ITEM_LANGUAGE(18);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -814,6 +819,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         case 15: return ITEM_FOLLOWER;
         case 16: return ITEM_HAPPENING;
         case 17: return ITEM_CORRECT_WITH_DIARY;
+        case 18: return ITEM_LANGUAGE;
         default: return null;
       }
     }

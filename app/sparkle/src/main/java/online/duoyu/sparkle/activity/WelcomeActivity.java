@@ -70,8 +70,6 @@ public class WelcomeActivity extends BaseActivity {
           @Override
           public void call(Throwable throwable) {
             SparkleApplication.getInstance().getAccountManager().logout();
-            NavigationManager.navigationTo(WelcomeActivity.this, LoginActivity.class);
-            WelcomeActivity.this.finish();
           }
         }, Actions.empty()));
   }

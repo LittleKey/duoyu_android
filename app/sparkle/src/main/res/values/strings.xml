@@ -7,6 +7,7 @@
     <!-- generate -->
     <string name="follow">follow</string>
     <string name="following">following</string>
+    <string name="whether_logout">do your want to logout this account?</string>
 
     <!-- Login & Register -->
     <string name="btn_login">Login</string>
@@ -21,7 +22,12 @@
     <string name="send_verify_code_delay">Delay (%d)</string>
     <string name="password">Password</string>
     <string name="input_your_password">Input your password</string>
+    <string name="input_new_password">Input new password</string>
     <string name="forgot_password">Forgot password?</string>
+
+    <!-- forgot password -->
+    <string name="retrieve_password">retrieve password</string>
+    <string name="btn_send">send</string>
 
     <!-- discover -->
     <string name="title_tab_follow">Follow</string>

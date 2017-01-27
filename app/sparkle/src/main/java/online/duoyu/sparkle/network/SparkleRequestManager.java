@@ -208,6 +208,8 @@ public class SparkleRequestManager extends RequestManager {
         return Const.API_EMAIL_VERIFY;
       case REGISTER:
         return Const.API_REGISTER;
+      case CHANGE_PASSWORD:
+        return Const.API_CHANGE_PASSWORD;
       default:
         throw new IllegalStateException("Unknown api type:" + apiType.name());
     }

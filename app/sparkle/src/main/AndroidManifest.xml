@@ -63,6 +63,8 @@
 
         <activity android:name=".activity.PublishedCorrectsActivity"/>
 
+        <activity android:name=".activity.ForgotPasswordActivity" />
+
     </application>
 
 </manifest>

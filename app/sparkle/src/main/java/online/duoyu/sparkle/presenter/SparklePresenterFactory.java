@@ -96,6 +96,13 @@ public class SparklePresenterFactory {
         .add(R.id.correct_sentence, new TextPresenter());
   }
 
+  public static ViewGroupPresenter createLanguageItemPresenter(ViewGroup parent, int layout) {
+    return new ViewGroupPresenter(parent, layout)
+        .add(R.id.language_text, new TextPresenter())
+        .add(R.id.selected, new FlagPresenter())
+        .add(new ActionPresenter());
+  }
+
   public static ViewGroupPresenter createCommentItemPresenter(ViewGroup parent, int layout,
         MvpRecyclerView.Adapter adapter) {
     return new ViewGroupPresenter(parent, layout, adapter)
@@ -168,6 +175,7 @@ public class SparklePresenterFactory {
         .add(R.id.published_diaries, new ActionPresenter())
         .add(R.id.attending_diaries, new ActionPresenter())
         .add(R.id.published_corrects, new ActionPresenter())
+        .add(R.id.btn_logout, new ActionPresenter())
         .add(R.id.theme_followers, new TextPresenter())
         .add(R.id.theme_followers, new ThemePresenter())
         .add(R.id.theme_following, new TextPresenter())

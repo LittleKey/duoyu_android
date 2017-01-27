@@ -19,6 +19,7 @@ import okio.ByteString;
 import online.duoyu.sparkle.R;
 import online.duoyu.sparkle.SparkleApplication;
 import online.duoyu.sparkle.activity.LoginActivity;
+import online.duoyu.sparkle.dialog.LogoutDialog;
 import online.duoyu.sparkle.event.OnReplyCommentEvent;
 import online.duoyu.sparkle.event.OnSelectEvent;
 import online.duoyu.sparkle.model.Model;
@@ -131,7 +132,7 @@ public class ActionPresenter extends SparklePresenter {
   }
 
   private void logout() {
-    SparkleApplication.getInstance().getAccountManager().logout();
+    new LogoutDialog(view().getContext()).show();
   }
 
   private void attention(Model model) {
@@ -569,6 +570,8 @@ public class ActionPresenter extends SparklePresenter {
         return model.actions.get(Const.ACTION_ATTENDING_DIARIES);
       case R.id.published_corrects:
         return model.actions.get(Const.ACTION_PUBLISHED_CORRECTS);
+      case R.id.btn_logout:
+        return model.actions.get(Const.ACTION_LOGOUT);
     }
     return null;
   }

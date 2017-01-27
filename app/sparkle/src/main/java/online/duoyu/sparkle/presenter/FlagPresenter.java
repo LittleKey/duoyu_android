@@ -42,6 +42,9 @@ public class FlagPresenter extends SparklePresenter {
       case R.id.checkbox:
         judgeCheckBox(model);
         break;
+      case R.id.selected:
+        judgeSelected(model);
+        break;
       default:
         judgeSelected(model);
         break;

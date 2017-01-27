@@ -33,6 +33,7 @@ public class Const {
   public static final Integer ACTION_PUBLISHED_DIARIES = 10;
   public static final Integer ACTION_ATTENDING_DIARIES = 11;
   public static final Integer ACTION_PUBLISHED_CORRECTS = 12;
+  public static final Integer ACTION_LOGOUT = 13;
   /************************************
    * Key
    ***********************************/
@@ -137,6 +138,7 @@ public class Const {
   public static final String API_LOGIN = API_HOST_URL + "/account/login";
   public static final String API_EMAIL_VERIFY = API_HOST_URL + "/account/verify_code";
   public static final String API_REGISTER = API_HOST_URL + "/account/register";
+  public static final String API_CHANGE_PASSWORD = API_HOST_URL + "/account/change_password";
   // user
   public static final String API_CURRENT_USER = API_HOST_URL + "/user/current";
   public static final String API_FOLLOWER = API_HOST_URL + "/user/follower";

@@ -9,9 +9,10 @@
     android:orientation="vertical"
     tools:ignore="RtlHardCoded">
 
-    <EditText
-        android:id="@+id/input_title"
-        style="@style/EditStyle.DiaryTitle"
+    <me.littlekey.mvp.widget.MvpRecyclerView
+        android:id="@+id/languages"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_marginTop="20dp"/>
 
     <online.duoyu.sparkle.widget.StatefulButton
@@ -19,7 +20,7 @@
         android:id="@+id/theme_btn_sure"
         style="@style/State.Normal.Done"
         android:layout_gravity="right"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="@string/sure"
         app:stateDone="@style/State.Normal.Done"/>
 </LinearLayout>

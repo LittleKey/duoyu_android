@@ -9,17 +9,17 @@
     android:orientation="vertical"
     tools:ignore="RtlHardCoded">
 
-    <EditText
-        android:id="@+id/input_title"
-        style="@style/EditStyle.DiaryTitle"
-        android:layout_marginTop="20dp"/>
+    <TextView
+        style="@style/TextStyle.Normal.Black"
+        android:layout_marginTop="20dp"
+        android:text="@string/whether_logout"/>
 
     <online.duoyu.sparkle.widget.StatefulButton
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/theme_btn_sure"
         style="@style/State.Normal.Done"
         android:layout_gravity="right"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="@string/sure"
         app:stateDone="@style/State.Normal.Done"/>
 </LinearLayout>
